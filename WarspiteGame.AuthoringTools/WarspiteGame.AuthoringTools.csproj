@@ -50,6 +50,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyAccessors.cs" />
+    <Compile Include="Formats\FontFile.cs" />
+    <Compile Include="Formats\ToolTypes.cs" />
     <Compile Include="Forms\AboutBox.cs">
       <SubType>Form</SubType>
     </Compile>

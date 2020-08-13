@@ -27,7 +27,7 @@ steps:
   inputs:
     SourceFolder: '$(Build.SourcesDirectory)'
     Contents: '**\packages\**'
-    TargetFolder: '$(Build.SourcesDirectory)\WarspiteGame.AuthoringTools\packages'
+    TargetFolder: '$(Build.SourcesDirectory)\WarspiteGame.AuthoringTools'
 
 - task: VSBuild@1
   inputs:
