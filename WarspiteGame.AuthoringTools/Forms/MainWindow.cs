@@ -1,60 +1,70 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Diagnostics;
 using System.IO;
 using Newtonsoft.Json;
 using System.Windows.Forms;
 using WarspiteGame.AuthoringTools.Formats;
 
-namespace WarspiteGame.AuthoringTools
+namespace WarspiteGame.AuthoringTools.Forms
 {
     public partial class MainWindow : Form
     {
-        TreeNode root;
-        WarspiteStateFile ws;
+        private TreeNode _root;
+        private WarspiteStateFile _ws;
+
+        private readonly OpenFileDialog _op;
+        private readonly SaveFileDialog _sd;
 
         public MainWindow()
         {
             InitializeComponent();
+
+            this.Text = String.Format("Warspite Authoring Tools ({0}/{1})", ToolMetadata.BuildNumber,
+                ToolMetadata.HeadDesc);
+
+            MainControl.Appearance = TabAppearance.FlatButtons; 
+            MainControl.ItemSize = new Size(0, 1); 
+            MainControl.SizeMode = TabSizeMode.Fixed;
+
+            _op = new OpenFileDialog();
         }
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            OpenFileDialog op = new OpenFileDialog();
+            _op.Title = "Open a Warspite JSON...";
+            _op.FileName = "";
+            _op.Filter = "JSON File|*.json|All Files |*.*";
 
-            op.Title = "Open a Warspite JSON...";
-            op.FileName = "";
-            op.Filter = "JSON File|*.json|All Files |*.*";
+            DialogResult res = _op.ShowDialog();
 
-            DialogResult res = op.ShowDialog();
-
-            if (res == DialogResult.OK && op.FileName != String.Empty)
+            if (res == DialogResult.OK && _op.FileName != String.Empty)
             {
-                string sText = File.ReadAllText(op.FileName);
-                ws = JsonConvert.DeserializeObject<WarspiteStateFile>(sText);
+                string sText = File.ReadAllText(_op.FileName);
+                _ws = JsonConvert.DeserializeObject<WarspiteStateFile>(sText);
 
-                treeView1.Nodes.Clear();
-                root = treeView1.Nodes.Add("States");
+                stateView.Nodes.Clear();
+                _root = stateView.Nodes.Add("States");
 
-                for (int i = 0; i < ws.States.Length; i++)
+                for (int i = 0; i < _ws.States.Length; i++)
                 {
-                    root.Nodes.Add(ws.States[i].ID);
+                    _root.Nodes.Add(_ws.States[i].ID);
                 }
             }
         }
 
-        private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
+        private void stateView_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
-            if (e.Node != root)
+            if (e.Node != _root)
             {
-                propertyGrid1.SelectedObject = ws.States[e.Node.Index];
+                stateViewer.SelectedObject = _ws.States[e.Node.Index];
             }
+        }
+
+        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AboutBox ab = new AboutBox();
+
+            ab.ShowDialog();
         }
     }
 }
