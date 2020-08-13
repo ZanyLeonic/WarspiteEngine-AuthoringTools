@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Linq;
 
 namespace WarspiteGame.AuthoringTools.Formats
 {
@@ -9,6 +10,19 @@ namespace WarspiteGame.AuthoringTools.Formats
 
         [Browsable(false)]
         public string type { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            var o = obj as WarspiteStateFile;
+
+            if (o == null)
+                return false;
+
+            if (!states.SequenceEqual(o.states))
+                return false;
+
+            return true;
+        }
     }
 
     public class WarspiteState
@@ -32,6 +46,19 @@ namespace WarspiteGame.AuthoringTools.Formats
         [DisplayName("Objects")]
         [Description("A list of objects that will be created when the Engine loads the state.")]
         public ObjectContainer[] objects { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            var o = obj as WarspiteState;
+
+            if (o == null)
+                return false;
+
+            if (id != o.id || !textures.SequenceEqual(o.textures) || !scripts.SequenceEqual(o.scripts) || !objects.SequenceEqual(o.objects))
+                return false;
+
+            return true;
+        }
     }
 
     public class AssetContainer
@@ -45,6 +72,19 @@ namespace WarspiteGame.AuthoringTools.Formats
         [DisplayName("Path")]
         [Description("The path to load the asset - relative to the folder of the type of asset. (e.g. Textures will be loaded from \"assets/textures\")")]
         public string path { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            var o = obj as AssetContainer;
+
+            if (o == null)
+                return false;
+
+            if (id != o.id || path != o.path)
+                return false;
+
+            return true;
+        }
     }
 
     public class ObjectContainer
@@ -113,5 +153,21 @@ namespace WarspiteGame.AuthoringTools.Formats
         [DisplayName("On Leave Event")]
         [Description("The hardcoded event that will execute on mouse leave in the callback array in the state.")]
         public int onLeaveId { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            var o = obj as ObjectContainer;
+
+            if (o == null)
+                return false;
+
+            // ew
+            if (name != o.name || type != o.type || textureid != o.textureid || script != o.script || x != o.x || y != o.y
+                || width != o.width || height != o.height || numFrames != o.numFrames || animSpeed != o.animSpeed
+                || onClickId != o.onClickId || onEnterId != o.onEnterId || onLeaveId != o.onLeaveId)
+                return false;
+
+            return true;
+        }
     }
 }

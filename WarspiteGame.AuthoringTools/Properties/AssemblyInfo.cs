@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System.Resources;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using WarspiteGame.AuthoringTools;
@@ -6,7 +7,7 @@ using WarspiteGame.AuthoringTools;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Warspite Engine Authoring Tools")]
+[assembly: AssemblyTitle("Warspite Authoring Tools")]
 [assembly: AssemblyDescription("Authoring tools to make using Warspite easier.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("ZanyLeonic")]
@@ -35,3 +36,4 @@ using WarspiteGame.AuthoringTools;
 [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyInformationalVersion("1.0.0.0-" + ToolMetadata.HeadDesc)]
 [assembly: AssemblyFileVersion("1.0.0.0")]
+[assembly: NeutralResourcesLanguage("en-GB")]

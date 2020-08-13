@@ -23,12 +23,12 @@ namespace WarspiteGame.AuthoringTools.Formats
 
         public override bool Equals(object obj)
         {
-            var other = obj as FontFile;
+            var o = obj as FontFile;
 
-            if (other == null)
+            if (o == null)
                 return false;
 
-            if (name != other.name || !types.SequenceEqual(other.types))
+            if (name != o.name || !types.SequenceEqual(o.types))
                 return false;
 
             return true;

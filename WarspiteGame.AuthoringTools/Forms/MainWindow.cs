@@ -203,6 +203,10 @@ namespace WarspiteGame.AuthoringTools.Forms
         {
             _state = MainWindowState.StateStartPage;
             startPageLabel.Text = AssemblyAccessors.AssemblyTitle;
+
+            startPageVersionDesc.Text = String.Format("Version: {4}{2}Build: ({0}/{1}){2}Tree: {3}", 
+                ToolMetadata.BuildNumber, ToolMetadata.HeadDesc, Environment.NewLine, 
+                ToolMetadata.HeadShaShort, AssemblyAccessors.AssemblyVersion);
         }
 
         private void startPageOpenBtn_Click(object sender, EventArgs e)

@@ -52,6 +52,8 @@ namespace WarspiteGame.AuthoringTools.Forms
             this.startPageLabel = new System.Windows.Forms.Label();
             this.startPageNewBtn = new System.Windows.Forms.Button();
             this.startPageOpenBtn = new System.Windows.Forms.Button();
+            this.splitter1 = new System.Windows.Forms.Splitter();
+            this.startPageVersionDesc = new System.Windows.Forms.Label();
             this.mainMenuStrip.SuspendLayout();
             this.MainControl.SuspendLayout();
             this.StatePage.SuspendLayout();
@@ -88,13 +90,13 @@ namespace WarspiteGame.AuthoringTools.Forms
             // newToolStripMenuItem
             // 
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(114, 22);
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.newToolStripMenuItem.Text = "New";
             // 
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(114, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.openToolStripMenuItem.Text = "Open";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
@@ -115,12 +117,12 @@ namespace WarspiteGame.AuthoringTools.Forms
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(111, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(114, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             // 
             // helpToolStripMenuItem
@@ -134,7 +136,7 @@ namespace WarspiteGame.AuthoringTools.Forms
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
@@ -153,6 +155,7 @@ namespace WarspiteGame.AuthoringTools.Forms
             // StatePage
             // 
             this.StatePage.Controls.Add(this.stateViewer);
+            this.StatePage.Controls.Add(this.splitter1);
             this.StatePage.Controls.Add(this.stateView);
             this.StatePage.Location = new System.Drawing.Point(4, 22);
             this.StatePage.Name = "StatePage";
@@ -166,9 +169,9 @@ namespace WarspiteGame.AuthoringTools.Forms
             // 
             this.stateViewer.Cursor = System.Windows.Forms.Cursors.Default;
             this.stateViewer.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.stateViewer.Location = new System.Drawing.Point(194, 3);
+            this.stateViewer.Location = new System.Drawing.Point(191, 3);
             this.stateViewer.Name = "stateViewer";
-            this.stateViewer.Size = new System.Drawing.Size(595, 394);
+            this.stateViewer.Size = new System.Drawing.Size(598, 394);
             this.stateViewer.TabIndex = 5;
             this.stateViewer.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.stateViewer_PropertyValueChanged);
             // 
@@ -177,7 +180,7 @@ namespace WarspiteGame.AuthoringTools.Forms
             this.stateView.Dock = System.Windows.Forms.DockStyle.Left;
             this.stateView.Location = new System.Drawing.Point(3, 3);
             this.stateView.Name = "stateView";
-            this.stateView.Size = new System.Drawing.Size(191, 394);
+            this.stateView.Size = new System.Drawing.Size(185, 394);
             this.stateView.TabIndex = 4;
             this.stateView.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.stateView_NodeMouseClick);
             // 
@@ -204,6 +207,7 @@ namespace WarspiteGame.AuthoringTools.Forms
             // StartPage
             // 
             this.StartPage.BackColor = System.Drawing.SystemColors.Control;
+            this.StartPage.Controls.Add(this.startPageVersionDesc);
             this.StartPage.Controls.Add(this.startPageLabel);
             this.StartPage.Controls.Add(this.panel2);
             this.StartPage.Controls.Add(this.panel1);
@@ -235,21 +239,22 @@ namespace WarspiteGame.AuthoringTools.Forms
             // 
             // startPageLabel
             // 
-            this.startPageLabel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.startPageLabel.Dock = System.Windows.Forms.DockStyle.Top;
             this.startPageLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.startPageLabel.Location = new System.Drawing.Point(3, 79);
             this.startPageLabel.Name = "startPageLabel";
-            this.startPageLabel.Size = new System.Drawing.Size(786, 155);
+            this.startPageLabel.Padding = new System.Windows.Forms.Padding(0, 0, 0, 5);
+            this.startPageLabel.Size = new System.Drawing.Size(786, 89);
             this.startPageLabel.TabIndex = 2;
             this.startPageLabel.Text = "[Product Info goes here]";
-            this.startPageLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.startPageLabel.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             // 
             // startPageNewBtn
             // 
             this.startPageNewBtn.Dock = System.Windows.Forms.DockStyle.Left;
             this.startPageNewBtn.Location = new System.Drawing.Point(60, 60);
             this.startPageNewBtn.Name = "startPageNewBtn";
-            this.startPageNewBtn.Size = new System.Drawing.Size(345, 43);
+            this.startPageNewBtn.Size = new System.Drawing.Size(333, 43);
             this.startPageNewBtn.TabIndex = 2;
             this.startPageNewBtn.Text = "New";
             this.startPageNewBtn.UseVisualStyleBackColor = true;
@@ -257,13 +262,32 @@ namespace WarspiteGame.AuthoringTools.Forms
             // startPageOpenBtn
             // 
             this.startPageOpenBtn.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.startPageOpenBtn.Location = new System.Drawing.Point(405, 60);
+            this.startPageOpenBtn.Location = new System.Drawing.Point(393, 60);
             this.startPageOpenBtn.Name = "startPageOpenBtn";
-            this.startPageOpenBtn.Size = new System.Drawing.Size(321, 43);
+            this.startPageOpenBtn.Size = new System.Drawing.Size(333, 43);
             this.startPageOpenBtn.TabIndex = 3;
             this.startPageOpenBtn.Text = "Open";
             this.startPageOpenBtn.UseVisualStyleBackColor = true;
             this.startPageOpenBtn.Click += new System.EventHandler(this.startPageOpenBtn_Click);
+            // 
+            // splitter1
+            // 
+            this.splitter1.Cursor = System.Windows.Forms.Cursors.SizeWE;
+            this.splitter1.Location = new System.Drawing.Point(188, 3);
+            this.splitter1.Name = "splitter1";
+            this.splitter1.Size = new System.Drawing.Size(3, 394);
+            this.splitter1.TabIndex = 6;
+            this.splitter1.TabStop = false;
+            // 
+            // startPageVersionDesc
+            // 
+            this.startPageVersionDesc.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.startPageVersionDesc.Location = new System.Drawing.Point(3, 168);
+            this.startPageVersionDesc.Name = "startPageVersionDesc";
+            this.startPageVersionDesc.Size = new System.Drawing.Size(786, 66);
+            this.startPageVersionDesc.TabIndex = 3;
+            this.startPageVersionDesc.Text = "[Version]";
+            this.startPageVersionDesc.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // MainWindow
             // 
@@ -314,6 +338,8 @@ namespace WarspiteGame.AuthoringTools.Forms
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Button startPageOpenBtn;
         private System.Windows.Forms.Button startPageNewBtn;
+        private System.Windows.Forms.Splitter splitter1;
+        private System.Windows.Forms.Label startPageVersionDesc;
     }
 }
 
