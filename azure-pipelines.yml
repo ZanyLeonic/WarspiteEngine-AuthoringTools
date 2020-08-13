@@ -23,6 +23,12 @@ steps:
     command: 'restore'
     restoreSolution: '$(solution)'
 
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: '$(Build.SourcesDirectory)'
+    Contents: '**\packages\**'
+    TargetFolder: '$(Build.SourcesDirectory)\WarspiteGame.AuthoringTools\packages'
+
 - task: VSBuild@1
   inputs:
     solution: '$(solution)'

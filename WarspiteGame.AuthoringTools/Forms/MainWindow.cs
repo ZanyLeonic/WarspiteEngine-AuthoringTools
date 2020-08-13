@@ -3,6 +3,8 @@ using System.Drawing;
 using System.IO;
 using Newtonsoft.Json;
 using System.Windows.Forms;
+using Newtonsoft.Json.Linq;
+using System.Reflection;
 using WarspiteGame.AuthoringTools.Formats;
 
 namespace WarspiteGame.AuthoringTools.Forms
@@ -31,25 +33,59 @@ namespace WarspiteGame.AuthoringTools.Forms
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            OpenEngineJSON();
+        }
+
+        private void OpenEngineJSON()
+        {
             _op.Title = "Open a Warspite JSON...";
             _op.FileName = "";
             _op.Filter = "JSON File|*.json|All Files |*.*";
 
             DialogResult res = _op.ShowDialog();
 
-            if (res == DialogResult.OK && _op.FileName != String.Empty)
+            if (res == DialogResult.OK && _op.FileName != string.Empty)
             {
                 string sText = File.ReadAllText(_op.FileName);
-                _ws = JsonConvert.DeserializeObject<WarspiteStateFile>(sText);
+                JObject t = JsonConvert.DeserializeObject<JObject>(sText);
 
-                stateView.Nodes.Clear();
-                _root = stateView.Nodes.Add("States");
-
-                for (int i = 0; i < _ws.States.Length; i++)
+                // Can't determine the type
+                if (!t.ContainsKey("type"))
                 {
-                    _root.Nodes.Add(_ws.States[i].ID);
+                    MessageBox.Show("The selected file is not a valid Warspite Engine JSON", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                switch (t["type"].ToString())
+                {
+                    case "StateFile":
+                        StateFormSetup(sText);
+                        break;
+                    case "FontFile":
+                        break;
+                    default:
+                        MessageBox.Show("Warspite Engine JSON not supported by this version", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        break;
                 }
             }
+        }
+
+        private void StateFormSetup(string json)
+        {
+            _ws = JsonConvert.DeserializeObject<WarspiteStateFile>(json);
+
+            stateView.Nodes.Clear();
+            _root = stateView.Nodes.Add("States");
+
+            for (int i = 0; i < _ws.States.Length; i++)
+            {
+                _root.Nodes.Add(_ws.States[i].ID);
+            }
+
+            MainControl.SelectedTab = MainControl.TabPages[1];
+
+            FormBorderStyle = FormBorderStyle.Sizable;
+            MaximizeBox = true;
         }
 
         private void stateView_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
@@ -65,6 +101,16 @@ namespace WarspiteGame.AuthoringTools.Forms
             AboutBox ab = new AboutBox();
 
             ab.ShowDialog();
+        }
+
+        private void MainWindow_Load(object sender, EventArgs e)
+        {
+            startPageLabel.Text = AssemblyAccessors.AssemblyTitle;
+        }
+
+        private void startPageOpenBtn_Click(object sender, EventArgs e)
+        {
+            OpenEngineJSON();
         }
     }
 }
