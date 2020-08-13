@@ -127,9 +127,9 @@ namespace WarspiteGame.AuthoringTools.Forms
             stateView.Nodes.Clear();
             _root = stateView.Nodes.Add("States");
 
-            for (int i = 0; i < _ws.States.Length; i++)
+            for (int i = 0; i < _ws.states.Length; i++)
             {
-                _root.Nodes.Add(_ws.States[i].ID);
+                _root.Nodes.Add(_ws.states[i].id);
             }
 
             _state = MainWindowState.StateStatePage;
@@ -160,7 +160,7 @@ namespace WarspiteGame.AuthoringTools.Forms
         {
             if (e.Node != _root)
             {
-                stateViewer.SelectedObject = _ws.States[e.Node.Index];
+                stateViewer.SelectedObject = _ws.states[e.Node.Index];
             }
         }
 

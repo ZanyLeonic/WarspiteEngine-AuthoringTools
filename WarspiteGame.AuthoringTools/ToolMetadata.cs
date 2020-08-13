@@ -4,10 +4,10 @@ namespace WarspiteGame.AuthoringTools
 {
     public class ToolMetadata
     {
-        public const string HeadSha1     = @"66553affd8a088ff47c4f6b5eb82ef4857c9e943";
-        public const string HeadShaShort = @"66553af";
-        public const int    BuildNumber  = 66;
-        public const double BuildTime    = 1597324343.1556673;
-        public const string HeadDesc     = @"66553af";
+        public const string HeadSha1     = @"4151ca7aef9655997713fd7f94cd68bfe556ad0e";
+        public const string HeadShaShort = @"4151ca7";
+        public const int    BuildNumber  = 69;
+        public const double BuildTime    = 1597325728.2657862;
+        public const string HeadDesc     = @"4151ca7";
     }
 }

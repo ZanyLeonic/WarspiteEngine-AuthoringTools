@@ -1,1 +1,16 @@
-{"Name":"Roboto","Types":["Regular","Black","BlackItalic","Italic","Light","LightItalic","Medium","MediumItalic","Thin","ThinItalitc"], "type": "FontFile"}
+{
+  "Name": "Roboto",
+  "Types": [
+    "Regular2",
+    "Black",
+    "BlackItalic",
+    "Italic",
+    "Light",
+    "LightItalic",
+    "Medium",
+    "MediumItalic",
+    "Thin",
+    "ThinItalitc"
+  ],
+  "Type": "FontFile"
+}
