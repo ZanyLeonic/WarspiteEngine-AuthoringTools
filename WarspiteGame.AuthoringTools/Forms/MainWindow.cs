@@ -172,10 +172,10 @@ namespace WarspiteGame.AuthoringTools.Forms
             switch (_state)
             {
                 case MainWindowState.StateStatePage:
-                    bChanged = _ws != _Ows;
+                    bChanged = !_ws.Equals(_Ows);
                     break;
                 case MainWindowState.StateFontPage:
-                    bChanged = _ff != _Off;
+                    bChanged = !_ff.Equals(_Off);
                     break;
             }
 

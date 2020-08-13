@@ -1,6 +1,8 @@
 ﻿using System;
 using System.CodeDom;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 
 namespace WarspiteGame.AuthoringTools.Formats
 {
@@ -19,14 +21,17 @@ namespace WarspiteGame.AuthoringTools.Formats
         [Browsable(false)]
         public string type { get; set; }
 
-        public static bool operator ==(FontFile f1, FontFile f2)
+        public override bool Equals(object obj)
         {
-            return (f1.name == f2.name) && (f1.types == f2.types) && (f1.type == f2.type);
-        }
+            var other = obj as FontFile;
 
-        public static bool operator !=(FontFile f1, FontFile f2)
-        {
-            return (f1.name != f2.name) && (f1.types != f2.types) && (f1.type != f2.type);
+            if (other == null)
+                return false;
+
+            if (name != other.name || !types.SequenceEqual(other.types))
+                return false;
+
+            return true;
         }
     }
 }
