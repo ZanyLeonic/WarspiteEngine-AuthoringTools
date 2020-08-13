@@ -170,6 +170,7 @@ namespace WarspiteGame.AuthoringTools.Forms
             this.stateViewer.Name = "stateViewer";
             this.stateViewer.Size = new System.Drawing.Size(595, 394);
             this.stateViewer.TabIndex = 5;
+            this.stateViewer.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.stateViewer_PropertyValueChanged);
             // 
             // stateView
             // 
@@ -198,6 +199,7 @@ namespace WarspiteGame.AuthoringTools.Forms
             this.propertyGrid1.Name = "propertyGrid1";
             this.propertyGrid1.Size = new System.Drawing.Size(786, 394);
             this.propertyGrid1.TabIndex = 0;
+            this.propertyGrid1.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.propertyGrid1_PropertyValueChanged);
             // 
             // StartPage
             // 

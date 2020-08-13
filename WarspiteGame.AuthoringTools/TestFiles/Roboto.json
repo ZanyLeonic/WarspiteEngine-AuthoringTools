@@ -1,7 +1,7 @@
 {
-  "Name": "Roboto",
-  "Types": [
-    "Regular2",
+  "name": "Roboto",
+  "types": [
+    "Regular",
     "Black",
     "BlackItalic",
     "Italic",
@@ -12,5 +12,5 @@
     "Thin",
     "ThinItalitc"
   ],
-  "Type": "FontFile"
+  "type": "FontFile"
 }

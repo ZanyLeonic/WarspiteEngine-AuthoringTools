@@ -14,6 +14,11 @@ namespace WarspiteGame.AuthoringTools.Forms
     {
         private TreeNode _root;
 
+        // Original loaded from disk
+        private WarspiteStateFile _Ows;
+        private FontFile _Off;
+
+        // Modified values
         private WarspiteStateFile _ws;
         private FontFile _ff;
 
@@ -23,13 +28,14 @@ namespace WarspiteGame.AuthoringTools.Forms
         private MainWindowState _state = MainWindowState.StateNone;
 
         private string _workingFilePath = "";
+        private string _baseTitle = String.Format("Warspite Authoring Tools ({0}/{1})", ToolMetadata.BuildNumber,
+            ToolMetadata.HeadDesc);
 
         public MainWindow()
         {
             InitializeComponent();
 
-            this.Text = String.Format("Warspite Authoring Tools ({0}/{1})", ToolMetadata.BuildNumber,
-                ToolMetadata.HeadDesc);
+            this.Text = _baseTitle;
 
             // Make the tabs invisible
             MainControl.Appearance = TabAppearance.FlatButtons; 
@@ -122,6 +128,7 @@ namespace WarspiteGame.AuthoringTools.Forms
 
         private void StateFormSetup(string json)
         {
+            _Ows = JsonConvert.DeserializeObject<WarspiteStateFile>(json);
             _ws = JsonConvert.DeserializeObject<WarspiteStateFile>(json);
 
             stateView.Nodes.Clear();
@@ -139,6 +146,7 @@ namespace WarspiteGame.AuthoringTools.Forms
 
         private void FontFormSetup(string json)
         {
+            _Off = JsonConvert.DeserializeObject<FontFile>(json);
             _ff = JsonConvert.DeserializeObject<FontFile>(json);
 
             propertyGrid1.SelectedObject = _ff;
@@ -150,10 +158,28 @@ namespace WarspiteGame.AuthoringTools.Forms
 
         private void SetupEditForm()
         {
+            Text = string.Format("[{0}] - {1}", Path.GetFileName(_workingFilePath), _baseTitle);
             MainControl.SelectedTab = MainControl.TabPages[(int)_state];
 
             FormBorderStyle = FormBorderStyle.Sizable;
             MaximizeBox = true;
+        }
+
+        private void CheckForChanges()
+        {
+            bool bChanged = false;
+
+            switch (_state)
+            {
+                case MainWindowState.StateStatePage:
+                    bChanged = _ws != _Ows;
+                    break;
+                case MainWindowState.StateFontPage:
+                    bChanged = _ff != _Off;
+                    break;
+            }
+
+            Text = bChanged ? string.Format("[*{0}] - {1}", Path.GetFileName(_workingFilePath), _baseTitle) : string.Format("[{0}] - {1}", Path.GetFileName(_workingFilePath), _baseTitle); ;
         }
 
         private void stateView_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
@@ -162,6 +188,8 @@ namespace WarspiteGame.AuthoringTools.Forms
             {
                 stateViewer.SelectedObject = _ws.states[e.Node.Index];
             }
+
+            CheckForChanges();
         }
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
@@ -200,6 +228,8 @@ namespace WarspiteGame.AuthoringTools.Forms
         {
             if (_workingFilePath == string.Empty)
             {
+                _sd.FileName = "untitled.json";
+
                 // Don't try to save if OK was not pressed
                 if (_sd.ShowDialog() != DialogResult.OK) return;
                 _workingFilePath = _sd.FileName;
@@ -209,11 +239,23 @@ namespace WarspiteGame.AuthoringTools.Forms
 
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            _sd.FileName = Path.GetFileName(_workingFilePath);
+
             // Don't try to save if OK was not pressed
             if (_sd.ShowDialog() != DialogResult.OK) return;
             _workingFilePath = _sd.FileName;
 
             SaveEngineJson(_workingFilePath);
+        }
+
+        private void stateViewer_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
+        {
+            CheckForChanges();
+        }
+
+        private void propertyGrid1_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
+        {
+            CheckForChanges();
         }
     }
 }

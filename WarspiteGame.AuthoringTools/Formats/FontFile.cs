@@ -1,4 +1,5 @@
 ﻿using System;
+using System.CodeDom;
 using System.ComponentModel;
 
 namespace WarspiteGame.AuthoringTools.Formats
@@ -17,5 +18,15 @@ namespace WarspiteGame.AuthoringTools.Formats
 
         [Browsable(false)]
         public string type { get; set; }
+
+        public static bool operator ==(FontFile f1, FontFile f2)
+        {
+            return (f1.name == f2.name) && (f1.types == f2.types) && (f1.type == f2.type);
+        }
+
+        public static bool operator !=(FontFile f1, FontFile f2)
+        {
+            return (f1.name != f2.name) && (f1.types != f2.types) && (f1.type != f2.type);
+        }
     }
 }
