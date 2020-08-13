@@ -1,0 +1,60 @@
+# .NET Desktop
+# Build and run tests for .NET Desktop or Windows classic desktop solutions.
+# Add steps that publish symbols, save build artifacts, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/apps/windows/dot-net
+
+trigger:
+- master
+- develop
+
+pool:
+  vmImage: 'windows-latest'
+
+variables:
+  solution: '**/*.sln'
+  buildPlatform: 'Any CPU'
+  buildConfiguration: 'Release'
+
+steps:
+- task: NuGetToolInstaller@1
+  displayName: "Installing NuGet"
+
+- task: NuGetCommand@2
+  displayName: "Restoring NuGet packages"
+  inputs:
+    command: 'restore'
+    restoreSolution: '$(solution)'
+
+- task: CopyFiles@2
+  displayName: "Copying packages to build directory"
+  inputs:
+    SourceFolder: '$(Build.SourcesDirectory)'
+    Contents: '**\packages\**'
+    TargetFolder: '$(Build.SourcesDirectory)\WarspiteGame.AuthoringTools'
+
+- task: VSBuild@1
+  displayName: "Building solution"
+  inputs:
+    solution: '$(solution)'
+    platform: '$(buildPlatform)'
+    configuration: '$(buildConfiguration)'
+
+- task: VSTest@2
+  displayName: "Testing built program"
+  inputs:
+    platform: '$(buildPlatform)'
+    configuration: '$(buildConfiguration)'
+
+- task: CopyFiles@2
+  displayName: "Copying build results to artifact drop"
+  inputs:
+    SourceFolder: '$(Build.SourcesDirectory)'
+    Contents: '**\bin\$(BuildConfiguration)\**'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+- task: PublishBuildArtifacts@1
+  displayName: "Publishing artifacts"
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'drop'
+    publishLocation: 'Container'
