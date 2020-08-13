@@ -45,7 +45,7 @@ namespace WarspiteGame.AuthoringTools.Forms
             this.stateViewer = new System.Windows.Forms.PropertyGrid();
             this.stateView = new System.Windows.Forms.TreeView();
             this.FontPage = new System.Windows.Forms.TabPage();
-            this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
+            this.fontViewer = new System.Windows.Forms.PropertyGrid();
             this.StartPage = new System.Windows.Forms.TabPage();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
@@ -92,6 +92,7 @@ namespace WarspiteGame.AuthoringTools.Forms
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
             this.newToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.newToolStripMenuItem.Text = "New";
+            this.newToolStripMenuItem.Click += new System.EventHandler(this.startPageNewBtn_Click);
             // 
             // openToolStripMenuItem
             // 
@@ -124,6 +125,7 @@ namespace WarspiteGame.AuthoringTools.Forms
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
             this.exitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.exitToolStripMenuItem.Text = "Exit";
+            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
             // helpToolStripMenuItem
             // 
@@ -173,7 +175,7 @@ namespace WarspiteGame.AuthoringTools.Forms
             this.stateViewer.Name = "stateViewer";
             this.stateViewer.Size = new System.Drawing.Size(598, 394);
             this.stateViewer.TabIndex = 5;
-            this.stateViewer.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.stateViewer_PropertyValueChanged);
+            this.stateViewer.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.PropGrids_PropertyValueChanged);
             // 
             // stateView
             // 
@@ -186,7 +188,7 @@ namespace WarspiteGame.AuthoringTools.Forms
             // 
             // FontPage
             // 
-            this.FontPage.Controls.Add(this.propertyGrid1);
+            this.FontPage.Controls.Add(this.fontViewer);
             this.FontPage.Location = new System.Drawing.Point(4, 22);
             this.FontPage.Name = "FontPage";
             this.FontPage.Padding = new System.Windows.Forms.Padding(3);
@@ -195,14 +197,14 @@ namespace WarspiteGame.AuthoringTools.Forms
             this.FontPage.Text = "FontPage";
             this.FontPage.UseVisualStyleBackColor = true;
             // 
-            // propertyGrid1
+            // fontViewer
             // 
-            this.propertyGrid1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.propertyGrid1.Location = new System.Drawing.Point(3, 3);
-            this.propertyGrid1.Name = "propertyGrid1";
-            this.propertyGrid1.Size = new System.Drawing.Size(786, 394);
-            this.propertyGrid1.TabIndex = 0;
-            this.propertyGrid1.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.propertyGrid1_PropertyValueChanged);
+            this.fontViewer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.fontViewer.Location = new System.Drawing.Point(3, 3);
+            this.fontViewer.Name = "fontViewer";
+            this.fontViewer.Size = new System.Drawing.Size(786, 394);
+            this.fontViewer.TabIndex = 0;
+            this.fontViewer.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.PropGrids_PropertyValueChanged);
             // 
             // StartPage
             // 
@@ -258,6 +260,7 @@ namespace WarspiteGame.AuthoringTools.Forms
             this.startPageNewBtn.TabIndex = 2;
             this.startPageNewBtn.Text = "New";
             this.startPageNewBtn.UseVisualStyleBackColor = true;
+            this.startPageNewBtn.Click += new System.EventHandler(this.startPageNewBtn_Click);
             // 
             // startPageOpenBtn
             // 
@@ -301,6 +304,7 @@ namespace WarspiteGame.AuthoringTools.Forms
             this.MaximizeBox = false;
             this.Name = "MainWindow";
             this.Text = "Warspite Authoring Tools";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainWindow_FormClosing);
             this.Load += new System.EventHandler(this.MainWindow_Load);
             this.mainMenuStrip.ResumeLayout(false);
             this.mainMenuStrip.PerformLayout();
@@ -331,7 +335,7 @@ namespace WarspiteGame.AuthoringTools.Forms
         private System.Windows.Forms.ToolStripMenuItem saveAsToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
-        private System.Windows.Forms.PropertyGrid propertyGrid1;
+        private System.Windows.Forms.PropertyGrid fontViewer;
         private System.Windows.Forms.TabPage StartPage;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label startPageLabel;

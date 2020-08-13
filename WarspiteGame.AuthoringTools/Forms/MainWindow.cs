@@ -31,6 +31,11 @@ namespace WarspiteGame.AuthoringTools.Forms
         private string _baseTitle = String.Format("Warspite Authoring Tools ({0}/{1})", ToolMetadata.BuildNumber,
             ToolMetadata.HeadDesc);
 
+        public MainWindowState GetWindowState()
+        {
+            return _state;
+        }
+
         public MainWindow()
         {
             InitializeComponent();
@@ -56,6 +61,52 @@ namespace WarspiteGame.AuthoringTools.Forms
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
             OpenEngineJson();
+        }
+
+        private void NewEngineJson()
+        {
+            bool bChanged = CheckForChanges();
+
+            if (bChanged)
+            {
+                DialogResult dr = MessageBox.Show(String.Format("Do you want to save changes to \"{0}\"?",
+                        Path.GetFileName(_workingFilePath)),
+                    AssemblyAccessors.AssemblyTitle, MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+
+                switch (dr)
+                {
+                    case DialogResult.Yes:
+                        SaveCommand();
+                        break;
+                    case DialogResult.No:
+                        break;
+                    case DialogResult.Cancel:
+                        return;
+                }
+            }
+
+            NewFileSelector nfs = new NewFileSelector();
+            if(nfs.ShowDialog() == DialogResult.Cancel) return;
+
+            switch (nfs.ChosenType)
+            {
+                case EngineJsonType.State:
+                    _Ows = new WarspiteStateFile();
+                    _ws = new WarspiteStateFile();
+                    _state = MainWindowState.StateStatePage;
+                    break;
+                case EngineJsonType.Font:
+                    _Off = new FontFile();
+                    _ff = new FontFile();
+                    _state = MainWindowState.StateFontPage;
+                    break;
+            }
+
+            if (_state != MainWindowState.StateNone || _state != MainWindowState.StateStartPage)
+            {
+                _workingFilePath = Path.Combine(ToolUtil.GetWorkingDirectory(), "untitled.json");
+                SetupEditForm();
+            }
         }
 
         private void OpenEngineJson()
@@ -126,6 +177,30 @@ namespace WarspiteGame.AuthoringTools.Forms
             }
         }
 
+        private void SaveCommand()
+        {
+            if (_workingFilePath == string.Empty)
+            {
+                _sd.FileName = "untitled.json";
+
+                // Don't try to save if OK was not pressed
+                if (_sd.ShowDialog() != DialogResult.OK) return;
+                _workingFilePath = _sd.FileName;
+            }
+            SaveEngineJson(_workingFilePath);
+        }
+
+        private void SaveAsCommand()
+        {
+            _sd.FileName = Path.GetFileName(_workingFilePath);
+
+            // Don't try to save if OK was not pressed
+            if (_sd.ShowDialog() != DialogResult.OK) return;
+            _workingFilePath = _sd.FileName;
+
+            SaveEngineJson(_workingFilePath);
+        }
+
         private void StateFormSetup(string json)
         {
             _Ows = JsonConvert.DeserializeObject<WarspiteStateFile>(json);
@@ -149,7 +224,7 @@ namespace WarspiteGame.AuthoringTools.Forms
             _Off = JsonConvert.DeserializeObject<FontFile>(json);
             _ff = JsonConvert.DeserializeObject<FontFile>(json);
 
-            propertyGrid1.SelectedObject = _ff;
+            fontViewer.SelectedObject = _ff;
 
             _state = MainWindowState.StateFontPage;
 
@@ -165,7 +240,7 @@ namespace WarspiteGame.AuthoringTools.Forms
             MaximizeBox = true;
         }
 
-        private void CheckForChanges()
+        private bool CheckForChanges()
         {
             bool bChanged = false;
 
@@ -179,7 +254,7 @@ namespace WarspiteGame.AuthoringTools.Forms
                     break;
             }
 
-            Text = bChanged ? string.Format("[*{0}] - {1}", Path.GetFileName(_workingFilePath), _baseTitle) : string.Format("[{0}] - {1}", Path.GetFileName(_workingFilePath), _baseTitle); ;
+            return bChanged;
         }
 
         private void stateView_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
@@ -189,7 +264,9 @@ namespace WarspiteGame.AuthoringTools.Forms
                 stateViewer.SelectedObject = _ws.states[e.Node.Index];
             }
 
-            CheckForChanges();
+            bool bChanged = CheckForChanges();
+            Text = bChanged ? string.Format("[*{0}] - {1}", Path.GetFileName(_workingFilePath), _baseTitle)
+                : string.Format("[{0}] - {1}", Path.GetFileName(_workingFilePath), _baseTitle);
         }
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
@@ -230,36 +307,59 @@ namespace WarspiteGame.AuthoringTools.Forms
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (_workingFilePath == string.Empty)
-            {
-                _sd.FileName = "untitled.json";
-
-                // Don't try to save if OK was not pressed
-                if (_sd.ShowDialog() != DialogResult.OK) return;
-                _workingFilePath = _sd.FileName;
-            }
-            SaveEngineJson(_workingFilePath);
+            SaveCommand();
         }
 
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            _sd.FileName = Path.GetFileName(_workingFilePath);
-
-            // Don't try to save if OK was not pressed
-            if (_sd.ShowDialog() != DialogResult.OK) return;
-            _workingFilePath = _sd.FileName;
-
-            SaveEngineJson(_workingFilePath);
+            SaveAsCommand();
         }
 
-        private void stateViewer_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
+        private void PropGrids_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
         {
-            CheckForChanges();
+            bool bChanged = CheckForChanges();
+            Text = bChanged ? string.Format("[*{0}] - {1}", Path.GetFileName(_workingFilePath), _baseTitle) 
+                : string.Format("[{0}] - {1}", Path.GetFileName(_workingFilePath), _baseTitle);
         }
 
-        private void propertyGrid1_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
+        private void startPageNewBtn_Click(object sender, EventArgs e)
         {
-            CheckForChanges();
+            NewEngineJson();
+        }
+
+        private void ExitPrompt()
+        {
+            DialogResult dr = MessageBox.Show(String.Format("Do you want to save changes to \"{0}\"?", 
+                    Path.GetFileName(_workingFilePath)),
+                AssemblyAccessors.AssemblyTitle, MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+
+            switch (dr)
+            {
+                case DialogResult.Yes:
+                    SaveCommand();
+                    break;
+                case DialogResult.No:
+                    Environment.Exit(0);
+                    break;
+                case DialogResult.Cancel:
+                    break;
+            }
+        }
+
+        private void MainWindow_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            bool bChanged = CheckForChanges();
+
+            if (bChanged)
+            {
+                e.Cancel = true;
+                ExitPrompt();
+            }
+        }
+
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }
