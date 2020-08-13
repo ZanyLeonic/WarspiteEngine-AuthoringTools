@@ -30,6 +30,7 @@ namespace WarspiteGame.AuthoringTools.Forms
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow));
             this.mainMenuStrip = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -41,25 +42,32 @@ namespace WarspiteGame.AuthoringTools.Forms
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MainControl = new System.Windows.Forms.TabControl();
+            this.StartPage = new System.Windows.Forms.TabPage();
+            this.startPageVersionDesc = new System.Windows.Forms.Label();
+            this.startPageLabel = new System.Windows.Forms.Label();
+            this.StartPagePaddingPanel = new System.Windows.Forms.Panel();
+            this.StartPageControlPanel = new System.Windows.Forms.Panel();
+            this.startPageOpenBtn = new System.Windows.Forms.Button();
+            this.startPageNewBtn = new System.Windows.Forms.Button();
             this.StatePage = new System.Windows.Forms.TabPage();
             this.stateViewer = new System.Windows.Forms.PropertyGrid();
-            this.stateView = new System.Windows.Forms.TreeView();
+            this.splitter1 = new System.Windows.Forms.Splitter();
+            this.treeViewPanel = new System.Windows.Forms.Panel();
+            this.treeViewControls = new System.Windows.Forms.Panel();
+            this.deleteStateBtn = new System.Windows.Forms.Button();
+            this.newStateBtn = new System.Windows.Forms.Button();
             this.FontPage = new System.Windows.Forms.TabPage();
             this.fontViewer = new System.Windows.Forms.PropertyGrid();
-            this.StartPage = new System.Windows.Forms.TabPage();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.startPageLabel = new System.Windows.Forms.Label();
-            this.startPageNewBtn = new System.Windows.Forms.Button();
-            this.startPageOpenBtn = new System.Windows.Forms.Button();
-            this.splitter1 = new System.Windows.Forms.Splitter();
-            this.startPageVersionDesc = new System.Windows.Forms.Label();
+            this.treeViewControlsScroll = new System.Windows.Forms.HScrollBar();
+            this.stateView = new System.Windows.Forms.TreeView();
             this.mainMenuStrip.SuspendLayout();
             this.MainControl.SuspendLayout();
-            this.StatePage.SuspendLayout();
-            this.FontPage.SuspendLayout();
             this.StartPage.SuspendLayout();
-            this.panel1.SuspendLayout();
+            this.StartPageControlPanel.SuspendLayout();
+            this.StatePage.SuspendLayout();
+            this.treeViewPanel.SuspendLayout();
+            this.treeViewControls.SuspendLayout();
+            this.FontPage.SuspendLayout();
             this.SuspendLayout();
             // 
             // mainMenuStrip
@@ -138,7 +146,7 @@ namespace WarspiteGame.AuthoringTools.Forms
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
@@ -154,11 +162,88 @@ namespace WarspiteGame.AuthoringTools.Forms
             this.MainControl.Size = new System.Drawing.Size(800, 426);
             this.MainControl.TabIndex = 4;
             // 
+            // StartPage
+            // 
+            this.StartPage.BackColor = System.Drawing.SystemColors.Control;
+            this.StartPage.Controls.Add(this.startPageVersionDesc);
+            this.StartPage.Controls.Add(this.startPageLabel);
+            this.StartPage.Controls.Add(this.StartPagePaddingPanel);
+            this.StartPage.Controls.Add(this.StartPageControlPanel);
+            this.StartPage.Location = new System.Drawing.Point(4, 22);
+            this.StartPage.Name = "StartPage";
+            this.StartPage.Padding = new System.Windows.Forms.Padding(3);
+            this.StartPage.Size = new System.Drawing.Size(792, 400);
+            this.StartPage.TabIndex = 2;
+            this.StartPage.Text = "StartPage";
+            // 
+            // startPageVersionDesc
+            // 
+            this.startPageVersionDesc.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.startPageVersionDesc.Location = new System.Drawing.Point(3, 168);
+            this.startPageVersionDesc.Name = "startPageVersionDesc";
+            this.startPageVersionDesc.Size = new System.Drawing.Size(786, 66);
+            this.startPageVersionDesc.TabIndex = 3;
+            this.startPageVersionDesc.Text = "[Version]";
+            this.startPageVersionDesc.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
+            // startPageLabel
+            // 
+            this.startPageLabel.Dock = System.Windows.Forms.DockStyle.Top;
+            this.startPageLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.startPageLabel.Location = new System.Drawing.Point(3, 79);
+            this.startPageLabel.Name = "startPageLabel";
+            this.startPageLabel.Padding = new System.Windows.Forms.Padding(0, 0, 0, 5);
+            this.startPageLabel.Size = new System.Drawing.Size(786, 89);
+            this.startPageLabel.TabIndex = 2;
+            this.startPageLabel.Text = "[Product Info goes here]";
+            this.startPageLabel.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            // 
+            // StartPagePaddingPanel
+            // 
+            this.StartPagePaddingPanel.Dock = System.Windows.Forms.DockStyle.Top;
+            this.StartPagePaddingPanel.Location = new System.Drawing.Point(3, 3);
+            this.StartPagePaddingPanel.Name = "StartPagePaddingPanel";
+            this.StartPagePaddingPanel.Size = new System.Drawing.Size(786, 76);
+            this.StartPagePaddingPanel.TabIndex = 1;
+            // 
+            // StartPageControlPanel
+            // 
+            this.StartPageControlPanel.Controls.Add(this.startPageOpenBtn);
+            this.StartPageControlPanel.Controls.Add(this.startPageNewBtn);
+            this.StartPageControlPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.StartPageControlPanel.Location = new System.Drawing.Point(3, 234);
+            this.StartPageControlPanel.Name = "StartPageControlPanel";
+            this.StartPageControlPanel.Padding = new System.Windows.Forms.Padding(60);
+            this.StartPageControlPanel.Size = new System.Drawing.Size(786, 163);
+            this.StartPageControlPanel.TabIndex = 0;
+            // 
+            // startPageOpenBtn
+            // 
+            this.startPageOpenBtn.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.startPageOpenBtn.Location = new System.Drawing.Point(393, 60);
+            this.startPageOpenBtn.Name = "startPageOpenBtn";
+            this.startPageOpenBtn.Size = new System.Drawing.Size(333, 43);
+            this.startPageOpenBtn.TabIndex = 3;
+            this.startPageOpenBtn.Text = "Open";
+            this.startPageOpenBtn.UseVisualStyleBackColor = true;
+            this.startPageOpenBtn.Click += new System.EventHandler(this.startPageOpenBtn_Click);
+            // 
+            // startPageNewBtn
+            // 
+            this.startPageNewBtn.Dock = System.Windows.Forms.DockStyle.Left;
+            this.startPageNewBtn.Location = new System.Drawing.Point(60, 60);
+            this.startPageNewBtn.Name = "startPageNewBtn";
+            this.startPageNewBtn.Size = new System.Drawing.Size(333, 43);
+            this.startPageNewBtn.TabIndex = 2;
+            this.startPageNewBtn.Text = "New";
+            this.startPageNewBtn.UseVisualStyleBackColor = true;
+            this.startPageNewBtn.Click += new System.EventHandler(this.startPageNewBtn_Click);
+            // 
             // StatePage
             // 
             this.StatePage.Controls.Add(this.stateViewer);
             this.StatePage.Controls.Add(this.splitter1);
-            this.StatePage.Controls.Add(this.stateView);
+            this.StatePage.Controls.Add(this.treeViewPanel);
             this.StatePage.Location = new System.Drawing.Point(4, 22);
             this.StatePage.Name = "StatePage";
             this.StatePage.Padding = new System.Windows.Forms.Padding(3);
@@ -171,20 +256,62 @@ namespace WarspiteGame.AuthoringTools.Forms
             // 
             this.stateViewer.Cursor = System.Windows.Forms.Cursors.Default;
             this.stateViewer.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.stateViewer.Location = new System.Drawing.Point(191, 3);
+            this.stateViewer.Location = new System.Drawing.Point(186, 3);
             this.stateViewer.Name = "stateViewer";
-            this.stateViewer.Size = new System.Drawing.Size(598, 394);
-            this.stateViewer.TabIndex = 5;
+            this.stateViewer.Size = new System.Drawing.Size(603, 394);
+            this.stateViewer.TabIndex = 8;
             this.stateViewer.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.PropGrids_PropertyValueChanged);
             // 
-            // stateView
+            // splitter1
             // 
-            this.stateView.Dock = System.Windows.Forms.DockStyle.Left;
-            this.stateView.Location = new System.Drawing.Point(3, 3);
-            this.stateView.Name = "stateView";
-            this.stateView.Size = new System.Drawing.Size(185, 394);
-            this.stateView.TabIndex = 4;
-            this.stateView.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.stateView_NodeMouseClick);
+            this.splitter1.Cursor = System.Windows.Forms.Cursors.SizeWE;
+            this.splitter1.Location = new System.Drawing.Point(183, 3);
+            this.splitter1.Name = "splitter1";
+            this.splitter1.Size = new System.Drawing.Size(3, 394);
+            this.splitter1.TabIndex = 9;
+            this.splitter1.TabStop = false;
+            // 
+            // treeViewPanel
+            // 
+            this.treeViewPanel.Controls.Add(this.stateView);
+            this.treeViewPanel.Controls.Add(this.treeViewControls);
+            this.treeViewPanel.Dock = System.Windows.Forms.DockStyle.Left;
+            this.treeViewPanel.Location = new System.Drawing.Point(3, 3);
+            this.treeViewPanel.Name = "treeViewPanel";
+            this.treeViewPanel.Size = new System.Drawing.Size(180, 394);
+            this.treeViewPanel.TabIndex = 0;
+            // 
+            // treeViewControls
+            // 
+            this.treeViewControls.BackColor = System.Drawing.SystemColors.Control;
+            this.treeViewControls.Controls.Add(this.deleteStateBtn);
+            this.treeViewControls.Controls.Add(this.newStateBtn);
+            this.treeViewControls.Dock = System.Windows.Forms.DockStyle.Top;
+            this.treeViewControls.Location = new System.Drawing.Point(0, 0);
+            this.treeViewControls.Name = "treeViewControls";
+            this.treeViewControls.Size = new System.Drawing.Size(180, 35);
+            this.treeViewControls.TabIndex = 9;
+            // 
+            // deleteStateBtn
+            // 
+            this.deleteStateBtn.Enabled = false;
+            this.deleteStateBtn.Location = new System.Drawing.Point(93, 6);
+            this.deleteStateBtn.Name = "deleteStateBtn";
+            this.deleteStateBtn.Size = new System.Drawing.Size(75, 23);
+            this.deleteStateBtn.TabIndex = 1;
+            this.deleteStateBtn.Text = "Delete";
+            this.deleteStateBtn.UseVisualStyleBackColor = true;
+            this.deleteStateBtn.Click += new System.EventHandler(this.deleteStateBtn_Click);
+            // 
+            // newStateBtn
+            // 
+            this.newStateBtn.Location = new System.Drawing.Point(8, 6);
+            this.newStateBtn.Name = "newStateBtn";
+            this.newStateBtn.Size = new System.Drawing.Size(75, 23);
+            this.newStateBtn.TabIndex = 0;
+            this.newStateBtn.Text = "New";
+            this.newStateBtn.UseVisualStyleBackColor = true;
+            this.newStateBtn.Click += new System.EventHandler(this.newStateBtn_Click);
             // 
             // FontPage
             // 
@@ -206,91 +333,21 @@ namespace WarspiteGame.AuthoringTools.Forms
             this.fontViewer.TabIndex = 0;
             this.fontViewer.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.PropGrids_PropertyValueChanged);
             // 
-            // StartPage
+            // treeViewControlsScroll
             // 
-            this.StartPage.BackColor = System.Drawing.SystemColors.Control;
-            this.StartPage.Controls.Add(this.startPageVersionDesc);
-            this.StartPage.Controls.Add(this.startPageLabel);
-            this.StartPage.Controls.Add(this.panel2);
-            this.StartPage.Controls.Add(this.panel1);
-            this.StartPage.Location = new System.Drawing.Point(4, 22);
-            this.StartPage.Name = "StartPage";
-            this.StartPage.Padding = new System.Windows.Forms.Padding(3);
-            this.StartPage.Size = new System.Drawing.Size(792, 400);
-            this.StartPage.TabIndex = 2;
-            this.StartPage.Text = "StartPage";
+            this.treeViewControlsScroll.Location = new System.Drawing.Point(0, 0);
+            this.treeViewControlsScroll.Name = "treeViewControlsScroll";
+            this.treeViewControlsScroll.Size = new System.Drawing.Size(80, 17);
+            this.treeViewControlsScroll.TabIndex = 0;
             // 
-            // panel1
+            // stateView
             // 
-            this.panel1.Controls.Add(this.startPageOpenBtn);
-            this.panel1.Controls.Add(this.startPageNewBtn);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel1.Location = new System.Drawing.Point(3, 234);
-            this.panel1.Name = "panel1";
-            this.panel1.Padding = new System.Windows.Forms.Padding(60);
-            this.panel1.Size = new System.Drawing.Size(786, 163);
-            this.panel1.TabIndex = 0;
-            // 
-            // panel2
-            // 
-            this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel2.Location = new System.Drawing.Point(3, 3);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(786, 76);
-            this.panel2.TabIndex = 1;
-            // 
-            // startPageLabel
-            // 
-            this.startPageLabel.Dock = System.Windows.Forms.DockStyle.Top;
-            this.startPageLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.startPageLabel.Location = new System.Drawing.Point(3, 79);
-            this.startPageLabel.Name = "startPageLabel";
-            this.startPageLabel.Padding = new System.Windows.Forms.Padding(0, 0, 0, 5);
-            this.startPageLabel.Size = new System.Drawing.Size(786, 89);
-            this.startPageLabel.TabIndex = 2;
-            this.startPageLabel.Text = "[Product Info goes here]";
-            this.startPageLabel.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            // 
-            // startPageNewBtn
-            // 
-            this.startPageNewBtn.Dock = System.Windows.Forms.DockStyle.Left;
-            this.startPageNewBtn.Location = new System.Drawing.Point(60, 60);
-            this.startPageNewBtn.Name = "startPageNewBtn";
-            this.startPageNewBtn.Size = new System.Drawing.Size(333, 43);
-            this.startPageNewBtn.TabIndex = 2;
-            this.startPageNewBtn.Text = "New";
-            this.startPageNewBtn.UseVisualStyleBackColor = true;
-            this.startPageNewBtn.Click += new System.EventHandler(this.startPageNewBtn_Click);
-            // 
-            // startPageOpenBtn
-            // 
-            this.startPageOpenBtn.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.startPageOpenBtn.Location = new System.Drawing.Point(393, 60);
-            this.startPageOpenBtn.Name = "startPageOpenBtn";
-            this.startPageOpenBtn.Size = new System.Drawing.Size(333, 43);
-            this.startPageOpenBtn.TabIndex = 3;
-            this.startPageOpenBtn.Text = "Open";
-            this.startPageOpenBtn.UseVisualStyleBackColor = true;
-            this.startPageOpenBtn.Click += new System.EventHandler(this.startPageOpenBtn_Click);
-            // 
-            // splitter1
-            // 
-            this.splitter1.Cursor = System.Windows.Forms.Cursors.SizeWE;
-            this.splitter1.Location = new System.Drawing.Point(188, 3);
-            this.splitter1.Name = "splitter1";
-            this.splitter1.Size = new System.Drawing.Size(3, 394);
-            this.splitter1.TabIndex = 6;
-            this.splitter1.TabStop = false;
-            // 
-            // startPageVersionDesc
-            // 
-            this.startPageVersionDesc.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.startPageVersionDesc.Location = new System.Drawing.Point(3, 168);
-            this.startPageVersionDesc.Name = "startPageVersionDesc";
-            this.startPageVersionDesc.Size = new System.Drawing.Size(786, 66);
-            this.startPageVersionDesc.TabIndex = 3;
-            this.startPageVersionDesc.Text = "[Version]";
-            this.startPageVersionDesc.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.stateView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.stateView.Location = new System.Drawing.Point(0, 35);
+            this.stateView.Name = "stateView";
+            this.stateView.Size = new System.Drawing.Size(180, 359);
+            this.stateView.TabIndex = 10;
+            this.stateView.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.stateView_NodeMouseClick);
             // 
             // MainWindow
             // 
@@ -300,6 +357,7 @@ namespace WarspiteGame.AuthoringTools.Forms
             this.Controls.Add(this.MainControl);
             this.Controls.Add(this.mainMenuStrip);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.mainMenuStrip;
             this.MaximizeBox = false;
             this.Name = "MainWindow";
@@ -309,10 +367,12 @@ namespace WarspiteGame.AuthoringTools.Forms
             this.mainMenuStrip.ResumeLayout(false);
             this.mainMenuStrip.PerformLayout();
             this.MainControl.ResumeLayout(false);
-            this.StatePage.ResumeLayout(false);
-            this.FontPage.ResumeLayout(false);
             this.StartPage.ResumeLayout(false);
-            this.panel1.ResumeLayout(false);
+            this.StartPageControlPanel.ResumeLayout(false);
+            this.StatePage.ResumeLayout(false);
+            this.treeViewPanel.ResumeLayout(false);
+            this.treeViewControls.ResumeLayout(false);
+            this.FontPage.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -328,8 +388,6 @@ namespace WarspiteGame.AuthoringTools.Forms
         private System.Windows.Forms.TabPage FontPage;
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
-        private System.Windows.Forms.PropertyGrid stateViewer;
-        private System.Windows.Forms.TreeView stateView;
         private System.Windows.Forms.ToolStripMenuItem newToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveAsToolStripMenuItem;
@@ -337,13 +395,20 @@ namespace WarspiteGame.AuthoringTools.Forms
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
         private System.Windows.Forms.PropertyGrid fontViewer;
         private System.Windows.Forms.TabPage StartPage;
-        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Panel StartPageControlPanel;
         private System.Windows.Forms.Label startPageLabel;
-        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Panel StartPagePaddingPanel;
         private System.Windows.Forms.Button startPageOpenBtn;
         private System.Windows.Forms.Button startPageNewBtn;
-        private System.Windows.Forms.Splitter splitter1;
         private System.Windows.Forms.Label startPageVersionDesc;
+        private System.Windows.Forms.PropertyGrid stateViewer;
+        private System.Windows.Forms.Splitter splitter1;
+        private System.Windows.Forms.Panel treeViewPanel;
+        private System.Windows.Forms.Panel treeViewControls;
+        private System.Windows.Forms.HScrollBar treeViewControlsScroll;
+        private System.Windows.Forms.Button deleteStateBtn;
+        private System.Windows.Forms.Button newStateBtn;
+        private System.Windows.Forms.TreeView stateView;
     }
 }
 

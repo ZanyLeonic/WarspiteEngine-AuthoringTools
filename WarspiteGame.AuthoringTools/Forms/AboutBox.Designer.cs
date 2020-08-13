@@ -101,7 +101,7 @@ namespace WarspiteGame.AuthoringTools.Forms
             this.labelVersion.Name = "labelVersion";
             this.labelVersion.Size = new System.Drawing.Size(271, 17);
             this.labelVersion.TabIndex = 0;
-            this.labelVersion.Text = "Build: 33";
+            this.labelVersion.Text = "Version";
             this.labelVersion.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // labelCopyright
@@ -160,6 +160,7 @@ namespace WarspiteGame.AuthoringTools.Forms
             this.ClientSize = new System.Drawing.Size(435, 283);
             this.Controls.Add(this.tableLayoutPanel);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "AboutBox";

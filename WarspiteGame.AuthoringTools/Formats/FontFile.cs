@@ -11,15 +11,16 @@ namespace WarspiteGame.AuthoringTools.Formats
         [Category("Font Metadata")]
         [DisplayName("Font name")]
         [Description("The base identifier the Engine will use to load the font with.")]
-        public string name { get; set; }
+        public string name { get; set; } = "";
 
         [Category("Font Metadata")]
         [DisplayName("Font types")]
-        [Description("Informs the Engine of the different types of the font is available. In format \"fontName-TypeName\"")]
-        public string[] types { get; set; }
+        [Description(
+            "Informs the Engine of the different types of the font is available. In format \"fontName-TypeName\"")]
+        public string[] types { get; set; } = { };
 
-        [Browsable(false)]
-        public string type { get; set; }
+        [Browsable(false)] 
+        public string type { get; set; } = "FontFile";
 
         public override bool Equals(object obj)
         {
@@ -32,6 +33,11 @@ namespace WarspiteGame.AuthoringTools.Formats
                 return false;
 
             return true;
+        }
+
+        public override int GetHashCode()
+        {
+            return name.GetHashCode() * types.GetHashCode() * type.GetHashCode() * 21;
         }
     }
 }

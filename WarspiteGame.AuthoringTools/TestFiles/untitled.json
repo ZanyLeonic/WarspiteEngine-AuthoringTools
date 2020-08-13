@@ -1,0 +1,53 @@
+{
+  "states": [
+    {
+      "id": "HelloWorld!",
+      "textures": [],
+      "scripts": [],
+      "objects": []
+    },
+    {
+      "id": "newState",
+      "textures": [],
+      "scripts": [],
+      "objects": []
+    },
+    {
+      "id": "newState1",
+      "textures": [],
+      "scripts": [],
+      "objects": []
+    },
+    {
+      "id": "newState2",
+      "textures": [],
+      "scripts": [],
+      "objects": []
+    },
+    {
+      "id": "newState3",
+      "textures": [],
+      "scripts": [],
+      "objects": []
+    },
+    {
+      "id": "newState4",
+      "textures": [],
+      "scripts": [],
+      "objects": []
+    },
+    {
+      "id": "newState5",
+      "textures": [],
+      "scripts": [],
+      "objects": []
+    },
+    {
+      "id": "newState6",
+      "textures": [],
+      "scripts": [],
+      "objects": []
+    }
+  ],
+  "type": "StateFile"
+}

@@ -28,10 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(NewFileSelector));
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
             this.OKbutton = new System.Windows.Forms.Button();
-            this.CancelButton = new System.Windows.Forms.Button();
+            this.cancelButton = new System.Windows.Forms.Button();
             this.DialogLabel = new System.Windows.Forms.Label();
             this.TypeSelector = new System.Windows.Forms.ListBox();
             this.panel1.SuspendLayout();
@@ -50,7 +51,7 @@
             // 
             // panel2
             // 
-            this.panel2.Controls.Add(this.CancelButton);
+            this.panel2.Controls.Add(this.cancelButton);
             this.panel2.Controls.Add(this.OKbutton);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel2.Location = new System.Drawing.Point(0, 118);
@@ -68,15 +69,15 @@
             this.OKbutton.UseVisualStyleBackColor = true;
             this.OKbutton.Click += new System.EventHandler(this.OKbutton_Click);
             // 
-            // CancelButton
+            // cancelButton
             // 
-            this.CancelButton.Location = new System.Drawing.Point(227, 6);
-            this.CancelButton.Name = "CancelButton";
-            this.CancelButton.Size = new System.Drawing.Size(75, 23);
-            this.CancelButton.TabIndex = 1;
-            this.CancelButton.Text = "Cancel";
-            this.CancelButton.UseVisualStyleBackColor = true;
-            this.CancelButton.Click += new System.EventHandler(this.CancelButton_Click);
+            this.cancelButton.Location = new System.Drawing.Point(227, 6);
+            this.cancelButton.Name = "cancelButton";
+            this.cancelButton.Size = new System.Drawing.Size(75, 23);
+            this.cancelButton.TabIndex = 1;
+            this.cancelButton.Text = "Cancel";
+            this.cancelButton.UseVisualStyleBackColor = true;
+            this.cancelButton.Click += new System.EventHandler(this.CancelButton_Click);
             // 
             // DialogLabel
             // 
@@ -103,6 +104,7 @@
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "NewFileSelector";
@@ -122,7 +124,7 @@
         private System.Windows.Forms.ListBox TypeSelector;
         private System.Windows.Forms.Label DialogLabel;
         private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.Button CancelButton;
+        private System.Windows.Forms.Button cancelButton;
         private System.Windows.Forms.Button OKbutton;
     }
 }

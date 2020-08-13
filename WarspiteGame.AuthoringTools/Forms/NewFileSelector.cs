@@ -37,7 +37,7 @@ namespace WarspiteGame.AuthoringTools.Forms
         {
             if (TypeSelector.SelectedIndex == -1)
             {
-                MessageBox.Show("Please select a type", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Please select a type", AssemblyAccessors.AssemblyTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 

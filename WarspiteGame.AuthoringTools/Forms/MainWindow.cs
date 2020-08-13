@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Linq.Expressions;
 using Newtonsoft.Json;
 using System.Windows.Forms;
@@ -30,6 +32,8 @@ namespace WarspiteGame.AuthoringTools.Forms
         private string _workingFilePath = "";
         private string _baseTitle = String.Format("Warspite Authoring Tools ({0}/{1})", ToolMetadata.BuildNumber,
             ToolMetadata.HeadDesc);
+
+        private const string _baseNewState = "newState{0}";
 
         public MainWindowState GetWindowState()
         {
@@ -94,11 +98,13 @@ namespace WarspiteGame.AuthoringTools.Forms
                     _Ows = new WarspiteStateFile();
                     _ws = new WarspiteStateFile();
                     _state = MainWindowState.StateStatePage;
+                    RefreshStateTree();
                     break;
                 case EngineJsonType.Font:
                     _Off = new FontFile();
                     _ff = new FontFile();
                     _state = MainWindowState.StateFontPage;
+                    fontViewer.SelectedObject = _ff;
                     break;
             }
 
@@ -111,6 +117,26 @@ namespace WarspiteGame.AuthoringTools.Forms
 
         private void OpenEngineJson()
         {
+            bool bChanged = CheckForChanges();
+
+            if (bChanged)
+            {
+                DialogResult dr = MessageBox.Show(String.Format("Do you want to save changes to \"{0}\"?",
+                        Path.GetFileName(_workingFilePath)),
+                    AssemblyAccessors.AssemblyTitle, MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+
+                switch (dr)
+                {
+                    case DialogResult.Yes:
+                        SaveCommand();
+                        break;
+                    case DialogResult.No:
+                        break;
+                    case DialogResult.Cancel:
+                        return;
+                }
+            }
+
             DialogResult res = _op.ShowDialog();
 
             if (res == DialogResult.OK && _op.FileName != string.Empty)
@@ -121,7 +147,7 @@ namespace WarspiteGame.AuthoringTools.Forms
                 // Can't determine the type - give up.
                 if (!t.ContainsKey("type"))
                 {
-                    MessageBox.Show("The selected file is not a valid Warspite Engine JSON", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("The selected file is not a valid Warspite Engine JSON", AssemblyAccessors.AssemblyTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
@@ -139,14 +165,14 @@ namespace WarspiteGame.AuthoringTools.Forms
                             FontFormSetup(sText);
                             break;
                         default:
-                            MessageBox.Show("Warspite Engine JSON not supported by this version", "Error",
+                            MessageBox.Show("Warspite Engine JSON not supported by this version", AssemblyAccessors.AssemblyTitle,
                                 MessageBoxButtons.OK, MessageBoxIcon.Error);
                             break;
                     }
                 }
                 catch (NullReferenceException e)
                 {
-                    MessageBox.Show(string.Format("Something went wrong while loading the JSON - please verify the validity of the JSON.{0}Error:{0}{1}", Environment.NewLine, e.Message), "Error",
+                    MessageBox.Show(string.Format("Something went wrong while loading the JSON - please verify the validity of the JSON.{0}Error:{0}{1}", Environment.NewLine, e.Message), AssemblyAccessors.AssemblyTitle,
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
@@ -165,14 +191,16 @@ namespace WarspiteGame.AuthoringTools.Forms
                         File.WriteAllText(savePath, JsonConvert.SerializeObject(_ff, Formatting.Indented));
                         break;
                     default:
-                        MessageBox.Show(string.Format("No supported save method for type \"{0}\"", _state.ToString()),"Error",
+                        MessageBox.Show(string.Format("No supported save method for type \"{0}\"", _state.ToString()), 
+                            AssemblyAccessors.AssemblyTitle,
                         MessageBoxButtons.OK, MessageBoxIcon.Error);
                         break;
                 }
             }
             catch (Exception e)
             {
-                MessageBox.Show(string.Format("Error while saving file.{0}Error:{0}{1}", Environment.NewLine, e.Message), "Error",
+                MessageBox.Show(string.Format("Error while saving file.{0}Error:{0}{1}", Environment.NewLine, e.Message), 
+                    AssemblyAccessors.AssemblyTitle,
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -206,13 +234,7 @@ namespace WarspiteGame.AuthoringTools.Forms
             _Ows = JsonConvert.DeserializeObject<WarspiteStateFile>(json);
             _ws = JsonConvert.DeserializeObject<WarspiteStateFile>(json);
 
-            stateView.Nodes.Clear();
-            _root = stateView.Nodes.Add("States");
-
-            for (int i = 0; i < _ws.states.Length; i++)
-            {
-                _root.Nodes.Add(_ws.states[i].id);
-            }
+            RefreshStateTree();
 
             _state = MainWindowState.StateStatePage;
 
@@ -262,6 +284,11 @@ namespace WarspiteGame.AuthoringTools.Forms
             if (e.Node != _root)
             {
                 stateViewer.SelectedObject = _ws.states[e.Node.Index];
+                deleteStateBtn.Enabled = true;
+            }
+            else
+            {
+                deleteStateBtn.Enabled = false;
             }
 
             bool bChanged = CheckForChanges();
@@ -320,6 +347,11 @@ namespace WarspiteGame.AuthoringTools.Forms
             bool bChanged = CheckForChanges();
             Text = bChanged ? string.Format("[*{0}] - {1}", Path.GetFileName(_workingFilePath), _baseTitle) 
                 : string.Format("[{0}] - {1}", Path.GetFileName(_workingFilePath), _baseTitle);
+
+            if ((PropertyGrid) s == stateViewer)
+            {
+                RefreshStateTree();
+            }
         }
 
         private void startPageNewBtn_Click(object sender, EventArgs e)
@@ -360,6 +392,80 @@ namespace WarspiteGame.AuthoringTools.Forms
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void newStateBtn_Click(object sender, EventArgs e)
+        {
+            WarspiteState ws = new WarspiteState();
+
+            ws.id = string.Format(_baseNewState, "");
+            ws = checkForDuplicateState(ws, _ws.states);
+
+            _ws.states.Add(ws);
+            RefreshStateTree();
+        }
+
+        // Old code I dug up
+        private WarspiteState checkForDuplicateState(WarspiteState newState, List<WarspiteState> states,
+            List<WarspiteState> working = null, int iter = 0)
+        {
+            bool flag = false;
+
+            if (working == null)
+                working = new List<WarspiteState>(states);
+
+            if (_ws.states != null)
+            {
+                foreach (WarspiteState i in working)
+                {
+                    if (i.id == newState.id)
+                    {
+                        // If we have found a duplicate, increment our name by one.
+                        newState.id = String.Format(_baseNewState, iter + 1);
+
+                        // increment our counter remove the item checked from the list.
+                        iter++;
+                        working.Remove(i);
+                        flag = true;
+                    }
+
+                    if (flag)
+                    {
+                        // Check again.
+                        return checkForDuplicateState(newState, states, working, iter);
+                    }
+                }
+            }
+            return newState;
+        }
+
+        private void deleteStateBtn_Click(object sender, EventArgs e)
+        {
+            if (stateViewer.SelectedObject != null)
+            {
+                WarspiteState delObj = (WarspiteState)stateViewer.SelectedObject;
+
+                if (delObj == null) return;
+
+                stateViewer.SelectedObject = null;
+                _ws.states.Remove(delObj);
+
+                deleteStateBtn.Enabled = false;
+                RefreshStateTree();
+            }
+        }
+
+        private void RefreshStateTree()
+        {
+            stateView.Nodes.Clear();
+            _root = stateView.Nodes.Add("States");
+
+            for (int i = 0; i < _ws.states.Count; i++)
+            {
+                _root.Nodes.Add(_ws.states[i].id);
+            }
+
+            _root.Expand();
         }
     }
 }
