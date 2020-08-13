@@ -35,6 +35,8 @@ namespace WarspiteGame.AuthoringTools.Forms
 
         private const string _baseNewState = "newState{0}";
 
+        private bool newFile = false;
+
         public MainWindowState GetWindowState()
         {
             return _state;
@@ -110,7 +112,8 @@ namespace WarspiteGame.AuthoringTools.Forms
 
             if (_state != MainWindowState.StateNone || _state != MainWindowState.StateStartPage)
             {
-                _workingFilePath = Path.Combine(ToolUtil.GetWorkingDirectory(), "untitled.json");
+                newFile = true;
+                _workingFilePath = Path.Combine(ToolUtil.GetWorkingDirectory(), "untitled.json").ToString();
                 SetupEditForm();
             }
         }
@@ -207,13 +210,14 @@ namespace WarspiteGame.AuthoringTools.Forms
 
         private void SaveCommand()
         {
-            if (_workingFilePath == string.Empty)
+            if (_workingFilePath == string.Empty || newFile)
             {
                 _sd.FileName = "untitled.json";
 
                 // Don't try to save if OK was not pressed
                 if (_sd.ShowDialog() != DialogResult.OK) return;
                 _workingFilePath = _sd.FileName;
+                newFile = false;
             }
             SaveEngineJson(_workingFilePath);
         }
