@@ -30,8 +30,8 @@ namespace WarspiteGame.AuthoringTools.Forms
         private MainWindowState _state = MainWindowState.StateNone;
 
         private string _workingFilePath = "";
-        private string _baseTitle = String.Format("Warspite Authoring Tools ({0}/{1})", ToolMetadata.BuildNumber,
-            ToolMetadata.HeadDesc);
+        private string _baseTitle = String.Format("Warspite Authoring Tools ({0}/{1}/{2})", ToolMetadata.BuildNumber,
+            ToolMetadata.HeadDesc, AssemblyAccessors.AssemblyVersion);
 
         private const string _baseNewState = "newState{0}";
 
@@ -69,6 +69,13 @@ namespace WarspiteGame.AuthoringTools.Forms
             OpenEngineJson();
         }
 
+        private void ChangeTitle()
+        {
+            bool bChanged = CheckForChanges();
+            Text = bChanged ? string.Format("[*{0}] - {1}", Path.GetFileName(_workingFilePath), _baseTitle)
+                : string.Format("[{0}] - {1}", Path.GetFileName(_workingFilePath), _baseTitle);
+        }
+
         private void NewEngineJson()
         {
             bool bChanged = CheckForChanges();
@@ -100,6 +107,9 @@ namespace WarspiteGame.AuthoringTools.Forms
                     _Ows = new WarspiteStateFile();
                     _ws = new WarspiteStateFile();
                     _state = MainWindowState.StateStatePage;
+                    stateViewer.SelectedObject = null;
+                    deleteStateBtn.Enabled = false;
+
                     RefreshStateTree();
                     break;
                 case EngineJsonType.Font:
@@ -107,6 +117,7 @@ namespace WarspiteGame.AuthoringTools.Forms
                     _ff = new FontFile();
                     _state = MainWindowState.StateFontPage;
                     fontViewer.SelectedObject = _ff;
+
                     break;
             }
 
@@ -185,13 +196,18 @@ namespace WarspiteGame.AuthoringTools.Forms
         {
             try
             {
+                string json = "";
                 switch (_state)
                 {
                     case MainWindowState.StateStatePage:
-                        File.WriteAllText(savePath, JsonConvert.SerializeObject(_ws, Formatting.Indented));
+                        json = JsonConvert.SerializeObject(_ws, Formatting.Indented);
+                        File.WriteAllText(savePath, json);
+                        _Ows = JsonConvert.DeserializeObject<WarspiteStateFile>(json);
                         break;
                     case MainWindowState.StateFontPage:
-                        File.WriteAllText(savePath, JsonConvert.SerializeObject(_ff, Formatting.Indented));
+                        json = JsonConvert.SerializeObject(_ff, Formatting.Indented); 
+                        File.WriteAllText(savePath, json);
+                        _Off = JsonConvert.DeserializeObject<FontFile>(json);
                         break;
                     default:
                         MessageBox.Show(string.Format("No supported save method for type \"{0}\"", _state.ToString()), 
@@ -199,6 +215,8 @@ namespace WarspiteGame.AuthoringTools.Forms
                         MessageBoxButtons.OK, MessageBoxIcon.Error);
                         break;
                 }
+
+                ChangeTitle();
             }
             catch (Exception e)
             {
@@ -206,6 +224,7 @@ namespace WarspiteGame.AuthoringTools.Forms
                     AssemblyAccessors.AssemblyTitle,
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+            CheckForChanges();
         }
 
         private void SaveCommand()
@@ -348,9 +367,7 @@ namespace WarspiteGame.AuthoringTools.Forms
 
         private void PropGrids_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
         {
-            bool bChanged = CheckForChanges();
-            Text = bChanged ? string.Format("[*{0}] - {1}", Path.GetFileName(_workingFilePath), _baseTitle) 
-                : string.Format("[{0}] - {1}", Path.GetFileName(_workingFilePath), _baseTitle);
+            ChangeTitle();
 
             if ((PropertyGrid) s == stateViewer)
             {
@@ -407,6 +424,8 @@ namespace WarspiteGame.AuthoringTools.Forms
 
             _ws.states.Add(ws);
             RefreshStateTree();
+
+            ChangeTitle();
         }
 
         // Old code I dug up
@@ -456,6 +475,8 @@ namespace WarspiteGame.AuthoringTools.Forms
 
                 deleteStateBtn.Enabled = false;
                 RefreshStateTree();
+
+                ChangeTitle();
             }
         }
 
@@ -470,6 +491,40 @@ namespace WarspiteGame.AuthoringTools.Forms
             }
 
             _root.Expand();
+        }
+
+        private void MainWindow_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.N && e.Modifiers == Keys.Control)
+            {
+                NewEngineJson();
+            }
+
+            if (e.KeyCode == Keys.O && e.Modifiers == Keys.Control)
+            {
+                OpenEngineJson();
+            }
+
+            if (_state != MainWindowState.StateStartPage || _state != MainWindowState.StateNone)
+            {
+                if (e.KeyCode == Keys.S && e.Modifiers == Keys.Control)
+                {
+                    SaveCommand();
+                }
+
+                if (e.KeyCode == Keys.S && e.Modifiers == Keys.Control &&
+                    e.Modifiers == Keys.Shift)
+                {
+                    SaveAsCommand();
+                }
+            }
+
+            if (e.KeyCode == Keys.A && e.Modifiers == Keys.Alt)
+            {
+                AboutBox ab = new AboutBox();
+
+                ab.ShowDialog();
+            }
         }
     }
 }

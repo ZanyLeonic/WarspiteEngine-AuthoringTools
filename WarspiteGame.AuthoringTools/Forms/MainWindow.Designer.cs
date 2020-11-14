@@ -53,13 +53,13 @@ namespace WarspiteGame.AuthoringTools.Forms
             this.stateViewer = new System.Windows.Forms.PropertyGrid();
             this.splitter1 = new System.Windows.Forms.Splitter();
             this.treeViewPanel = new System.Windows.Forms.Panel();
+            this.stateView = new System.Windows.Forms.TreeView();
             this.treeViewControls = new System.Windows.Forms.Panel();
             this.deleteStateBtn = new System.Windows.Forms.Button();
             this.newStateBtn = new System.Windows.Forms.Button();
             this.FontPage = new System.Windows.Forms.TabPage();
             this.fontViewer = new System.Windows.Forms.PropertyGrid();
             this.treeViewControlsScroll = new System.Windows.Forms.HScrollBar();
-            this.stateView = new System.Windows.Forms.TreeView();
             this.mainMenuStrip.SuspendLayout();
             this.MainControl.SuspendLayout();
             this.StartPage.SuspendLayout();
@@ -98,40 +98,46 @@ namespace WarspiteGame.AuthoringTools.Forms
             // newToolStripMenuItem
             // 
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.newToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
             this.newToolStripMenuItem.Text = "New";
             this.newToolStripMenuItem.Click += new System.EventHandler(this.startPageNewBtn_Click);
             // 
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.openToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
             this.openToolStripMenuItem.Text = "Open";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
             this.saveToolStripMenuItem.Text = "Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
             // saveAsToolStripMenuItem
             // 
             this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveAsToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.S)));
+            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
             this.saveAsToolStripMenuItem.Text = "Save As";
             this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(183, 6);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.exitToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4)));
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -146,7 +152,8 @@ namespace WarspiteGame.AuthoringTools.Forms
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
+            this.aboutToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.A)));
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
@@ -281,6 +288,15 @@ namespace WarspiteGame.AuthoringTools.Forms
             this.treeViewPanel.Size = new System.Drawing.Size(180, 394);
             this.treeViewPanel.TabIndex = 0;
             // 
+            // stateView
+            // 
+            this.stateView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.stateView.Location = new System.Drawing.Point(0, 35);
+            this.stateView.Name = "stateView";
+            this.stateView.Size = new System.Drawing.Size(180, 359);
+            this.stateView.TabIndex = 10;
+            this.stateView.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.stateView_NodeMouseClick);
+            // 
             // treeViewControls
             // 
             this.treeViewControls.BackColor = System.Drawing.SystemColors.Control;
@@ -340,15 +356,6 @@ namespace WarspiteGame.AuthoringTools.Forms
             this.treeViewControlsScroll.Size = new System.Drawing.Size(80, 17);
             this.treeViewControlsScroll.TabIndex = 0;
             // 
-            // stateView
-            // 
-            this.stateView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.stateView.Location = new System.Drawing.Point(0, 35);
-            this.stateView.Name = "stateView";
-            this.stateView.Size = new System.Drawing.Size(180, 359);
-            this.stateView.TabIndex = 10;
-            this.stateView.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.stateView_NodeMouseClick);
-            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -364,6 +371,7 @@ namespace WarspiteGame.AuthoringTools.Forms
             this.Text = "Warspite Authoring Tools";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainWindow_FormClosing);
             this.Load += new System.EventHandler(this.MainWindow_Load);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MainWindow_KeyDown);
             this.mainMenuStrip.ResumeLayout(false);
             this.mainMenuStrip.PerformLayout();
             this.MainControl.ResumeLayout(false);

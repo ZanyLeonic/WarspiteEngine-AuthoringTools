@@ -6,6 +6,17 @@ namespace WarspiteGame.AuthoringTools.Formats
 {
     public class WarspiteStateFile
     {
+        public WarspiteStateFile()
+        {
+
+        }
+
+        public WarspiteStateFile(WarspiteStateFile wsf)
+        {
+            states = wsf.states;
+            type = wsf.type;
+        }
+
         [Browsable(false)]
         public List<WarspiteState> states { get; set; } = new List<WarspiteState>();
 
@@ -121,9 +132,14 @@ namespace WarspiteGame.AuthoringTools.Formats
         public string textureid { get; set; } = "";
 
         [Category("Object Information")]
-        [DisplayName("Texture ID")]
+        [DisplayName("Script")]
         [Description("The ID of the script that this object will use. ID are loaded in the state.")]
         public string script { get; set; } = "";
+
+        [Category("Object Information")]
+        [DisplayName("Sound Path")]
+        [Description("The path of the sound that would be used by the object.")]
+        public string soundPath { get; set; } = "";
 
         [Category("Object Information")]
         [DisplayName("X")]
