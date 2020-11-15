@@ -563,10 +563,5 @@ namespace WarspiteGame.AuthoringTools.Forms
         {
             SaveAsCommand();
         }
-
-        private void MainWindow_MouseEnter(object sender, EventArgs e)
-        {
-            
-        }
     }
 }

@@ -172,7 +172,7 @@ namespace WarspiteGame.AuthoringTools.Forms
             this.aboutToolStripMenuItem.Image = global::WarspiteGame.AuthoringTools.Properties.Resources.WindowsForm_16x;
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
             this.aboutToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.A)));
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
@@ -358,6 +358,7 @@ namespace WarspiteGame.AuthoringTools.Forms
             this.stateViewer.Name = "stateViewer";
             this.stateViewer.Size = new System.Drawing.Size(603, 369);
             this.stateViewer.TabIndex = 8;
+            this.stateViewer.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.PropGrids_PropertyValueChanged);
             // 
             // splitter1
             // 
@@ -437,6 +438,7 @@ namespace WarspiteGame.AuthoringTools.Forms
             this.fontViewer.Name = "fontViewer";
             this.fontViewer.Size = new System.Drawing.Size(786, 369);
             this.fontViewer.TabIndex = 0;
+            this.fontViewer.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.PropGrids_PropertyValueChanged);
             // 
             // MainWindow
             // 
@@ -455,7 +457,6 @@ namespace WarspiteGame.AuthoringTools.Forms
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainWindow_FormClosing);
             this.Load += new System.EventHandler(this.MainWindow_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MainWindow_KeyDown);
-            this.MouseEnter += new System.EventHandler(this.MainWindow_MouseEnter);
             this.mainMenuStrip.ResumeLayout(false);
             this.mainMenuStrip.PerformLayout();
             this.toolStrip1.ResumeLayout(false);
