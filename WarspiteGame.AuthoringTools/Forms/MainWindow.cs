@@ -76,6 +76,24 @@ namespace WarspiteGame.AuthoringTools.Forms
                 : string.Format("[{0}] - {1}", Path.GetFileName(_workingFilePath), _baseTitle);
         }
 
+        private void UpdateButtons()
+        {
+            if (_state == MainWindowState.StateStartPage || _state == MainWindowState.StateNone)
+            {
+                saveToolStripMenuItem.Enabled = false;
+                saveAsToolStripMenuItem.Enabled = false;
+                SavetoolButton.Enabled = false;
+                SaveAstoolButton.Enabled = false;
+            }
+            else
+            {
+                saveToolStripMenuItem.Enabled = true;
+                saveAsToolStripMenuItem.Enabled = true;
+                SavetoolButton.Enabled = true;
+                SaveAstoolButton.Enabled = true;
+            }
+        }
+
         private void NewEngineJson()
         {
             bool bChanged = CheckForChanges();
@@ -127,6 +145,7 @@ namespace WarspiteGame.AuthoringTools.Forms
                 _workingFilePath = Path.Combine(ToolUtil.GetWorkingDirectory(), "untitled.json").ToString();
                 SetupEditForm();
             }
+            UpdateButtons();
         }
 
         private void OpenEngineJson()
@@ -190,6 +209,7 @@ namespace WarspiteGame.AuthoringTools.Forms
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
+            UpdateButtons();
         }
 
         private void SaveEngineJson(string savePath)
@@ -225,6 +245,7 @@ namespace WarspiteGame.AuthoringTools.Forms
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             CheckForChanges();
+            UpdateButtons();
         }
 
         private void SaveCommand()
@@ -254,6 +275,8 @@ namespace WarspiteGame.AuthoringTools.Forms
 
         private void StateFormSetup(string json)
         {
+            stateViewer.SelectedObject = null;
+
             _Ows = JsonConvert.DeserializeObject<WarspiteStateFile>(json);
             _ws = JsonConvert.DeserializeObject<WarspiteStateFile>(json);
 
@@ -311,6 +334,7 @@ namespace WarspiteGame.AuthoringTools.Forms
             }
             else
             {
+                stateViewer.SelectedObject = null;
                 deleteStateBtn.Enabled = false;
             }
 
@@ -334,6 +358,8 @@ namespace WarspiteGame.AuthoringTools.Forms
             startPageVersionDesc.Text = String.Format("Version: {4}{2}Build: ({0}/{1}){2}Tree: {3}", 
                 ToolMetadata.BuildNumber, ToolMetadata.HeadDesc, Environment.NewLine, 
                 ToolMetadata.HeadShaShort, AssemblyAccessors.AssemblyVersion);
+            
+            UpdateButtons();
         }
 
         private void startPageOpenBtn_Click(object sender, EventArgs e)
@@ -343,16 +369,7 @@ namespace WarspiteGame.AuthoringTools.Forms
 
         private void fileToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (_state == MainWindowState.StateStartPage || _state == MainWindowState.StateNone)
-            {
-                saveToolStripMenuItem.Enabled = false;
-                saveAsToolStripMenuItem.Enabled = false;
-            }
-            else
-            {
-                saveToolStripMenuItem.Enabled = true;
-                saveAsToolStripMenuItem.Enabled = true;
-            }
+            UpdateButtons();
         }
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
@@ -525,6 +542,31 @@ namespace WarspiteGame.AuthoringTools.Forms
 
                 ab.ShowDialog();
             }
+        }
+
+        private void NewtoolButton_Click(object sender, EventArgs e)
+        {
+            NewEngineJson();
+        }
+
+        private void OpentoolButton_Click(object sender, EventArgs e)
+        {
+            OpenEngineJson();
+        }
+
+        private void SavetoolButton_Click(object sender, EventArgs e)
+        {
+            SaveCommand();
+        }
+
+        private void SaveAstoolButton_Click(object sender, EventArgs e)
+        {
+            SaveAsCommand();
+        }
+
+        private void MainWindow_MouseEnter(object sender, EventArgs e)
+        {
+            
         }
     }
 }
