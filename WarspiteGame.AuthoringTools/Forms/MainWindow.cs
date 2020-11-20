@@ -64,6 +64,61 @@ namespace WarspiteGame.AuthoringTools.Forms
             _sd.Filter = "JSON Files|*.json|All Files |*.*";
         }
 
+        public void CheckLaunchParams()
+        {
+            string[] arguments = Environment.GetCommandLineArgs();
+
+            // If we just have the exe, ignore.
+            if (arguments.Length <= 1) return;
+
+            string fileName = arguments[1];
+
+            // Check if the path given exists
+            if (!File.Exists(fileName))
+            {
+                // If not, display an error.
+                MessageBox.Show("The specified file does not exist.", AssemblyAccessors.AssemblyTitle,
+                            MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            string sText = File.ReadAllText(fileName);
+            JObject t = JsonConvert.DeserializeObject<JObject>(sText);
+
+            // Can't determine the type - give up.
+            if (!t.ContainsKey("type"))
+            {
+                MessageBox.Show("The selected file is not a valid Warspite Engine JSON", AssemblyAccessors.AssemblyTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            // Show the correct page determining on what we are viewing
+            try
+            {
+                switch (t["type"].ToString())
+                {
+                    case "StateFile":
+                        _workingFilePath = fileName;
+                        StateFormSetup(sText);
+                        break;
+                    case "FontFile":
+                        _workingFilePath = fileName;
+                        FontFormSetup(sText);
+                        break;
+                    default:
+                        MessageBox.Show("Warspite Engine JSON not supported by this version", AssemblyAccessors.AssemblyTitle,
+                            MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        break;
+                }
+            }
+            catch (NullReferenceException e)
+            {
+                MessageBox.Show(string.Format("Something went wrong while loading the JSON - please verify the validity of the JSON.{0}Error:{0}{1}", Environment.NewLine, e.Message), AssemblyAccessors.AssemblyTitle,
+                MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            UpdateButtons();
+        }
+
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
             OpenEngineJson();
@@ -360,6 +415,7 @@ namespace WarspiteGame.AuthoringTools.Forms
                 ToolMetadata.HeadShaShort, AssemblyAccessors.AssemblyVersion);
             
             UpdateButtons();
+            CheckLaunchParams();
         }
 
         private void startPageOpenBtn_Click(object sender, EventArgs e)
