@@ -71,7 +71,7 @@
   <ItemGroup>
     <Compile Include="AssemblyAccessors.cs" />
     <Compile Include="Converters\NoTypeConverterJsonConverter.cs" />
-    <Compile Include="Formats\Editors\AssetPathEditor.cs" />
+    <Compile Include="Forms\Editors\AssetPathEditor.cs" />
     <Compile Include="Formats\FontFile.cs" />
     <Compile Include="Formats\ToolUtil.cs" />
     <Compile Include="Forms\AboutBox.cs">
@@ -79,6 +79,13 @@
     </Compile>
     <Compile Include="Forms\AboutBox.Designer.cs">
       <DependentUpon>AboutBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Editors\ObjectContainerEditor.cs" />
+    <Compile Include="Forms\ObjectContainerEditorForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ObjectContainerEditorForm.Designer.cs">
+      <DependentUpon>ObjectContainerEditorForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\MainWindow.cs">
       <SubType>Form</SubType>
@@ -98,6 +105,9 @@
     <Compile Include="ToolMetadata.cs" />
     <EmbeddedResource Include="Forms\AboutBox.resx">
       <DependentUpon>AboutBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ObjectContainerEditorForm.resx">
+      <DependentUpon>ObjectContainerEditorForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\MainWindow.resx">
       <DependentUpon>MainWindow.cs</DependentUpon>
@@ -173,6 +183,15 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Images\WindowsForm_16x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Images\Copy_16x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Images\DeleteProperty_16x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Images\NewProperty_16x.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

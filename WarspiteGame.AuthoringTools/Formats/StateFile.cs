@@ -6,6 +6,7 @@ using System.Drawing.Design;
 using System.Globalization;
 using System.Linq;
 using WarspiteGame.AuthoringTools.Converters;
+using WarspiteGame.AuthoringTools.Forms.Editors;
 
 namespace WarspiteGame.AuthoringTools.Formats
 {
@@ -71,6 +72,7 @@ namespace WarspiteGame.AuthoringTools.Formats
         [DisplayName("Objects")]
         [Description("A list of objects that will be created when the Engine loads the state.")]
         [TypeConverter(typeof(ObjectContainerArrayTypeConverter))]
+        [Editor(typeof(ObjectContainerEditor), typeof(UITypeEditor))]
         public ObjectContainer[] objects { get; set; } = { };
 
         public override bool Equals(object obj)
@@ -155,22 +157,22 @@ namespace WarspiteGame.AuthoringTools.Formats
         [Description("The path of the sound that would be used by the object.")]
         public string soundPath { get; set; } = "";
 
-        [Category("Object Information")]
+        [Category("Object Position")]
         [DisplayName("X")]
         [Description("The X position of the object on the screen.")]
         public int x { get; set; } = 0;
 
-        [Category("Object Information")]
+        [Category("Object Position")]
         [DisplayName("Y")]
         [Description("The Y position of the object on the screen.")]
         public int y { get; set; } = 0;
 
-        [Category("Object Information")]
+        [Category("Object Size")]
         [DisplayName("Width")]
         [Description("The width of the object.")]
         public int width { get; set; } = 0;
 
-        [Category("Object Information")]
+        [Category("Object Size")]
         [DisplayName("Height")]
         [Description("The height of the object.")]
         public int height { get; set; } = 0;

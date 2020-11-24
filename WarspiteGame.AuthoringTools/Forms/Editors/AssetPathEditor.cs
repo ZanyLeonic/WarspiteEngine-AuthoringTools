@@ -9,7 +9,7 @@ using System.Windows.Forms.Design;
 
 namespace WarspiteGame.AuthoringTools.Formats.Editors
 {
-    class AssetPathEditor : UITypeEditor
+    public class AssetPathEditor : UITypeEditor
     {
         public override UITypeEditorEditStyle GetEditStyle(ITypeDescriptorContext context)
         {

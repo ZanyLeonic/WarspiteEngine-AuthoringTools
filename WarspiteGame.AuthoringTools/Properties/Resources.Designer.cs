@@ -73,6 +73,26 @@ namespace WarspiteGame.AuthoringTools.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Copy_16x {
+            get {
+                object obj = ResourceManager.GetObject("Copy_16x", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap DeleteProperty_16x {
+            get {
+                object obj = ResourceManager.GetObject("DeleteProperty_16x", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap logoPictureBox_Image_one {
             get {
                 object obj = ResourceManager.GetObject("logoPictureBox_Image_one", resourceCulture);
@@ -96,6 +116,16 @@ namespace WarspiteGame.AuthoringTools.Properties {
         internal static System.Drawing.Bitmap NewFile_16x {
             get {
                 object obj = ResourceManager.GetObject("NewFile_16x", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap NewProperty_16x {
+            get {
+                object obj = ResourceManager.GetObject("NewProperty_16x", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

@@ -33,7 +33,7 @@ namespace WarspiteGame.AuthoringTools.Forms
         private string _baseTitle = String.Format("Warspite Authoring Tools ({0}/{1}/{2})", ToolMetadata.BuildNumber,
             ToolMetadata.HeadDesc, AssemblyAccessors.AssemblyVersion);
 
-        private const string _baseNewState = "newState{0}";
+        private const string _baseNewState = "New State {0}";
 
         private bool newFile = false;
 
@@ -517,7 +517,7 @@ namespace WarspiteGame.AuthoringTools.Forms
                     if (i.id == newState.id)
                     {
                         // If we have found a duplicate, increment our name by one.
-                        newState.id = String.Format(_baseNewState, iter + 1);
+                        newState.id = String.Format(_baseNewState, string.Format("({0})", iter + 1));
 
                         // increment our counter remove the item checked from the list.
                         iter++;
@@ -556,7 +556,7 @@ namespace WarspiteGame.AuthoringTools.Forms
         private void RefreshStateTree()
         {
             stateView.Nodes.Clear();
-            _root = stateView.Nodes.Add("States");
+            _root = stateView.Nodes.Add(string.Format("States ({0})", _ws.states.Count));
 
             for (int i = 0; i < _ws.states.Count; i++)
             {
