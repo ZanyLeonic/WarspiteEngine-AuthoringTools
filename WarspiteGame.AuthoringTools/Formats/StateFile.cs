@@ -1,11 +1,15 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Drawing.Design;
 using System.Globalization;
 using System.Linq;
+using WarspiteGame.AuthoringTools.Converters;
 
 namespace WarspiteGame.AuthoringTools.Formats
 {
+    [JsonConverter(typeof(NoTypeConverterJsonConverter<WarspiteStateFile>))]
     public class WarspiteStateFile
     {
         public WarspiteStateFile()
@@ -89,6 +93,7 @@ namespace WarspiteGame.AuthoringTools.Formats
     }
 
     [TypeConverter(typeof(AssetContainerTypeConverter))]
+    [JsonConverter(typeof(NoTypeConverterJsonConverter<AssetContainer>))]
     public class AssetContainer
     {
         [Category("Asset Information")]
@@ -99,6 +104,7 @@ namespace WarspiteGame.AuthoringTools.Formats
         [Category("Asset Information")]
         [DisplayName("Path")]
         [Description("The path to load the asset - relative to the folder of the type of asset. (e.g. Textures will be loaded from \"assets/textures\")")]
+        [Editor(typeof(Editors.AssetPathEditor), typeof(UITypeEditor))]
         public string path { get; set; } = "";
 
         public override bool Equals(object obj)
@@ -121,6 +127,7 @@ namespace WarspiteGame.AuthoringTools.Formats
     }
 
     [TypeConverter(typeof(ObjectContainerTypeConverter))]
+    [JsonConverter(typeof(NoTypeConverterJsonConverter<ObjectContainer>))]
     public class ObjectContainer
     {
         [Category("Object Information")]
@@ -223,11 +230,32 @@ namespace WarspiteGame.AuthoringTools.Formats
     {
         public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType)
         {
-            if (value is AssetContainer)
+            if (value is AssetContainer && destinationType == typeof(string))
             {
                 return ((AssetContainer)value).id == "" ? "(Unnamed)" : ((AssetContainer)value).id;
             }
             return base.ConvertTo(context, culture, value, destinationType);
+        }
+
+        public override bool CanConvertFrom(ITypeDescriptorContext context, System.Type sourceType)
+        {
+            if (sourceType == typeof(string))
+            {
+                return true;
+            }
+            return base.CanConvertFrom(context, sourceType);
+        }
+
+        public override object ConvertFrom(ITypeDescriptorContext context, System.Globalization.CultureInfo culture, object value)
+        {
+            if (value is string)
+            {
+                string s = value.ToString();
+                //s = s.Replace("\\", "");
+                AssetContainer f = JsonConvert.DeserializeObject<AssetContainer>(s);
+                return f;
+            }
+            return base.ConvertFrom(context, culture, value);
         }
     }
 
@@ -235,9 +263,11 @@ namespace WarspiteGame.AuthoringTools.Formats
     {
         public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType)
         {
-            if (value is AssetContainer[])
+            if (value is AssetContainer[] && destinationType == typeof(string))
             {
-                return string.Format("Assets Defined: {0}", ((AssetContainer[])value).Length);
+                AssetContainer[] data = (AssetContainer[])value;
+
+                return (data.Length <= 0 ) ? "No assets defined" : string.Format("Assets defined: {0}", ((AssetContainer[])value).Length);
             }
             return base.ConvertTo(context, culture, value, destinationType);
         }
@@ -247,11 +277,32 @@ namespace WarspiteGame.AuthoringTools.Formats
     {
         public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType)
         {
-            if (value is ObjectContainer)
+            if (value is ObjectContainer && destinationType == typeof(string))
             {
                 return string.Format("{0} ({1})", ((ObjectContainer)value).name, ((ObjectContainer)value).type);
             }
             return base.ConvertTo(context, culture, value, destinationType);
+        }
+
+        public override bool CanConvertFrom(ITypeDescriptorContext context, System.Type sourceType)
+        {
+            if (sourceType == typeof(string))
+            {
+                return true;
+            }
+            return base.CanConvertFrom(context, sourceType);
+        }
+
+        public override object ConvertFrom(ITypeDescriptorContext context, System.Globalization.CultureInfo culture, object value)
+        {
+            if (value is string)
+            {
+                string s = value.ToString();
+                //s = s.Replace("\\", "");
+                ObjectContainer f = JsonConvert.DeserializeObject<ObjectContainer>(s);
+                return f;
+            }
+            return base.ConvertFrom(context, culture, value);
         }
     }
 
@@ -259,9 +310,11 @@ namespace WarspiteGame.AuthoringTools.Formats
     {
         public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType)
         {
-            if (value is ObjectContainer[])
+            if (value is ObjectContainer[] && destinationType == typeof(string))
             {
-                return string.Format("Objects Defined: {0}", ((ObjectContainer[])value).Length);
+                ObjectContainer[] data = (ObjectContainer[])value;
+
+                return (data.Length <= 0) ? "No objects defined" : string.Format("Objects defined: {0}", ((ObjectContainer[])value).Length);
             }
             return base.ConvertTo(context, culture, value, destinationType);
         }

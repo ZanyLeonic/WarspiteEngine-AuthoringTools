@@ -22,5 +22,17 @@ namespace WarspiteGame.AuthoringTools.Properties {
                 return defaultInstance;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("E:\\Projects\\WarspiteGame\\Game\\assets")]
+        public string AssetsPath {
+            get {
+                return ((string)(this["AssetsPath"]));
+            }
+            set {
+                this["AssetsPath"] = value;
+            }
+        }
     }
 }

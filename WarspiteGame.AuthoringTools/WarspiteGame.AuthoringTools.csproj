@@ -38,6 +38,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -47,6 +48,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>Images\icon.ico</ApplicationIcon>
@@ -68,6 +70,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyAccessors.cs" />
+    <Compile Include="Converters\NoTypeConverterJsonConverter.cs" />
+    <Compile Include="Formats\Editors\AssetPathEditor.cs" />
     <Compile Include="Formats\FontFile.cs" />
     <Compile Include="Formats\ToolUtil.cs" />
     <Compile Include="Forms\AboutBox.cs">
