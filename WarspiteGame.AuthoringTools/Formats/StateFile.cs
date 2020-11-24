@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Globalization;
 using System.Linq;
 
 namespace WarspiteGame.AuthoringTools.Formats
@@ -52,16 +54,19 @@ namespace WarspiteGame.AuthoringTools.Formats
         [Category("State Data")]
         [DisplayName("Textures")]
         [Description("A list of textures that will be loaded when the Engine loads the state.")]
+        [TypeConverter(typeof(AssetContainerArrayTypeConverter))]
         public AssetContainer[] textures { get; set; } = { };
 
         [Category("State Data")]
         [DisplayName("Scripts")]
         [Description("A list of scripts that will be loaded when the Engine loads the state.")]
+        [TypeConverter(typeof(AssetContainerArrayTypeConverter))]
         public AssetContainer[] scripts { get; set; } = { };
 
         [Category("State Data")]
         [DisplayName("Objects")]
         [Description("A list of objects that will be created when the Engine loads the state.")]
+        [TypeConverter(typeof(ObjectContainerArrayTypeConverter))]
         public ObjectContainer[] objects { get; set; } = { };
 
         public override bool Equals(object obj)
@@ -83,6 +88,7 @@ namespace WarspiteGame.AuthoringTools.Formats
         }
     }
 
+    [TypeConverter(typeof(AssetContainerTypeConverter))]
     public class AssetContainer
     {
         [Category("Asset Information")]
@@ -114,6 +120,7 @@ namespace WarspiteGame.AuthoringTools.Formats
         }
     }
 
+    [TypeConverter(typeof(ObjectContainerTypeConverter))]
     public class ObjectContainer
     {
         [Category("Object Information")]
@@ -211,4 +218,53 @@ namespace WarspiteGame.AuthoringTools.Formats
                    * onLeaveId.GetHashCode() * 21;
         }
     }
+    #region Type Converters
+    public class AssetContainerTypeConverter : TypeConverter
+    {
+        public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType)
+        {
+            if (value is AssetContainer)
+            {
+                return ((AssetContainer)value).id == "" ? "(Unnamed)" : ((AssetContainer)value).id;
+            }
+            return base.ConvertTo(context, culture, value, destinationType);
+        }
+    }
+
+    public class AssetContainerArrayTypeConverter : TypeConverter
+    {
+        public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType)
+        {
+            if (value is AssetContainer[])
+            {
+                return string.Format("Assets Defined: {0}", ((AssetContainer[])value).Length);
+            }
+            return base.ConvertTo(context, culture, value, destinationType);
+        }
+    }
+
+    public class ObjectContainerTypeConverter : TypeConverter
+    {
+        public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType)
+        {
+            if (value is ObjectContainer)
+            {
+                return string.Format("{0} ({1})", ((ObjectContainer)value).name, ((ObjectContainer)value).type);
+            }
+            return base.ConvertTo(context, culture, value, destinationType);
+        }
+    }
+
+    public class ObjectContainerArrayTypeConverter : TypeConverter
+    {
+        public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType)
+        {
+            if (value is ObjectContainer[])
+            {
+                return string.Format("Objects Defined: {0}", ((ObjectContainer[])value).Length);
+            }
+            return base.ConvertTo(context, culture, value, destinationType);
+        }
+    }
+    #endregion
 }
