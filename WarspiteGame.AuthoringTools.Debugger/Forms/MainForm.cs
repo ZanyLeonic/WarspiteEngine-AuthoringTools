@@ -14,22 +14,55 @@ namespace WarspiteGame.AuthoringTools.Debugger.Forms
 {
     public partial class MainForm : Form
     {
-        private string _baseTitle = String.Format("Warspite Debugger ({0}/{1})", ToolMetadata.BuildNumber,
+        private string _baseTitle = string.Format("Warspite Debugger ({0}/{1})", ToolMetadata.BuildNumber,
                                                     ToolMetadata.HeadDesc);
+        private const string _drawOnTop = "Draw Ontop ({0})";
         private OpenFileDialog _ofd;
 
         Process _p;
         StreamWriter _sw;
 
+        private void ChangeOnTopText()
+        {
+            drawOntopToolStripMenuItem.Text = TopMost ? string.Format(_drawOnTop, "Enabled") : string.Format(_drawOnTop, "Disabled");
+        }
+
+        private void OpenExecutable()
+        {
+            if (_ofd.ShowDialog() == DialogResult.OK)
+            {
+                _p.StartInfo.FileName = _ofd.FileName;
+                _p.StartInfo.WorkingDirectory = new FileInfo(_ofd.FileName).Directory.FullName;
+
+                stdOutput.Clear();
+
+                _p.Start();
+
+                _p.BeginOutputReadLine();
+                _p.BeginErrorReadLine();
+
+                _sw = _p.StandardInput;
+
+                killProcessToolStripMenuItem.Visible = true;
+                openToolStripMenuItem.Enabled = false;
+                stdinPanel.Enabled = true;
+
+                ChangeOnTopText();
+            }
+        }
+
         public MainForm()
         {
             InitializeComponent();
+
+            TopMost = Properties.Settings.Default.DrawOnTop;
+            ChangeOnTopText();
 
             _ofd = new OpenFileDialog();
 
             _ofd.FileName = "";
             _ofd.Title = "Open";
-            _ofd.Filter = "Executables|*.exe|All Files |*.*";
+            _ofd.Filter = "Executable Files|*.exe|All Files |*.*";
 
             _p = new Process();
 
@@ -48,28 +81,12 @@ namespace WarspiteGame.AuthoringTools.Debugger.Forms
         private void MainForm_Load(object sender, EventArgs e)
         {
             Text = _baseTitle;
+            ChangeOnTopText();
         }
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if(_ofd.ShowDialog() == DialogResult.OK)
-            {
-                _p.StartInfo.FileName = _ofd.FileName;
-
-                richTextBox1.Clear();
-
-                _p.Start();
-
-                _p.BeginOutputReadLine();
-                _p.BeginErrorReadLine();
-
-                _p.StartInfo.WorkingDirectory = new FileInfo(_ofd.FileName).Directory.FullName;
-                _sw = _p.StandardInput;
-
-                killProcessToolStripMenuItem.Visible = true;
-                openToolStripMenuItem.Enabled = false;
-                stdinPanel.Enabled = true;
-            }
+            OpenExecutable();
         }
 
         private void stdinBox_KeyDown(object sender, KeyEventArgs e)
@@ -92,11 +109,14 @@ namespace WarspiteGame.AuthoringTools.Debugger.Forms
                 e.Cancel = true;
                 ExitPrompt();
             }
+
+            Properties.Settings.Default.DrawOnTop = TopMost;
+            Properties.Settings.Default.Save();
         }
 
         private void killProcessToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            DialogResult dr = MessageBox.Show(String.Format("Process \"{0}\" is still running! Kill it?",
+            DialogResult dr = MessageBox.Show(string.Format("Process \"{0}\" is still running! Kill it?",
                     Path.GetFileName(_ofd.FileName)),
                 AssemblyAccessors.AssemblyTitle, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
@@ -118,25 +138,26 @@ namespace WarspiteGame.AuthoringTools.Debugger.Forms
 
         private void RedirOutput(object sender, DataReceivedEventArgs args)
         {
-            if (richTextBox1.InvokeRequired)
+            if (stdOutput.InvokeRequired)
             {
-                richTextBox1.Invoke(new MethodInvoker(delegate {
-                    richTextBox1.ForeColor = Color.White;
-                    richTextBox1.Text += args.Data; 
-                    richTextBox1.Text += Environment.NewLine; 
+                stdOutput.Invoke(new MethodInvoker(delegate {
+                    stdOutput.AppendText(args.Data, Color.White);
+                    stdOutput.AppendText(Environment.NewLine);
+                    stdOutput.Select(stdOutput.TextLength - 1, 0);
+                    stdOutput.ScrollToCaret();
                 }));
             }
         }
 
         private void RedirError(object sender, DataReceivedEventArgs args)
         {
-            if (richTextBox1.InvokeRequired)
+            if (stdOutput.InvokeRequired)
             {
-                richTextBox1.Invoke(new MethodInvoker(delegate {
-                    richTextBox1.ForeColor = Color.Red;
-                    richTextBox1.Text += args.Data; 
-                    richTextBox1.Text += Environment.NewLine;
-                    richTextBox1.SelectionStart = richTextBox1.Text.Length - 1;
+                stdOutput.Invoke(new MethodInvoker(delegate {
+                    stdOutput.AppendText(args.Data, Color.Red);
+                    stdOutput.AppendText(Environment.NewLine);
+                    stdOutput.Select(stdOutput.TextLength - 1, 0);
+                    stdOutput.ScrollToCaret();
                 }));
             }
         }
@@ -147,6 +168,7 @@ namespace WarspiteGame.AuthoringTools.Debugger.Forms
             {
                 _sw.WriteLine(input);
             }
+            stdinBox.Text = "";
         }
 
         private void ProcessExited(object sender, EventArgs args)
@@ -165,9 +187,11 @@ namespace WarspiteGame.AuthoringTools.Debugger.Forms
 
         private void ExitPrompt()
         {
-            DialogResult dr = MessageBox.Show(String.Format("Process \"{0}\" is still running! Kill it?",
-                    Path.GetFileName(_ofd.FileName)),
-                AssemblyAccessors.AssemblyTitle, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (!_p.IsRunning()) Environment.Exit(0);
+
+            DialogResult dr = MessageBox.Show(string.Format("Process \"{0}\" is still running! Kill it?",
+                Path.GetFileName(_ofd.FileName)),
+            AssemblyAccessors.AssemblyTitle, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
             switch (dr)
             {
@@ -182,6 +206,43 @@ namespace WarspiteGame.AuthoringTools.Debugger.Forms
                     break;
                 case DialogResult.No:
                     break;
+            }
+        }
+
+        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AboutBox ab = new AboutBox();
+
+            ab.ShowDialog();
+        }
+
+        private void drawOntopToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (TopMost)
+                TopMost = false;
+            else if (!TopMost)
+                TopMost = true;
+
+            ChangeOnTopText();
+        }
+
+        private void MainForm_Paint(object sender, PaintEventArgs e)
+        {
+            ChangeOnTopText();
+        }
+
+        private void MainForm_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Modifiers == Keys.Control && e.KeyCode == Keys.O)
+            {
+                OpenExecutable();
+            }
+
+            if (e.Modifiers == Keys.Alt && e.KeyCode == Keys.A)
+            {
+                AboutBox ab = new AboutBox();
+
+                ab.ShowDialog();
             }
         }
     }

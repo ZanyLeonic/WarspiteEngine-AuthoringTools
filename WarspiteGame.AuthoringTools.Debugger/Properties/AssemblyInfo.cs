@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("WarspiteGame.AuthoringTools.Debugger")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("Warspite Debugger")]
+[assembly: AssemblyDescription("Allows debugging of the Warspite Engine on Release builds")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("WarspiteGame.AuthoringTools.Debugger")]
-[assembly: AssemblyCopyright("Copyright ©  2020")]
+[assembly: AssemblyCompany("ZanyLeonic")]
+[assembly: AssemblyProduct("Warspite Debugger")]
+[assembly: AssemblyCopyright("Copyright ZanyLeonic © 2020")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

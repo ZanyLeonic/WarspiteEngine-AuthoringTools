@@ -22,5 +22,17 @@ namespace WarspiteGame.AuthoringTools.Debugger.Properties {
                 return defaultInstance;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool DrawOnTop {
+            get {
+                return ((bool)(this["DrawOnTop"]));
+            }
+            set {
+                this["DrawOnTop"] = value;
+            }
+        }
     }
 }

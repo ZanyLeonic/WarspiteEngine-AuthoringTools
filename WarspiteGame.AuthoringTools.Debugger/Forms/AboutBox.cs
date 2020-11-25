@@ -51,5 +51,10 @@ namespace WarspiteGame.AuthoringTools.Debugger.Forms
 
 
         #endregion
+
+        private void AboutBox_Load(object sender, EventArgs e)
+        {
+            TopMost = true;
+        }
     }
 }

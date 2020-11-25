@@ -12,13 +12,17 @@ namespace WarspiteGame.AuthoringTools.Debugger
         public static bool IsRunning(this Process process)
         {
             if (process == null)
-                throw new ArgumentNullException("process");
+                throw new ArgumentNullException("Process is null");
 
             try
             {
                 Process.GetProcessById(process.Id);
             }
             catch (ArgumentException)
+            {
+                return false;
+            }
+            catch (InvalidOperationException)
             {
                 return false;
             }
