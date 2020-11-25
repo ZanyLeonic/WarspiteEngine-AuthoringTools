@@ -3,7 +3,10 @@
   <Profiles />
   <Settings>
     <Setting Name="AssetsPath" Type="System.String" Scope="User">
-      <Value Profile="(Default)">E:\Projects\WarspiteGame\Game\assets</Value>
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="GameExecutable" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
     </Setting>
   </Settings>
 </SettingsFile>

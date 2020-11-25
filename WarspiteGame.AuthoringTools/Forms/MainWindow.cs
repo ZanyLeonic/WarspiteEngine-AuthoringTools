@@ -363,6 +363,19 @@ namespace WarspiteGame.AuthoringTools.Forms
             MaximizeBox = true;
         }
 
+        private void LaunchEngine()
+        {
+            if (System.IO.File.Exists(Properties.Settings.Default.GameExecutable))
+            {
+                System.Diagnostics.Process p = new System.Diagnostics.Process();
+                p.StartInfo.WorkingDirectory = Path.GetFullPath(Properties.Settings.Default.GameExecutable).Replace(
+                    Path.GetFileName(Properties.Settings.Default.GameExecutable), "");
+                p.StartInfo.FileName = Properties.Settings.Default.GameExecutable;
+
+                p.Start();
+            }
+        }
+
         private bool CheckForChanges()
         {
             bool bChanged = false;
@@ -410,12 +423,29 @@ namespace WarspiteGame.AuthoringTools.Forms
             _state = MainWindowState.StateStartPage;
             startPageLabel.Text = AssemblyAccessors.AssemblyTitle;
 
-            startPageVersionDesc.Text = String.Format("Version: {4}{2}Build: ({0}/{1}){2}Tree: {3}", 
+            startPageVersionDesc.Text = string.Format("Version: {4}{2}Build: ({0}/{1}){2}Tree: {3}", 
                 ToolMetadata.BuildNumber, ToolMetadata.HeadDesc, Environment.NewLine, 
                 ToolMetadata.HeadShaShort, AssemblyAccessors.AssemblyVersion);
             
             UpdateButtons();
             CheckLaunchParams();
+
+            if (Properties.Settings.Default.AssetsPath == string.Empty
+                || Properties.Settings.Default.GameExecutable == string.Empty)
+            {
+                MessageBox.Show("One or more paths are not set.\nPlease check your paths.", "First-time setup", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                
+                ConfigWindow cw = new ConfigWindow();
+                cw.ShowDialog();
+            }    
+            else if (!System.IO.Directory.Exists(Properties.Settings.Default.AssetsPath) 
+                || !System.IO.File.Exists(Properties.Settings.Default.GameExecutable))
+            {
+                MessageBox.Show("One or more paths are invalid.\nPlease check your paths.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                ConfigWindow cw = new ConfigWindow();
+                cw.ShowDialog();
+            }
         }
 
         private void startPageOpenBtn_Click(object sender, EventArgs e)
@@ -598,6 +628,17 @@ namespace WarspiteGame.AuthoringTools.Forms
 
                 ab.ShowDialog();
             }
+
+            if(e.KeyCode == Keys.F5)
+            {
+                LaunchEngine();
+            }
+
+            if (e.Modifiers == Keys.Alt && e.KeyCode == Keys.O)
+            {
+                ConfigWindow cw = new ConfigWindow();
+                cw.ShowDialog();
+            }
         }
 
         private void NewtoolButton_Click(object sender, EventArgs e)
@@ -618,6 +659,22 @@ namespace WarspiteGame.AuthoringTools.Forms
         private void SaveAstoolButton_Click(object sender, EventArgs e)
         {
             SaveAsCommand();
+        }
+
+        private void setAssetsFolderToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ConfigWindow cw = new ConfigWindow();
+            cw.ShowDialog();
+        }
+
+        private void launchEngineToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            LaunchEngine();
+        }
+
+        private void launchEngineToolBtn_Click(object sender, EventArgs e)
+        {
+            LaunchEngine();
         }
     }
 }

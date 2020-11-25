@@ -25,13 +25,25 @@ namespace WarspiteGame.AuthoringTools.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("E:\\Projects\\WarspiteGame\\Game\\assets")]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string AssetsPath {
             get {
                 return ((string)(this["AssetsPath"]));
             }
             set {
                 this["AssetsPath"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string GameExecutable {
+            get {
+                return ((string)(this["GameExecutable"]));
+            }
+            set {
+                this["GameExecutable"] = value;
             }
         }
     }

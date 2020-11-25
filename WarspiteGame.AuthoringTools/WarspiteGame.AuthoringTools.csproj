@@ -57,8 +57,12 @@
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="Ookii.Dialogs">
+      <HintPath>lib\Ookii.Dialogs.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Messaging" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -71,6 +75,12 @@
   <ItemGroup>
     <Compile Include="AssemblyAccessors.cs" />
     <Compile Include="Converters\NoTypeConverterJsonConverter.cs" />
+    <Compile Include="Forms\ConfigWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ConfigWindow.Designer.cs">
+      <DependentUpon>ConfigWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\Editors\AssetPathEditor.cs" />
     <Compile Include="Formats\FontFile.cs" />
     <Compile Include="Formats\ToolUtil.cs" />
@@ -105,6 +115,9 @@
     <Compile Include="ToolMetadata.cs" />
     <EmbeddedResource Include="Forms\AboutBox.resx">
       <DependentUpon>AboutBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ConfigWindow.resx">
+      <DependentUpon>ConfigWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\ObjectContainerEditorForm.resx">
       <DependentUpon>ObjectContainerEditorForm.cs</DependentUpon>
@@ -192,6 +205,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Images\NewProperty_16x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Images\ConfigurationFile_16x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Images\Run_16x.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

@@ -1,11 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using WarspiteGame.AuthoringTools.Formats;
 
@@ -16,7 +11,6 @@ namespace WarspiteGame.AuthoringTools.Forms.Editors
         public List<ObjectContainer> CurrentObject;
 
         private TreeNode _root;
-        private ObjectContainer _ws;
         private const string _baseNewObject = "New Object {0}";
 
         public ObjectContainerEditorForm()

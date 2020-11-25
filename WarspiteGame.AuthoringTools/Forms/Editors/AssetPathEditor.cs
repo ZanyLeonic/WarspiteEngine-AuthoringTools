@@ -24,7 +24,7 @@ namespace WarspiteGame.AuthoringTools.Formats.Editors
             ofd.Title = "Open...";
             ofd.InitialDirectory = Properties.Settings.Default.AssetsPath;
             ofd.FileName = "";
-
+            
             if (svc != null && path != null)
             {
                 if (ofd.ShowDialog() == DialogResult.OK)
@@ -41,8 +41,16 @@ namespace WarspiteGame.AuthoringTools.Formats.Editors
                     {
                         nrelPath += sPath[i];
                     }
-                   
-                    return Uri.UnescapeDataString(nrelPath);
+
+                    nrelPath = Uri.UnescapeDataString(nrelPath);
+
+                    // For fonts
+                    if (System.IO.Path.GetExtension(nrelPath) == ".ttf")
+                    {
+                        return System.IO.Path.GetFileNameWithoutExtension(nrelPath);
+                    }
+
+                    return nrelPath;
                 }
             }
             return value; // can also replace the wrapper object here

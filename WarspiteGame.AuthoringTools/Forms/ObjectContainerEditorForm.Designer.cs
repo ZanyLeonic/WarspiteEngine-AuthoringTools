@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ObjectContainerEditorForm));
             this.ObjectToolStrip = new System.Windows.Forms.ToolStrip();
             this.newObjectToolStripBtn = new System.Windows.Forms.ToolStripButton();
             this.DeleteObjectToolStripBtn = new System.Windows.Forms.ToolStripButton();
@@ -175,6 +176,7 @@
             this.Controls.Add(this.ObjectToolStrip);
             this.Controls.Add(this.panel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "ObjectContainerEditorForm";
             this.Text = "Object Editor";
             this.Load += new System.EventHandler(this.ObjectContainerEditor_Load);

@@ -30,11 +30,11 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(NewFileSelector));
             this.panel1 = new System.Windows.Forms.Panel();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.OKbutton = new System.Windows.Forms.Button();
-            this.cancelButton = new System.Windows.Forms.Button();
-            this.DialogLabel = new System.Windows.Forms.Label();
             this.TypeSelector = new System.Windows.Forms.ListBox();
+            this.DialogLabel = new System.Windows.Forms.Label();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.cancelButton = new System.Windows.Forms.Button();
+            this.OKbutton = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.SuspendLayout();
@@ -49,6 +49,23 @@
             this.panel1.Size = new System.Drawing.Size(314, 118);
             this.panel1.TabIndex = 0;
             // 
+            // TypeSelector
+            // 
+            this.TypeSelector.FormattingEnabled = true;
+            this.TypeSelector.Location = new System.Drawing.Point(16, 29);
+            this.TypeSelector.Name = "TypeSelector";
+            this.TypeSelector.Size = new System.Drawing.Size(286, 82);
+            this.TypeSelector.TabIndex = 1;
+            // 
+            // DialogLabel
+            // 
+            this.DialogLabel.AutoSize = true;
+            this.DialogLabel.Location = new System.Drawing.Point(13, 13);
+            this.DialogLabel.Name = "DialogLabel";
+            this.DialogLabel.Size = new System.Drawing.Size(150, 13);
+            this.DialogLabel.TabIndex = 0;
+            this.DialogLabel.Text = "Please select a type to create:";
+            // 
             // panel2
             // 
             this.panel2.Controls.Add(this.cancelButton);
@@ -58,16 +75,6 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(314, 43);
             this.panel2.TabIndex = 1;
-            // 
-            // OKbutton
-            // 
-            this.OKbutton.Location = new System.Drawing.Point(146, 6);
-            this.OKbutton.Name = "OKbutton";
-            this.OKbutton.Size = new System.Drawing.Size(75, 23);
-            this.OKbutton.TabIndex = 0;
-            this.OKbutton.Text = "OK";
-            this.OKbutton.UseVisualStyleBackColor = true;
-            this.OKbutton.Click += new System.EventHandler(this.OKbutton_Click);
             // 
             // cancelButton
             // 
@@ -79,22 +86,15 @@
             this.cancelButton.UseVisualStyleBackColor = true;
             this.cancelButton.Click += new System.EventHandler(this.CancelButton_Click);
             // 
-            // DialogLabel
+            // OKbutton
             // 
-            this.DialogLabel.AutoSize = true;
-            this.DialogLabel.Location = new System.Drawing.Point(13, 13);
-            this.DialogLabel.Name = "DialogLabel";
-            this.DialogLabel.Size = new System.Drawing.Size(150, 13);
-            this.DialogLabel.TabIndex = 0;
-            this.DialogLabel.Text = "Please select a type to create:";
-            // 
-            // TypeSelector
-            // 
-            this.TypeSelector.FormattingEnabled = true;
-            this.TypeSelector.Location = new System.Drawing.Point(16, 29);
-            this.TypeSelector.Name = "TypeSelector";
-            this.TypeSelector.Size = new System.Drawing.Size(286, 82);
-            this.TypeSelector.TabIndex = 1;
+            this.OKbutton.Location = new System.Drawing.Point(146, 6);
+            this.OKbutton.Name = "OKbutton";
+            this.OKbutton.Size = new System.Drawing.Size(75, 23);
+            this.OKbutton.TabIndex = 0;
+            this.OKbutton.Text = "OK";
+            this.OKbutton.UseVisualStyleBackColor = true;
+            this.OKbutton.Click += new System.EventHandler(this.OKbutton_Click);
             // 
             // NewFileSelector
             // 
@@ -108,6 +108,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "NewFileSelector";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "New";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.NewFileSelector_FormClosing);
             this.Load += new System.EventHandler(this.NewFileSelector_Load);
