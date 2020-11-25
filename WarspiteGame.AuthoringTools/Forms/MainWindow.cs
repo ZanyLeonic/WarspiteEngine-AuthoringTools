@@ -433,7 +433,7 @@ namespace WarspiteGame.AuthoringTools.Forms
             if (Properties.Settings.Default.AssetsPath == string.Empty
                 || Properties.Settings.Default.GameExecutable == string.Empty)
             {
-                MessageBox.Show("One or more paths are not set.\nPlease check your paths.", "First-time setup", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("One or more paths are not set.\nPlease check your paths.", AssemblyAccessors.AssemblyTitle, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 
                 ConfigWindow cw = new ConfigWindow();
                 cw.ShowDialog();
@@ -441,7 +441,7 @@ namespace WarspiteGame.AuthoringTools.Forms
             else if (!System.IO.Directory.Exists(Properties.Settings.Default.AssetsPath) 
                 || !System.IO.File.Exists(Properties.Settings.Default.GameExecutable))
             {
-                MessageBox.Show("One or more paths are invalid.\nPlease check your paths.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("One or more paths are invalid.\nPlease check your paths.", AssemblyAccessors.AssemblyTitle, MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                 ConfigWindow cw = new ConfigWindow();
                 cw.ShowDialog();

@@ -7,8 +7,6 @@ namespace WarspiteGame.AuthoringTools.Debugger
     {
         public static void AppendText(this RichTextBox box, string text, Color color)
         {
-            if (text == null) return;
-
             box.SelectionStart = box.TextLength;
             box.SelectionLength = 0;
 

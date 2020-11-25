@@ -1,19 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
+using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace WarspiteGame.AuthoringTools.Debugger.Forms
 {
     public partial class MainForm : Form
     {
+        private Color _debugColour = Color.FromArgb(51, 150, 221);
         private string _baseTitle = string.Format("Warspite Debugger ({0}/{1})", ToolMetadata.BuildNumber,
                                                     ToolMetadata.HeadDesc);
         private const string _drawOnTop = "Draw Ontop ({0})";
@@ -26,15 +22,28 @@ namespace WarspiteGame.AuthoringTools.Debugger.Forms
 
         private void UpdateMenuStrip()
         {
-            drawOntopToolStripMenuItem.Text = TopMost ? string.Format(_drawOnTop, "Enabled") : string.Format(_drawOnTop, "Disabled");
+            drawOnTopButton.Text = TopMost ? string.Format(_drawOnTop, "Enabled") : string.Format(_drawOnTop, "Disabled");
+
             saveOutputToolStripMenuItem.Enabled = stdOutput.TextLength > 0;
+            SaveLogButton.Enabled = stdOutput.TextLength > 0;
         }
 
         private void OpenExecutable()
         {
             if (_ofd.ShowDialog() == DialogResult.OK)
             {
+                // Better way to do this, however this needs to be pumped out NOW!
+                string args = "";
+                StringCollection data = Properties.Settings.Default.LaunchArguments;
+
+                for (int i = 0; i < data.Count; i++)
+                {
+                    args += data[i];
+                    if (i < data.Count - 1) args += " ";
+                }
+
                 _p.StartInfo.FileName = _ofd.FileName;
+                _p.StartInfo.Arguments = args;
                 _p.StartInfo.WorkingDirectory = new FileInfo(_ofd.FileName).Directory.FullName;
 
                 stdOutput.Clear();
@@ -46,8 +55,9 @@ namespace WarspiteGame.AuthoringTools.Debugger.Forms
 
                 _sw = _p.StandardInput;
 
-                killProcessToolStripMenuItem.Visible = true;
+                killProcessButton.Enabled = true;
                 openToolStripMenuItem.Enabled = false;
+                OpenToolButton.Enabled = false;
                 stdinPanel.Enabled = true;
 
                 UpdateMenuStrip();
@@ -107,6 +117,7 @@ namespace WarspiteGame.AuthoringTools.Debugger.Forms
         private void MainForm_Load(object sender, EventArgs e)
         {
             Text = _baseTitle;
+            stdOutput.BackColor = Color.Black;
             UpdateMenuStrip();
         }
 
@@ -142,19 +153,7 @@ namespace WarspiteGame.AuthoringTools.Debugger.Forms
 
         private void killProcessToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            DialogResult dr = MessageBox.Show(string.Format("Process \"{0}\" is still running! Kill it?",
-                    Path.GetFileName(_ofd.FileName)),
-                AssemblyAccessors.AssemblyTitle, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
-            switch (dr)
-            {
-                case DialogResult.Yes:
-                    if (!_p.HasExited)
-                        _p.Kill();
-                    break;
-                case DialogResult.No:
-                    break;
-            }
         }
 
         private void quitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -164,12 +163,16 @@ namespace WarspiteGame.AuthoringTools.Debugger.Forms
 
         private void RedirOutput(object sender, DataReceivedEventArgs args)
         {
-            if (stdOutput.InvokeRequired)
+            if (stdOutput.InvokeRequired && args.Data != null)
             {
                 stdOutput.Invoke(new MethodInvoker(delegate {
-                    stdOutput.AppendText(args.Data, Color.White);
+
+                    if (args.Data.Contains("[engine/debug]")) stdOutput.AppendText(args.Data, _debugColour);
+                    else if (args.Data.Contains("[engine/warn]")) stdOutput.AppendText(args.Data, Color.Yellow);
+                    else if (args.Data.Contains("[engine/error]")) stdOutput.AppendText(args.Data, Color.Red);
+                    else stdOutput.AppendText(args.Data, Color.White);
+
                     stdOutput.AppendText(Environment.NewLine);
-                    stdOutput.Select(stdOutput.TextLength - 1, 0);
                     stdOutput.ScrollToCaret();
                 }));
             }
@@ -177,7 +180,7 @@ namespace WarspiteGame.AuthoringTools.Debugger.Forms
 
         private void RedirError(object sender, DataReceivedEventArgs args)
         {
-            if (stdOutput.InvokeRequired)
+            if (stdOutput.InvokeRequired && args.Data != null)
             {
                 stdOutput.Invoke(new MethodInvoker(delegate {
                     stdOutput.AppendText(args.Data, Color.Red);
@@ -202,9 +205,10 @@ namespace WarspiteGame.AuthoringTools.Debugger.Forms
             if (InvokeRequired)
             {
                 Invoke(new MethodInvoker(delegate { 
-                    openToolStripMenuItem.Enabled = true; 
+                    openToolStripMenuItem.Enabled = true;
+                    OpenToolButton.Enabled = true;
                     stdinPanel.Enabled = false; 
-                    killProcessToolStripMenuItem.Visible = false;
+                    killProcessButton.Enabled = false;
                 }));
                 _p.CancelOutputRead();
                 _p.CancelErrorRead();
@@ -244,12 +248,7 @@ namespace WarspiteGame.AuthoringTools.Debugger.Forms
 
         private void drawOntopToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (TopMost)
-                TopMost = false;
-            else if (!TopMost)
-                TopMost = true;
 
-            UpdateMenuStrip();
         }
 
         private void MainForm_Paint(object sender, PaintEventArgs e)
@@ -262,6 +261,11 @@ namespace WarspiteGame.AuthoringTools.Debugger.Forms
             if (e.Modifiers == Keys.Control && e.KeyCode == Keys.O)
             {
                 OpenExecutable();
+            }
+
+            if (e.Modifiers == Keys.Control && e.KeyCode == Keys.S)
+            {
+                SaveLog();
             }
 
             if (e.Modifiers == Keys.Alt && e.KeyCode == Keys.A)
@@ -280,6 +284,50 @@ namespace WarspiteGame.AuthoringTools.Debugger.Forms
         private void mainStrip_Click(object sender, EventArgs e)
         {
             UpdateMenuStrip();
+        }
+
+        private void optionsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Options o = new Options();
+
+            o.TopMost = true;
+            o.ShowDialog();
+        }
+
+        private void drawOnTopButton_Click(object sender, EventArgs e)
+        {
+            if (TopMost)
+                TopMost = false;
+            else if (!TopMost)
+                TopMost = true;
+
+            UpdateMenuStrip();
+        }
+
+        private void killProcessButton_Click(object sender, EventArgs e)
+        {
+            DialogResult dr = MessageBox.Show(string.Format("Process \"{0}\" is still running! Kill it?",
+                                              Path.GetFileName(_ofd.FileName)), AssemblyAccessors.AssemblyTitle, 
+                                              MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            switch (dr)
+            {
+                case DialogResult.Yes:
+                    if (!_p.HasExited)
+                        _p.Kill();
+                    break;
+                case DialogResult.No:
+                    break;
+            }
+        }
+
+        private void OpenToolButton_Click(object sender, EventArgs e)
+        {
+            OpenExecutable();
+        }
+
+        private void SaveLogButton_Click(object sender, EventArgs e)
+        {
+            SaveLog();
         }
     }
 }

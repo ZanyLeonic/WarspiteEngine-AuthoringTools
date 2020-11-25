@@ -7,7 +7,7 @@ using WarspiteGame.AuthoringTools;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Warspite Authoring Tools")]
+[assembly: AssemblyTitle("WarspiteEngine Authoring Tools")]
 [assembly: AssemblyDescription("Authoring tools to make using Warspite easier.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("ZanyLeonic")]
