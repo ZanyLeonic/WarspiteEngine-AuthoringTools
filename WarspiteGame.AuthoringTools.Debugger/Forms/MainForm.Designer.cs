@@ -31,11 +31,9 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.mainStrip = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.quitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.killProcessToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.outputGBox = new System.Windows.Forms.GroupBox();
             this.stdOutput = new System.Windows.Forms.RichTextBox();
@@ -44,6 +42,9 @@
             this.stdinLabel = new System.Windows.Forms.Label();
             this.stdinEnter = new System.Windows.Forms.Button();
             this.stdinBox = new System.Windows.Forms.TextBox();
+            this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveOutputToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mainStrip.SuspendLayout();
             this.outputGBox.SuspendLayout();
             this.stdinPanel.SuspendLayout();
@@ -61,25 +62,18 @@
             this.mainStrip.Size = new System.Drawing.Size(800, 24);
             this.mainStrip.TabIndex = 0;
             this.mainStrip.Text = "menuStrip1";
+            this.mainStrip.Click += new System.EventHandler(this.mainStrip_Click);
             // 
             // fileToolStripMenuItem
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.openToolStripMenuItem,
+            this.saveOutputToolStripMenuItem,
             this.toolStripSeparator1,
             this.quitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem.Text = "File";
-            // 
-            // openToolStripMenuItem
-            // 
-            this.openToolStripMenuItem.Image = global::WarspiteGame.AuthoringTools.Debugger.Properties.Resources.OpenFolder_16x;
-            this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.openToolStripMenuItem.Text = "Open";
-            this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
@@ -89,6 +83,7 @@
             // quitToolStripMenuItem
             // 
             this.quitToolStripMenuItem.Name = "quitToolStripMenuItem";
+            this.quitToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4)));
             this.quitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.quitToolStripMenuItem.Text = "Quit";
             this.quitToolStripMenuItem.Click += new System.EventHandler(this.quitToolStripMenuItem_Click);
@@ -100,15 +95,6 @@
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
             this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             this.helpToolStripMenuItem.Text = "Help";
-            // 
-            // aboutToolStripMenuItem
-            // 
-            this.aboutToolStripMenuItem.Image = global::WarspiteGame.AuthoringTools.Debugger.Properties.Resources.WindowsForm_16x;
-            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.A)));
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.aboutToolStripMenuItem.Text = "About";
-            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
             // killProcessToolStripMenuItem
             // 
@@ -128,7 +114,7 @@
             this.outputGBox.Size = new System.Drawing.Size(800, 436);
             this.outputGBox.TabIndex = 1;
             this.outputGBox.TabStop = false;
-            this.outputGBox.Text = "stdout";
+            this.outputGBox.Text = "Application output";
             // 
             // stdOutput
             // 
@@ -168,9 +154,9 @@
             this.stdinLabel.Dock = System.Windows.Forms.DockStyle.Left;
             this.stdinLabel.Location = new System.Drawing.Point(1, 1);
             this.stdinLabel.Name = "stdinLabel";
-            this.stdinLabel.Size = new System.Drawing.Size(32, 23);
+            this.stdinLabel.Size = new System.Drawing.Size(40, 23);
             this.stdinLabel.TabIndex = 0;
-            this.stdinLabel.Text = "stdin:";
+            this.stdinLabel.Text = "Input:";
             this.stdinLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // stdinEnter
@@ -186,11 +172,40 @@
             // 
             // stdinBox
             // 
-            this.stdinBox.Location = new System.Drawing.Point(30, 3);
+            this.stdinBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.stdinBox.Location = new System.Drawing.Point(36, 3);
             this.stdinBox.Name = "stdinBox";
-            this.stdinBox.Size = new System.Drawing.Size(687, 20);
+            this.stdinBox.Size = new System.Drawing.Size(682, 20);
             this.stdinBox.TabIndex = 4;
             this.stdinBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.stdinBox_KeyDown);
+            // 
+            // openToolStripMenuItem
+            // 
+            this.openToolStripMenuItem.Image = global::WarspiteGame.AuthoringTools.Debugger.Properties.Resources.OpenFolder_16x;
+            this.openToolStripMenuItem.Name = "openToolStripMenuItem";
+            this.openToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.openToolStripMenuItem.Text = "Open";
+            this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
+            // 
+            // saveOutputToolStripMenuItem
+            // 
+            this.saveOutputToolStripMenuItem.Image = global::WarspiteGame.AuthoringTools.Debugger.Properties.Resources.Save_16x;
+            this.saveOutputToolStripMenuItem.Name = "saveOutputToolStripMenuItem";
+            this.saveOutputToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
+            this.saveOutputToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveOutputToolStripMenuItem.Text = "Save Output";
+            this.saveOutputToolStripMenuItem.Click += new System.EventHandler(this.saveOutputToolStripMenuItem_Click);
+            // 
+            // aboutToolStripMenuItem
+            // 
+            this.aboutToolStripMenuItem.Image = global::WarspiteGame.AuthoringTools.Debugger.Properties.Resources.WindowsForm_16x;
+            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
+            this.aboutToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.A)));
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
+            this.aboutToolStripMenuItem.Text = "About";
+            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -235,6 +250,7 @@
         private System.Windows.Forms.TextBox stdinBox;
         private System.Windows.Forms.Button stdinEnter;
         private System.Windows.Forms.Label stdinLabel;
+        private System.Windows.Forms.ToolStripMenuItem saveOutputToolStripMenuItem;
     }
 }
 

@@ -17,14 +17,17 @@ namespace WarspiteGame.AuthoringTools.Debugger.Forms
         private string _baseTitle = string.Format("Warspite Debugger ({0}/{1})", ToolMetadata.BuildNumber,
                                                     ToolMetadata.HeadDesc);
         private const string _drawOnTop = "Draw Ontop ({0})";
+        
         private OpenFileDialog _ofd;
+        private SaveFileDialog _sfd;
 
         Process _p;
         StreamWriter _sw;
 
-        private void ChangeOnTopText()
+        private void UpdateMenuStrip()
         {
             drawOntopToolStripMenuItem.Text = TopMost ? string.Format(_drawOnTop, "Enabled") : string.Format(_drawOnTop, "Disabled");
+            saveOutputToolStripMenuItem.Enabled = stdOutput.TextLength > 0;
         }
 
         private void OpenExecutable()
@@ -47,7 +50,24 @@ namespace WarspiteGame.AuthoringTools.Debugger.Forms
                 openToolStripMenuItem.Enabled = false;
                 stdinPanel.Enabled = true;
 
-                ChangeOnTopText();
+                UpdateMenuStrip();
+            }
+        }
+
+        private void SaveLog()
+        {
+            if (_sfd.ShowDialog() == DialogResult.OK)
+            {
+                FileInfo fi = new FileInfo(_sfd.FileName);
+
+                if (fi.Extension == ".rtf")
+                {
+                    stdOutput.SaveFile(_sfd.FileName);
+                }
+                else
+                {
+                    File.WriteAllText(_sfd.FileName, stdOutput.Text);
+                }
             }
         }
 
@@ -56,13 +76,19 @@ namespace WarspiteGame.AuthoringTools.Debugger.Forms
             InitializeComponent();
 
             TopMost = Properties.Settings.Default.DrawOnTop;
-            ChangeOnTopText();
+            UpdateMenuStrip();
 
             _ofd = new OpenFileDialog();
 
             _ofd.FileName = "";
             _ofd.Title = "Open";
             _ofd.Filter = "Executable Files|*.exe|All Files |*.*";
+
+            _sfd = new SaveFileDialog();
+
+            _sfd.FileName = "";
+            _sfd.Title = "Save";
+            _sfd.Filter = "Rich Text files|*.rtf|Text files|*.txt|All Files |*.*";
 
             _p = new Process();
 
@@ -81,7 +107,7 @@ namespace WarspiteGame.AuthoringTools.Debugger.Forms
         private void MainForm_Load(object sender, EventArgs e)
         {
             Text = _baseTitle;
-            ChangeOnTopText();
+            UpdateMenuStrip();
         }
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
@@ -223,12 +249,12 @@ namespace WarspiteGame.AuthoringTools.Debugger.Forms
             else if (!TopMost)
                 TopMost = true;
 
-            ChangeOnTopText();
+            UpdateMenuStrip();
         }
 
         private void MainForm_Paint(object sender, PaintEventArgs e)
         {
-            ChangeOnTopText();
+            UpdateMenuStrip();
         }
 
         private void MainForm_KeyDown(object sender, KeyEventArgs e)
@@ -244,6 +270,16 @@ namespace WarspiteGame.AuthoringTools.Debugger.Forms
 
                 ab.ShowDialog();
             }
+        }
+
+        private void saveOutputToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SaveLog();
+        }
+
+        private void mainStrip_Click(object sender, EventArgs e)
+        {
+            UpdateMenuStrip();
         }
     }
 }
