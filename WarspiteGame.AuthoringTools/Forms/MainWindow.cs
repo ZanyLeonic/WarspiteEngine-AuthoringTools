@@ -365,7 +365,20 @@ namespace WarspiteGame.AuthoringTools.Forms
 
         private void LaunchEngine()
         {
-            if (System.IO.File.Exists(Properties.Settings.Default.GameExecutable))
+            string _debugger = Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), "WarspiteGame.AuthoringTools.Debugger.exe");
+
+            if (File.Exists(_debugger) && File.Exists(Properties.Settings.Default.GameExecutable))
+            {
+                System.Diagnostics.Process p = new System.Diagnostics.Process();
+                
+                p.StartInfo.WorkingDirectory = Path.GetFullPath(_debugger).Replace(
+                    Path.GetFileName(_debugger), "");
+                p.StartInfo.FileName = _debugger;
+                p.StartInfo.Arguments = Properties.Settings.Default.GameExecutable;
+
+                p.Start();
+            }
+            else if (System.IO.File.Exists(Properties.Settings.Default.GameExecutable))
             {
                 System.Diagnostics.Process p = new System.Diagnostics.Process();
                 p.StartInfo.WorkingDirectory = Path.GetFullPath(Properties.Settings.Default.GameExecutable).Replace(

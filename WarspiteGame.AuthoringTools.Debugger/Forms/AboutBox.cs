@@ -39,7 +39,7 @@ namespace WarspiteGame.AuthoringTools.Debugger.Forms
             this.labelVersion.Text = String.Format("Version {0} ({1}/{2})", AssemblyAccessors.AssemblyVersion, ToolMetadata.BuildNumber, ToolMetadata.HeadDesc);
             this.labelCopyright.Text = AssemblyAccessors.AssemblyCopyright;
             this.labelCompanyName.Text = AssemblyAccessors.AssemblyCompany;
-            this.textBoxDescription.Text = String.Format("{0}{3}{3}Build date:{3}{1}{3}Commit:{3}{2}{3}{3}Made in C# in a day lol.",
+            this.textBoxDescription.Text = String.Format("{0}{3}Build date:{3}{1}{3}Commit:{3}{2}{3}{3}Made in C# in a day lol.",
                 AssemblyAccessors.AssemblyDescription, dTO.ToString("U"), ToolMetadata.HeadSha1, Environment.NewLine);
 
             Random rn = new Random();

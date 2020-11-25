@@ -156,6 +156,12 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Rerun_16x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ClearWindowContent_16x.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>py -3 $(ProjectDir)ToolMetadata.py</PreBuildEvent>

@@ -31,14 +31,10 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.mainStrip = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.saveOutputToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.quitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.outputGBox = new System.Windows.Forms.GroupBox();
             this.stdOutput = new System.Windows.Forms.RichTextBox();
             this.stdinPanel = new System.Windows.Forms.Panel();
@@ -46,12 +42,19 @@
             this.stdinEnter = new System.Windows.Forms.Button();
             this.stdinLabel = new System.Windows.Forms.Label();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.drawOnTopButton = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.killProcessButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.OpenToolButton = new System.Windows.Forms.ToolStripButton();
             this.SaveLogButton = new System.Windows.Forms.ToolStripButton();
+            this.drawOnTopButton = new System.Windows.Forms.ToolStripButton();
+            this.killProcessButton = new System.Windows.Forms.ToolStripButton();
+            this.reOpenButton = new System.Windows.Forms.ToolStripButton();
+            this.clearOutputBtn = new System.Windows.Forms.ToolStripButton();
+            this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveOutputToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.mainStrip.SuspendLayout();
             this.outputGBox.SuspendLayout();
             this.stdinPanel.SuspendLayout();
@@ -82,34 +85,16 @@
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem.Text = "File";
             // 
-            // openToolStripMenuItem
-            // 
-            this.openToolStripMenuItem.Image = global::WarspiteGame.AuthoringTools.Debugger.Properties.Resources.OpenFolder_16x;
-            this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.openToolStripMenuItem.Text = "Open";
-            this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
-            // 
-            // saveOutputToolStripMenuItem
-            // 
-            this.saveOutputToolStripMenuItem.Image = global::WarspiteGame.AuthoringTools.Debugger.Properties.Resources.Save_16x;
-            this.saveOutputToolStripMenuItem.Name = "saveOutputToolStripMenuItem";
-            this.saveOutputToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.saveOutputToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.saveOutputToolStripMenuItem.Text = "Save Output";
-            this.saveOutputToolStripMenuItem.Click += new System.EventHandler(this.saveOutputToolStripMenuItem_Click);
-            // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(176, 6);
             // 
             // quitToolStripMenuItem
             // 
             this.quitToolStripMenuItem.Name = "quitToolStripMenuItem";
             this.quitToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4)));
-            this.quitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.quitToolStripMenuItem.Size = new System.Drawing.Size(179, 22);
             this.quitToolStripMenuItem.Text = "Quit";
             this.quitToolStripMenuItem.Click += new System.EventHandler(this.quitToolStripMenuItem_Click);
             // 
@@ -121,15 +106,6 @@
             this.toolsToolStripMenuItem.Size = new System.Drawing.Size(46, 20);
             this.toolsToolStripMenuItem.Text = "Tools";
             // 
-            // optionsToolStripMenuItem
-            // 
-            this.optionsToolStripMenuItem.Image = global::WarspiteGame.AuthoringTools.Debugger.Properties.Resources.ConfigurationFile_16x;
-            this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-            this.optionsToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.O)));
-            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.optionsToolStripMenuItem.Text = "Options";
-            this.optionsToolStripMenuItem.Click += new System.EventHandler(this.optionsToolStripMenuItem_Click);
-            // 
             // helpToolStripMenuItem
             // 
             this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -137,15 +113,6 @@
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
             this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             this.helpToolStripMenuItem.Text = "Help";
-            // 
-            // aboutToolStripMenuItem
-            // 
-            this.aboutToolStripMenuItem.Image = global::WarspiteGame.AuthoringTools.Debugger.Properties.Resources.WindowsForm_16x;
-            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.A)));
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.aboutToolStripMenuItem.Text = "About";
-            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
             // outputGBox
             // 
@@ -221,41 +188,25 @@
             this.toolStripSeparator3,
             this.drawOnTopButton,
             this.toolStripSeparator2,
-            this.killProcessButton});
+            this.killProcessButton,
+            this.reOpenButton,
+            this.toolStripSeparator5,
+            this.clearOutputBtn});
             this.toolStrip1.Location = new System.Drawing.Point(0, 24);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(800, 25);
             this.toolStrip1.TabIndex = 2;
             this.toolStrip1.Text = "toolStrip1";
             // 
-            // drawOnTopButton
-            // 
-            this.drawOnTopButton.Image = global::WarspiteGame.AuthoringTools.Debugger.Properties.Resources.Win32Project_16x;
-            this.drawOnTopButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.drawOnTopButton.Name = "drawOnTopButton";
-            this.drawOnTopButton.Size = new System.Drawing.Size(91, 22);
-            this.drawOnTopButton.Text = "Draw Ontop";
-            this.drawOnTopButton.Click += new System.EventHandler(this.drawOnTopButton_Click);
-            // 
-            // toolStripSeparator2
-            // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
-            // 
-            // killProcessButton
-            // 
-            this.killProcessButton.Enabled = false;
-            this.killProcessButton.Image = global::WarspiteGame.AuthoringTools.Debugger.Properties.Resources.DeleteEvent_16x;
-            this.killProcessButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.killProcessButton.Name = "killProcessButton";
-            this.killProcessButton.Size = new System.Drawing.Size(86, 22);
-            this.killProcessButton.Text = "Kill Process";
-            this.killProcessButton.Click += new System.EventHandler(this.killProcessButton_Click);
-            // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
             this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
+            // 
+            // toolStripSeparator5
+            // 
+            this.toolStripSeparator5.Name = "toolStripSeparator5";
+            this.toolStripSeparator5.Size = new System.Drawing.Size(6, 25);
             // 
             // OpenToolButton
             // 
@@ -276,6 +227,85 @@
             this.SaveLogButton.Size = new System.Drawing.Size(23, 22);
             this.SaveLogButton.Text = "Save Log";
             this.SaveLogButton.Click += new System.EventHandler(this.SaveLogButton_Click);
+            // 
+            // drawOnTopButton
+            // 
+            this.drawOnTopButton.Image = global::WarspiteGame.AuthoringTools.Debugger.Properties.Resources.Win32Project_16x;
+            this.drawOnTopButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.drawOnTopButton.Name = "drawOnTopButton";
+            this.drawOnTopButton.Size = new System.Drawing.Size(91, 22);
+            this.drawOnTopButton.Text = "Draw Ontop";
+            this.drawOnTopButton.Click += new System.EventHandler(this.drawOnTopButton_Click);
+            // 
+            // killProcessButton
+            // 
+            this.killProcessButton.Enabled = false;
+            this.killProcessButton.Image = global::WarspiteGame.AuthoringTools.Debugger.Properties.Resources.DeleteEvent_16x;
+            this.killProcessButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.killProcessButton.Name = "killProcessButton";
+            this.killProcessButton.Size = new System.Drawing.Size(86, 22);
+            this.killProcessButton.Text = "Kill Process";
+            this.killProcessButton.Click += new System.EventHandler(this.killProcessButton_Click);
+            // 
+            // reOpenButton
+            // 
+            this.reOpenButton.Enabled = false;
+            this.reOpenButton.Image = global::WarspiteGame.AuthoringTools.Debugger.Properties.Resources.Rerun_16x;
+            this.reOpenButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.reOpenButton.Name = "reOpenButton";
+            this.reOpenButton.Size = new System.Drawing.Size(148, 22);
+            this.reOpenButton.Text = "Reopen last executable";
+            this.reOpenButton.Click += new System.EventHandler(this.reOpenButton_Click);
+            // 
+            // clearOutputBtn
+            // 
+            this.clearOutputBtn.Image = global::WarspiteGame.AuthoringTools.Debugger.Properties.Resources.ClearWindowContent_16x;
+            this.clearOutputBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.clearOutputBtn.Name = "clearOutputBtn";
+            this.clearOutputBtn.Size = new System.Drawing.Size(77, 22);
+            this.clearOutputBtn.Text = "Clear Log";
+            this.clearOutputBtn.Click += new System.EventHandler(this.clearOutputBtn_Click);
+            // 
+            // openToolStripMenuItem
+            // 
+            this.openToolStripMenuItem.Image = global::WarspiteGame.AuthoringTools.Debugger.Properties.Resources.OpenFolder_16x;
+            this.openToolStripMenuItem.Name = "openToolStripMenuItem";
+            this.openToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(179, 22);
+            this.openToolStripMenuItem.Text = "Open";
+            this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
+            // 
+            // saveOutputToolStripMenuItem
+            // 
+            this.saveOutputToolStripMenuItem.Image = global::WarspiteGame.AuthoringTools.Debugger.Properties.Resources.Save_16x;
+            this.saveOutputToolStripMenuItem.Name = "saveOutputToolStripMenuItem";
+            this.saveOutputToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
+            this.saveOutputToolStripMenuItem.Size = new System.Drawing.Size(179, 22);
+            this.saveOutputToolStripMenuItem.Text = "Save Output";
+            this.saveOutputToolStripMenuItem.Click += new System.EventHandler(this.saveOutputToolStripMenuItem_Click);
+            // 
+            // optionsToolStripMenuItem
+            // 
+            this.optionsToolStripMenuItem.Image = global::WarspiteGame.AuthoringTools.Debugger.Properties.Resources.ConfigurationFile_16x;
+            this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
+            this.optionsToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.O)));
+            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
+            this.optionsToolStripMenuItem.Text = "Options";
+            this.optionsToolStripMenuItem.Click += new System.EventHandler(this.optionsToolStripMenuItem_Click);
+            // 
+            // aboutToolStripMenuItem
+            // 
+            this.aboutToolStripMenuItem.Image = global::WarspiteGame.AuthoringTools.Debugger.Properties.Resources.WindowsForm_16x;
+            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
+            this.aboutToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.A)));
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
+            this.aboutToolStripMenuItem.Text = "About";
+            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
             // 
             // MainForm
             // 
@@ -326,11 +356,14 @@
         private System.Windows.Forms.ToolStripMenuItem optionsToolStripMenuItem;
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.ToolStripButton drawOnTopButton;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripButton killProcessButton;
         private System.Windows.Forms.ToolStripButton OpenToolButton;
         private System.Windows.Forms.ToolStripButton SaveLogButton;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+        private System.Windows.Forms.ToolStripButton reOpenButton;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
+        private System.Windows.Forms.ToolStripButton clearOutputBtn;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
     }
 }
 

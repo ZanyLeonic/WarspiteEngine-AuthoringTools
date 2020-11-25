@@ -13,6 +13,7 @@ namespace WarspiteGame.AuthoringTools.Debugger.Forms
         private string _baseTitle = string.Format("Warspite Debugger ({0}/{1})", ToolMetadata.BuildNumber,
                                                     ToolMetadata.HeadDesc);
         private const string _drawOnTop = "Draw Ontop ({0})";
+        private string _lastPath = "";
         
         private OpenFileDialog _ofd;
         private SaveFileDialog _sfd;
@@ -28,40 +29,60 @@ namespace WarspiteGame.AuthoringTools.Debugger.Forms
             SaveLogButton.Enabled = stdOutput.TextLength > 0;
         }
 
+        private void OpenProcess(string fileName)
+        {
+            // Better way to do this, however this needs to be pumped out NOW!
+            string args = "";
+            StringCollection data = Properties.Settings.Default.LaunchArguments;
+
+            for (int i = 0; i < data.Count; i++)
+            {
+                args += data[i];
+                if (i < data.Count - 1) args += " ";
+            }
+
+            _lastPath = fileName;
+            _p.StartInfo.FileName = fileName;
+            _p.StartInfo.Arguments = args;
+            _p.StartInfo.WorkingDirectory = new FileInfo(fileName).Directory.FullName;
+
+            stdOutput.AppendText(string.Format("***** Execution of \"{0}\" at {1} *****", Path.GetFileName(_lastPath), DateTime.Now.ToString("U")), Color.Orange);
+            stdOutput.AppendText(Environment.NewLine);
+
+            _p.Start();
+
+            _p.BeginOutputReadLine();
+            _p.BeginErrorReadLine();
+
+            _sw = _p.StandardInput;
+
+            killProcessButton.Enabled = true;
+            reOpenButton.Enabled = false;
+            openToolStripMenuItem.Enabled = false;
+            OpenToolButton.Enabled = false;
+            stdinPanel.Enabled = true;
+
+            UpdateMenuStrip();
+        }
+
         private void OpenExecutable()
         {
             if (_ofd.ShowDialog() == DialogResult.OK)
             {
-                // Better way to do this, however this needs to be pumped out NOW!
-                string args = "";
-                StringCollection data = Properties.Settings.Default.LaunchArguments;
-
-                for (int i = 0; i < data.Count; i++)
-                {
-                    args += data[i];
-                    if (i < data.Count - 1) args += " ";
-                }
-
-                _p.StartInfo.FileName = _ofd.FileName;
-                _p.StartInfo.Arguments = args;
-                _p.StartInfo.WorkingDirectory = new FileInfo(_ofd.FileName).Directory.FullName;
-
-                stdOutput.Clear();
-
-                _p.Start();
-
-                _p.BeginOutputReadLine();
-                _p.BeginErrorReadLine();
-
-                _sw = _p.StandardInput;
-
-                killProcessButton.Enabled = true;
-                openToolStripMenuItem.Enabled = false;
-                OpenToolButton.Enabled = false;
-                stdinPanel.Enabled = true;
-
-                UpdateMenuStrip();
+                OpenProcess(_ofd.FileName);
             }
+        }
+
+        public void CheckLaunchParams()
+        {
+            string[] arguments = Environment.GetCommandLineArgs();
+
+            // If we just have the exe, ignore.
+            if (arguments.Length <= 1) return;
+
+            string fileName = arguments[1];
+
+            OpenProcess(fileName);
         }
 
         private void SaveLog()
@@ -111,7 +132,9 @@ namespace WarspiteGame.AuthoringTools.Debugger.Forms
             _p.Exited += ProcessExited;
 
             _p.OutputDataReceived += RedirOutput;
-            _p.ErrorDataReceived += RedirError;   
+            _p.ErrorDataReceived += RedirError;
+
+            CheckLaunchParams();
         }
 
         private void MainForm_Load(object sender, EventArgs e)
@@ -209,6 +232,10 @@ namespace WarspiteGame.AuthoringTools.Debugger.Forms
                     OpenToolButton.Enabled = true;
                     stdinPanel.Enabled = false; 
                     killProcessButton.Enabled = false;
+                    reOpenButton.Enabled = true;
+
+                    stdOutput.AppendText(string.Format("***** Execution of \"{0}\" ended at {1} *****", Path.GetFileName(_lastPath), DateTime.Now.ToString("U")), Color.Orange);
+                    stdOutput.AppendText(Environment.NewLine);
                 }));
                 _p.CancelOutputRead();
                 _p.CancelErrorRead();
@@ -220,7 +247,7 @@ namespace WarspiteGame.AuthoringTools.Debugger.Forms
             if (!_p.IsRunning()) Environment.Exit(0);
 
             DialogResult dr = MessageBox.Show(string.Format("Process \"{0}\" is still running! Kill it?",
-                Path.GetFileName(_ofd.FileName)),
+                Path.GetFileName(_lastPath)),
             AssemblyAccessors.AssemblyTitle, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
             switch (dr)
@@ -307,7 +334,7 @@ namespace WarspiteGame.AuthoringTools.Debugger.Forms
         private void killProcessButton_Click(object sender, EventArgs e)
         {
             DialogResult dr = MessageBox.Show(string.Format("Process \"{0}\" is still running! Kill it?",
-                                              Path.GetFileName(_ofd.FileName)), AssemblyAccessors.AssemblyTitle, 
+                                              Path.GetFileName(_lastPath)), AssemblyAccessors.AssemblyTitle, 
                                               MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             switch (dr)
             {
@@ -328,6 +355,16 @@ namespace WarspiteGame.AuthoringTools.Debugger.Forms
         private void SaveLogButton_Click(object sender, EventArgs e)
         {
             SaveLog();
+        }
+
+        private void reOpenButton_Click(object sender, EventArgs e)
+        {
+            OpenProcess(_lastPath);
+        }
+
+        private void clearOutputBtn_Click(object sender, EventArgs e)
+        {
+            stdOutput.Clear();
         }
     }
 }

@@ -63,6 +63,16 @@ namespace WarspiteGame.AuthoringTools.Debugger.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap ClearWindowContent_16x {
+            get {
+                object obj = ResourceManager.GetObject("ClearWindowContent_16x", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap ConfigurationFile_16x {
             get {
                 object obj = ResourceManager.GetObject("ConfigurationFile_16x", resourceCulture);
@@ -106,6 +116,16 @@ namespace WarspiteGame.AuthoringTools.Debugger.Properties {
         internal static System.Drawing.Bitmap OpenFolder_16x {
             get {
                 object obj = ResourceManager.GetObject("OpenFolder_16x", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Rerun_16x {
+            get {
+                object obj = ResourceManager.GetObject("Rerun_16x", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
