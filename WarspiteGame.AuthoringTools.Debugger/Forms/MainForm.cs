@@ -38,6 +38,7 @@ namespace WarspiteGame.AuthoringTools.Debugger.Forms
             _p.StartInfo.RedirectStandardOutput = true;
             _p.StartInfo.RedirectStandardError = true;
             _p.StartInfo.RedirectStandardInput = true;
+            _p.EnableRaisingEvents = true;
             _p.Exited += ProcessExited;
 
             _p.OutputDataReceived += RedirOutput;
@@ -119,9 +120,11 @@ namespace WarspiteGame.AuthoringTools.Debugger.Forms
         {
             if (richTextBox1.InvokeRequired)
             {
-                //richTextBox1.ForeColor = Color.Black;
-                richTextBox1.Invoke(new MethodInvoker(delegate { richTextBox1.Text += args.Data; }));
-                richTextBox1.Invoke(new MethodInvoker(delegate { richTextBox1.Text += Environment.NewLine; }));
+                richTextBox1.Invoke(new MethodInvoker(delegate {
+                    richTextBox1.ForeColor = Color.White;
+                    richTextBox1.Text += args.Data; 
+                    richTextBox1.Text += Environment.NewLine; 
+                }));
             }
         }
 
@@ -129,8 +132,12 @@ namespace WarspiteGame.AuthoringTools.Debugger.Forms
         {
             if (richTextBox1.InvokeRequired)
             {
-                richTextBox1.Invoke(new MethodInvoker(delegate { richTextBox1.Text += args.Data; }));
-                richTextBox1.Invoke(new MethodInvoker(delegate { richTextBox1.Text += Environment.NewLine; }));
+                richTextBox1.Invoke(new MethodInvoker(delegate {
+                    richTextBox1.ForeColor = Color.Red;
+                    richTextBox1.Text += args.Data; 
+                    richTextBox1.Text += Environment.NewLine;
+                    richTextBox1.SelectionStart = richTextBox1.Text.Length - 1;
+                }));
             }
         }
 
@@ -144,9 +151,16 @@ namespace WarspiteGame.AuthoringTools.Debugger.Forms
 
         private void ProcessExited(object sender, EventArgs args)
         {
-            openToolStripMenuItem.Enabled = true;
-            stdinPanel.Enabled = false;
-            killProcessToolStripMenuItem.Visible = false;
+            if (InvokeRequired)
+            {
+                Invoke(new MethodInvoker(delegate { 
+                    openToolStripMenuItem.Enabled = true; 
+                    stdinPanel.Enabled = false; 
+                    killProcessToolStripMenuItem.Visible = false;
+                }));
+                _p.CancelOutputRead();
+                _p.CancelErrorRead();
+            }
         }
 
         private void ExitPrompt()
@@ -159,7 +173,11 @@ namespace WarspiteGame.AuthoringTools.Debugger.Forms
             {
                 case DialogResult.Yes:
                     if (!_p.HasExited)
+                    {
                         _p.Kill();
+                        _p.CancelOutputRead();
+                        _p.CancelErrorRead();
+                    }
                     Environment.Exit(0);
                     break;
                 case DialogResult.No:
