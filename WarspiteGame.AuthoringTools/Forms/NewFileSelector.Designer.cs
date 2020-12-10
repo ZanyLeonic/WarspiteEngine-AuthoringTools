@@ -78,11 +78,12 @@
             // 
             // cancelButton
             // 
+            this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.cancelButton.Location = new System.Drawing.Point(227, 6);
             this.cancelButton.Name = "cancelButton";
             this.cancelButton.Size = new System.Drawing.Size(75, 23);
             this.cancelButton.TabIndex = 1;
-            this.cancelButton.Text = "Cancel";
+            this.cancelButton.Text = "&Cancel";
             this.cancelButton.UseVisualStyleBackColor = true;
             this.cancelButton.Click += new System.EventHandler(this.CancelButton_Click);
             // 
@@ -92,14 +93,16 @@
             this.OKbutton.Name = "OKbutton";
             this.OKbutton.Size = new System.Drawing.Size(75, 23);
             this.OKbutton.TabIndex = 0;
-            this.OKbutton.Text = "OK";
+            this.OKbutton.Text = "&OK";
             this.OKbutton.UseVisualStyleBackColor = true;
             this.OKbutton.Click += new System.EventHandler(this.OKbutton_Click);
             // 
             // NewFileSelector
             // 
+            this.AcceptButton = this.OKbutton;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.cancelButton;
             this.ClientSize = new System.Drawing.Size(314, 161);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);

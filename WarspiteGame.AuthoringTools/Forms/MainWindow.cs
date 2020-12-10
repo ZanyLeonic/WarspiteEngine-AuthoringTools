@@ -71,6 +71,32 @@ namespace WarspiteGame.AuthoringTools.Forms
             // If we just have the exe, ignore.
             if (arguments.Length <= 1) return;
 
+            // We are being called by the setup!
+            if (arguments[1] == "/setup")
+            {
+                // assume this
+                string exe = arguments[2];
+                string assets = arguments[3];
+
+                if (!File.Exists(exe))
+                {
+                    File.WriteAllText(@"C:\Users\Kurisu\Desktop\exe doesnt exist.txt", exe + Environment.NewLine + assets);
+                    Environment.Exit(-1);
+                }
+                if (!Directory.Exists(assets))
+                {
+                    File.WriteAllText(@"C:\Users\Kurisu\Desktop\assets doesnt exist.txt", exe + Environment.NewLine + assets);
+                    Environment.Exit(-1);
+                }
+
+                // Save these and exit.
+                Properties.Settings.Default.GameExecutable = exe;
+                Properties.Settings.Default.AssetsPath = assets;
+                Properties.Settings.Default.Save();
+
+                Environment.Exit(0);
+            }
+
             string fileName = arguments[1];
 
             // Check if the path given exists
