@@ -58,3 +58,12 @@ steps:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: 'drop'
     publishLocation: 'Container'
+- task: UniversalPackages@0
+  inputs:
+    command: 'publish'
+    publishDirectory: '$(Build.ArtifactStagingDirectory)'
+    feedsToUsePublish: 'internal'
+    vstsFeedPublish: '55e16e5e-fe3a-4148-a1b4-040681908830'
+    vstsFeedPackagePublish: 'AuthoringTools'
+    versionOption: 'patch'
+    packagePublishDescription: 'A build of Authoring tools'
