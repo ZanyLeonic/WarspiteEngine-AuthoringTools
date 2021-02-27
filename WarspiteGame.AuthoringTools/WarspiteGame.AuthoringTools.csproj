@@ -8,7 +8,7 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>WarspiteGame.AuthoringTools</RootNamespace>
     <AssemblyName>WarspiteGame.AuthoringTools</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>false</Deterministic>
@@ -27,6 +27,7 @@
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -37,6 +38,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -46,28 +48,40 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Images\icon.ico</ApplicationIcon>
+    <ApplicationIcon>icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Ookii.Dialogs">
+      <HintPath>lib\Ookii.Dialogs.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Messaging" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
-    <Reference Include="System.Net.Http" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyAccessors.cs" />
+    <Compile Include="Converters\NoTypeConverterJsonConverter.cs" />
+    <Compile Include="Forms\ConfigWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ConfigWindow.Designer.cs">
+      <DependentUpon>ConfigWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Editors\AssetPathEditor.cs" />
     <Compile Include="Formats\FontFile.cs" />
     <Compile Include="Formats\ToolUtil.cs" />
     <Compile Include="Forms\AboutBox.cs">
@@ -75,6 +89,13 @@
     </Compile>
     <Compile Include="Forms\AboutBox.Designer.cs">
       <DependentUpon>AboutBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Editors\ObjectContainerEditor.cs" />
+    <Compile Include="Forms\ObjectContainerEditorForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ObjectContainerEditorForm.Designer.cs">
+      <DependentUpon>ObjectContainerEditorForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\MainWindow.cs">
       <SubType>Form</SubType>
@@ -94,6 +115,12 @@
     <Compile Include="ToolMetadata.cs" />
     <EmbeddedResource Include="Forms\AboutBox.resx">
       <DependentUpon>AboutBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ConfigWindow.resx">
+      <DependentUpon>ConfigWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ObjectContainerEditorForm.resx">
+      <DependentUpon>ObjectContainerEditorForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\MainWindow.resx">
       <DependentUpon>MainWindow.cs</DependentUpon>
@@ -154,6 +181,39 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Images\NewFile_16x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Images\OpenFolder_16x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Images\Save_16x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Images\SaveAs_16x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Images\WindowsForm_16x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Images\Copy_16x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Images\DeleteProperty_16x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Images\NewProperty_16x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Images\ConfigurationFile_16x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Images\Run_16x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="icon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

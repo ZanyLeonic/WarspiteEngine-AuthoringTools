@@ -30,11 +30,11 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(NewFileSelector));
             this.panel1 = new System.Windows.Forms.Panel();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.OKbutton = new System.Windows.Forms.Button();
-            this.cancelButton = new System.Windows.Forms.Button();
-            this.DialogLabel = new System.Windows.Forms.Label();
             this.TypeSelector = new System.Windows.Forms.ListBox();
+            this.DialogLabel = new System.Windows.Forms.Label();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.cancelButton = new System.Windows.Forms.Button();
+            this.OKbutton = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.SuspendLayout();
@@ -49,35 +49,13 @@
             this.panel1.Size = new System.Drawing.Size(314, 118);
             this.panel1.TabIndex = 0;
             // 
-            // panel2
+            // TypeSelector
             // 
-            this.panel2.Controls.Add(this.cancelButton);
-            this.panel2.Controls.Add(this.OKbutton);
-            this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel2.Location = new System.Drawing.Point(0, 118);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(314, 43);
-            this.panel2.TabIndex = 1;
-            // 
-            // OKbutton
-            // 
-            this.OKbutton.Location = new System.Drawing.Point(146, 6);
-            this.OKbutton.Name = "OKbutton";
-            this.OKbutton.Size = new System.Drawing.Size(75, 23);
-            this.OKbutton.TabIndex = 0;
-            this.OKbutton.Text = "OK";
-            this.OKbutton.UseVisualStyleBackColor = true;
-            this.OKbutton.Click += new System.EventHandler(this.OKbutton_Click);
-            // 
-            // cancelButton
-            // 
-            this.cancelButton.Location = new System.Drawing.Point(227, 6);
-            this.cancelButton.Name = "cancelButton";
-            this.cancelButton.Size = new System.Drawing.Size(75, 23);
-            this.cancelButton.TabIndex = 1;
-            this.cancelButton.Text = "Cancel";
-            this.cancelButton.UseVisualStyleBackColor = true;
-            this.cancelButton.Click += new System.EventHandler(this.CancelButton_Click);
+            this.TypeSelector.FormattingEnabled = true;
+            this.TypeSelector.Location = new System.Drawing.Point(16, 29);
+            this.TypeSelector.Name = "TypeSelector";
+            this.TypeSelector.Size = new System.Drawing.Size(286, 82);
+            this.TypeSelector.TabIndex = 1;
             // 
             // DialogLabel
             // 
@@ -88,18 +66,43 @@
             this.DialogLabel.TabIndex = 0;
             this.DialogLabel.Text = "Please select a type to create:";
             // 
-            // TypeSelector
+            // panel2
             // 
-            this.TypeSelector.FormattingEnabled = true;
-            this.TypeSelector.Location = new System.Drawing.Point(16, 29);
-            this.TypeSelector.Name = "TypeSelector";
-            this.TypeSelector.Size = new System.Drawing.Size(286, 82);
-            this.TypeSelector.TabIndex = 1;
+            this.panel2.Controls.Add(this.cancelButton);
+            this.panel2.Controls.Add(this.OKbutton);
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel2.Location = new System.Drawing.Point(0, 118);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(314, 43);
+            this.panel2.TabIndex = 1;
+            // 
+            // cancelButton
+            // 
+            this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.cancelButton.Location = new System.Drawing.Point(227, 6);
+            this.cancelButton.Name = "cancelButton";
+            this.cancelButton.Size = new System.Drawing.Size(75, 23);
+            this.cancelButton.TabIndex = 1;
+            this.cancelButton.Text = "&Cancel";
+            this.cancelButton.UseVisualStyleBackColor = true;
+            this.cancelButton.Click += new System.EventHandler(this.CancelButton_Click);
+            // 
+            // OKbutton
+            // 
+            this.OKbutton.Location = new System.Drawing.Point(146, 6);
+            this.OKbutton.Name = "OKbutton";
+            this.OKbutton.Size = new System.Drawing.Size(75, 23);
+            this.OKbutton.TabIndex = 0;
+            this.OKbutton.Text = "&OK";
+            this.OKbutton.UseVisualStyleBackColor = true;
+            this.OKbutton.Click += new System.EventHandler(this.OKbutton_Click);
             // 
             // NewFileSelector
             // 
+            this.AcceptButton = this.OKbutton;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.cancelButton;
             this.ClientSize = new System.Drawing.Size(314, 161);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
@@ -108,6 +111,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "NewFileSelector";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "New";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.NewFileSelector_FormClosing);
             this.Load += new System.EventHandler(this.NewFileSelector_Load);

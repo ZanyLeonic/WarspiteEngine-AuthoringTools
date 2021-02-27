@@ -1,0 +1,13 @@
+{
+  "states": [
+	{
+      "id": "PlayState",
+	  "scripts": [
+	  ],
+      "textures": [
+      ],
+      "objects": [
+      ]
+    }
+  ]
+}

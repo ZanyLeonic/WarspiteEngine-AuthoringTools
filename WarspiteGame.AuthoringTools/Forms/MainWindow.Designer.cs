@@ -35,12 +35,26 @@ namespace WarspiteGame.AuthoringTools.Forms
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.setAssetsFolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
+            this.launchEngineToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.treeViewControlsScroll = new System.Windows.Forms.HScrollBar();
+            this.toolBar = new System.Windows.Forms.ToolStrip();
+            this.NewtoolButton = new System.Windows.Forms.ToolStripButton();
+            this.OpentoolButton = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.SavetoolButton = new System.Windows.Forms.ToolStripButton();
+            this.SaveAstoolButton = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
+            this.launchEngineToolBtn = new System.Windows.Forms.ToolStripButton();
             this.MainControl = new System.Windows.Forms.TabControl();
             this.StartPage = new System.Windows.Forms.TabPage();
             this.startPageVersionDesc = new System.Windows.Forms.Label();
@@ -53,14 +67,14 @@ namespace WarspiteGame.AuthoringTools.Forms
             this.stateViewer = new System.Windows.Forms.PropertyGrid();
             this.splitter1 = new System.Windows.Forms.Splitter();
             this.treeViewPanel = new System.Windows.Forms.Panel();
+            this.stateView = new System.Windows.Forms.TreeView();
             this.treeViewControls = new System.Windows.Forms.Panel();
             this.deleteStateBtn = new System.Windows.Forms.Button();
             this.newStateBtn = new System.Windows.Forms.Button();
             this.FontPage = new System.Windows.Forms.TabPage();
             this.fontViewer = new System.Windows.Forms.PropertyGrid();
-            this.treeViewControlsScroll = new System.Windows.Forms.HScrollBar();
-            this.stateView = new System.Windows.Forms.TreeView();
             this.mainMenuStrip.SuspendLayout();
+            this.toolBar.SuspendLayout();
             this.MainControl.SuspendLayout();
             this.StartPage.SuspendLayout();
             this.StartPageControlPanel.SuspendLayout();
@@ -74,6 +88,7 @@ namespace WarspiteGame.AuthoringTools.Forms
             // 
             this.mainMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
+            this.toolsToolStripMenuItem,
             this.helpToolStripMenuItem});
             this.mainMenuStrip.Location = new System.Drawing.Point(0, 0);
             this.mainMenuStrip.Name = "mainMenuStrip";
@@ -86,6 +101,7 @@ namespace WarspiteGame.AuthoringTools.Forms
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.newToolStripMenuItem,
             this.openToolStripMenuItem,
+            this.toolStripSeparator2,
             this.saveToolStripMenuItem,
             this.saveAsToolStripMenuItem,
             this.toolStripSeparator1,
@@ -97,43 +113,91 @@ namespace WarspiteGame.AuthoringTools.Forms
             // 
             // newToolStripMenuItem
             // 
+            this.newToolStripMenuItem.Image = global::WarspiteGame.AuthoringTools.Properties.Resources.NewFile_16x;
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.newToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
             this.newToolStripMenuItem.Text = "New";
             this.newToolStripMenuItem.Click += new System.EventHandler(this.startPageNewBtn_Click);
             // 
             // openToolStripMenuItem
             // 
+            this.openToolStripMenuItem.Image = global::WarspiteGame.AuthoringTools.Properties.Resources.OpenFolder_16x;
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.openToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
             this.openToolStripMenuItem.Text = "Open";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(183, 6);
+            // 
             // saveToolStripMenuItem
             // 
+            this.saveToolStripMenuItem.Image = global::WarspiteGame.AuthoringTools.Properties.Resources.Save_16x;
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
             this.saveToolStripMenuItem.Text = "Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
             // saveAsToolStripMenuItem
             // 
+            this.saveAsToolStripMenuItem.Image = global::WarspiteGame.AuthoringTools.Properties.Resources.SaveAs_16x;
             this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveAsToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.S)));
+            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
             this.saveAsToolStripMenuItem.Text = "Save As";
             this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(183, 6);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.exitToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4)));
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
+            // 
+            // toolsToolStripMenuItem
+            // 
+            this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.setAssetsFolderToolStripMenuItem,
+            this.toolStripSeparator4,
+            this.launchEngineToolStripMenuItem});
+            this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
+            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(46, 20);
+            this.toolsToolStripMenuItem.Text = "Tools";
+            // 
+            // setAssetsFolderToolStripMenuItem
+            // 
+            this.setAssetsFolderToolStripMenuItem.Image = global::WarspiteGame.AuthoringTools.Properties.Resources.ConfigurationFile_16x;
+            this.setAssetsFolderToolStripMenuItem.Name = "setAssetsFolderToolStripMenuItem";
+            this.setAssetsFolderToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.O)));
+            this.setAssetsFolderToolStripMenuItem.Size = new System.Drawing.Size(187, 22);
+            this.setAssetsFolderToolStripMenuItem.Text = "Configuration";
+            this.setAssetsFolderToolStripMenuItem.Click += new System.EventHandler(this.setAssetsFolderToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator4
+            // 
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            this.toolStripSeparator4.Size = new System.Drawing.Size(184, 6);
+            // 
+            // launchEngineToolStripMenuItem
+            // 
+            this.launchEngineToolStripMenuItem.Image = global::WarspiteGame.AuthoringTools.Properties.Resources.Run_16x;
+            this.launchEngineToolStripMenuItem.Name = "launchEngineToolStripMenuItem";
+            this.launchEngineToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F5;
+            this.launchEngineToolStripMenuItem.Size = new System.Drawing.Size(187, 22);
+            this.launchEngineToolStripMenuItem.Text = "Launch Engine";
+            this.launchEngineToolStripMenuItem.Click += new System.EventHandler(this.launchEngineToolStripMenuItem_Click);
             // 
             // helpToolStripMenuItem
             // 
@@ -145,10 +209,97 @@ namespace WarspiteGame.AuthoringTools.Forms
             // 
             // aboutToolStripMenuItem
             // 
+            this.aboutToolStripMenuItem.Image = global::WarspiteGame.AuthoringTools.Properties.Resources.WindowsForm_16x;
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
+            this.aboutToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.A)));
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
+            // 
+            // treeViewControlsScroll
+            // 
+            this.treeViewControlsScroll.Location = new System.Drawing.Point(0, 0);
+            this.treeViewControlsScroll.Name = "treeViewControlsScroll";
+            this.treeViewControlsScroll.Size = new System.Drawing.Size(80, 17);
+            this.treeViewControlsScroll.TabIndex = 0;
+            // 
+            // toolBar
+            // 
+            this.toolBar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.NewtoolButton,
+            this.OpentoolButton,
+            this.toolStripSeparator3,
+            this.SavetoolButton,
+            this.SaveAstoolButton,
+            this.toolStripSeparator5,
+            this.launchEngineToolBtn});
+            this.toolBar.Location = new System.Drawing.Point(0, 24);
+            this.toolBar.Name = "toolBar";
+            this.toolBar.Size = new System.Drawing.Size(800, 25);
+            this.toolBar.TabIndex = 1;
+            this.toolBar.Text = "toolStrip1";
+            // 
+            // NewtoolButton
+            // 
+            this.NewtoolButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.NewtoolButton.Image = global::WarspiteGame.AuthoringTools.Properties.Resources.NewFile_16x;
+            this.NewtoolButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.NewtoolButton.Name = "NewtoolButton";
+            this.NewtoolButton.Size = new System.Drawing.Size(23, 22);
+            this.NewtoolButton.Text = "New";
+            this.NewtoolButton.Click += new System.EventHandler(this.NewtoolButton_Click);
+            // 
+            // OpentoolButton
+            // 
+            this.OpentoolButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.OpentoolButton.Image = global::WarspiteGame.AuthoringTools.Properties.Resources.OpenFolder_16x;
+            this.OpentoolButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.OpentoolButton.Name = "OpentoolButton";
+            this.OpentoolButton.Size = new System.Drawing.Size(23, 22);
+            this.OpentoolButton.Text = "Open";
+            this.OpentoolButton.Click += new System.EventHandler(this.OpentoolButton_Click);
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
+            // 
+            // SavetoolButton
+            // 
+            this.SavetoolButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.SavetoolButton.Enabled = false;
+            this.SavetoolButton.Image = global::WarspiteGame.AuthoringTools.Properties.Resources.Save_16x;
+            this.SavetoolButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.SavetoolButton.Name = "SavetoolButton";
+            this.SavetoolButton.Size = new System.Drawing.Size(23, 22);
+            this.SavetoolButton.Text = "Save";
+            this.SavetoolButton.Click += new System.EventHandler(this.SavetoolButton_Click);
+            // 
+            // SaveAstoolButton
+            // 
+            this.SaveAstoolButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.SaveAstoolButton.Enabled = false;
+            this.SaveAstoolButton.Image = global::WarspiteGame.AuthoringTools.Properties.Resources.SaveAs_16x;
+            this.SaveAstoolButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.SaveAstoolButton.Name = "SaveAstoolButton";
+            this.SaveAstoolButton.Size = new System.Drawing.Size(23, 22);
+            this.SaveAstoolButton.Text = "Save As";
+            this.SaveAstoolButton.Click += new System.EventHandler(this.SaveAstoolButton_Click);
+            // 
+            // toolStripSeparator5
+            // 
+            this.toolStripSeparator5.Name = "toolStripSeparator5";
+            this.toolStripSeparator5.Size = new System.Drawing.Size(6, 25);
+            // 
+            // launchEngineToolBtn
+            // 
+            this.launchEngineToolBtn.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.launchEngineToolBtn.Image = global::WarspiteGame.AuthoringTools.Properties.Resources.Run_16x;
+            this.launchEngineToolBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.launchEngineToolBtn.Name = "launchEngineToolBtn";
+            this.launchEngineToolBtn.Size = new System.Drawing.Size(23, 22);
+            this.launchEngineToolBtn.Text = "Launch Engine";
+            this.launchEngineToolBtn.Click += new System.EventHandler(this.launchEngineToolBtn_Click);
             // 
             // MainControl
             // 
@@ -156,11 +307,11 @@ namespace WarspiteGame.AuthoringTools.Forms
             this.MainControl.Controls.Add(this.StatePage);
             this.MainControl.Controls.Add(this.FontPage);
             this.MainControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.MainControl.Location = new System.Drawing.Point(0, 24);
+            this.MainControl.Location = new System.Drawing.Point(0, 49);
             this.MainControl.Name = "MainControl";
             this.MainControl.SelectedIndex = 0;
-            this.MainControl.Size = new System.Drawing.Size(800, 426);
-            this.MainControl.TabIndex = 4;
+            this.MainControl.Size = new System.Drawing.Size(800, 401);
+            this.MainControl.TabIndex = 5;
             // 
             // StartPage
             // 
@@ -172,7 +323,7 @@ namespace WarspiteGame.AuthoringTools.Forms
             this.StartPage.Location = new System.Drawing.Point(4, 22);
             this.StartPage.Name = "StartPage";
             this.StartPage.Padding = new System.Windows.Forms.Padding(3);
-            this.StartPage.Size = new System.Drawing.Size(792, 400);
+            this.StartPage.Size = new System.Drawing.Size(792, 375);
             this.StartPage.TabIndex = 2;
             this.StartPage.Text = "StartPage";
             // 
@@ -181,7 +332,7 @@ namespace WarspiteGame.AuthoringTools.Forms
             this.startPageVersionDesc.Dock = System.Windows.Forms.DockStyle.Fill;
             this.startPageVersionDesc.Location = new System.Drawing.Point(3, 168);
             this.startPageVersionDesc.Name = "startPageVersionDesc";
-            this.startPageVersionDesc.Size = new System.Drawing.Size(786, 66);
+            this.startPageVersionDesc.Size = new System.Drawing.Size(786, 41);
             this.startPageVersionDesc.TabIndex = 3;
             this.startPageVersionDesc.Text = "[Version]";
             this.startPageVersionDesc.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -211,7 +362,7 @@ namespace WarspiteGame.AuthoringTools.Forms
             this.StartPageControlPanel.Controls.Add(this.startPageOpenBtn);
             this.StartPageControlPanel.Controls.Add(this.startPageNewBtn);
             this.StartPageControlPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.StartPageControlPanel.Location = new System.Drawing.Point(3, 234);
+            this.StartPageControlPanel.Location = new System.Drawing.Point(3, 209);
             this.StartPageControlPanel.Name = "StartPageControlPanel";
             this.StartPageControlPanel.Padding = new System.Windows.Forms.Padding(60);
             this.StartPageControlPanel.Size = new System.Drawing.Size(786, 163);
@@ -220,6 +371,8 @@ namespace WarspiteGame.AuthoringTools.Forms
             // startPageOpenBtn
             // 
             this.startPageOpenBtn.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.startPageOpenBtn.Image = global::WarspiteGame.AuthoringTools.Properties.Resources.OpenFolder_16x;
+            this.startPageOpenBtn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.startPageOpenBtn.Location = new System.Drawing.Point(393, 60);
             this.startPageOpenBtn.Name = "startPageOpenBtn";
             this.startPageOpenBtn.Size = new System.Drawing.Size(333, 43);
@@ -231,11 +384,13 @@ namespace WarspiteGame.AuthoringTools.Forms
             // startPageNewBtn
             // 
             this.startPageNewBtn.Dock = System.Windows.Forms.DockStyle.Left;
+            this.startPageNewBtn.Image = global::WarspiteGame.AuthoringTools.Properties.Resources.NewFile_16x;
+            this.startPageNewBtn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.startPageNewBtn.Location = new System.Drawing.Point(60, 60);
             this.startPageNewBtn.Name = "startPageNewBtn";
             this.startPageNewBtn.Size = new System.Drawing.Size(333, 43);
             this.startPageNewBtn.TabIndex = 2;
-            this.startPageNewBtn.Text = "New";
+            this.startPageNewBtn.Text = "New\r\n";
             this.startPageNewBtn.UseVisualStyleBackColor = true;
             this.startPageNewBtn.Click += new System.EventHandler(this.startPageNewBtn_Click);
             // 
@@ -247,7 +402,7 @@ namespace WarspiteGame.AuthoringTools.Forms
             this.StatePage.Location = new System.Drawing.Point(4, 22);
             this.StatePage.Name = "StatePage";
             this.StatePage.Padding = new System.Windows.Forms.Padding(3);
-            this.StatePage.Size = new System.Drawing.Size(792, 400);
+            this.StatePage.Size = new System.Drawing.Size(792, 375);
             this.StatePage.TabIndex = 0;
             this.StatePage.Text = "StatePage";
             this.StatePage.UseVisualStyleBackColor = true;
@@ -258,7 +413,7 @@ namespace WarspiteGame.AuthoringTools.Forms
             this.stateViewer.Dock = System.Windows.Forms.DockStyle.Fill;
             this.stateViewer.Location = new System.Drawing.Point(186, 3);
             this.stateViewer.Name = "stateViewer";
-            this.stateViewer.Size = new System.Drawing.Size(603, 394);
+            this.stateViewer.Size = new System.Drawing.Size(603, 369);
             this.stateViewer.TabIndex = 8;
             this.stateViewer.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.PropGrids_PropertyValueChanged);
             // 
@@ -267,7 +422,7 @@ namespace WarspiteGame.AuthoringTools.Forms
             this.splitter1.Cursor = System.Windows.Forms.Cursors.SizeWE;
             this.splitter1.Location = new System.Drawing.Point(183, 3);
             this.splitter1.Name = "splitter1";
-            this.splitter1.Size = new System.Drawing.Size(3, 394);
+            this.splitter1.Size = new System.Drawing.Size(3, 369);
             this.splitter1.TabIndex = 9;
             this.splitter1.TabStop = false;
             // 
@@ -278,8 +433,17 @@ namespace WarspiteGame.AuthoringTools.Forms
             this.treeViewPanel.Dock = System.Windows.Forms.DockStyle.Left;
             this.treeViewPanel.Location = new System.Drawing.Point(3, 3);
             this.treeViewPanel.Name = "treeViewPanel";
-            this.treeViewPanel.Size = new System.Drawing.Size(180, 394);
+            this.treeViewPanel.Size = new System.Drawing.Size(180, 369);
             this.treeViewPanel.TabIndex = 0;
+            // 
+            // stateView
+            // 
+            this.stateView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.stateView.Location = new System.Drawing.Point(0, 35);
+            this.stateView.Name = "stateView";
+            this.stateView.Size = new System.Drawing.Size(180, 334);
+            this.stateView.TabIndex = 10;
+            this.stateView.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.stateView_NodeMouseClick);
             // 
             // treeViewControls
             // 
@@ -319,7 +483,7 @@ namespace WarspiteGame.AuthoringTools.Forms
             this.FontPage.Location = new System.Drawing.Point(4, 22);
             this.FontPage.Name = "FontPage";
             this.FontPage.Padding = new System.Windows.Forms.Padding(3);
-            this.FontPage.Size = new System.Drawing.Size(792, 400);
+            this.FontPage.Size = new System.Drawing.Size(792, 375);
             this.FontPage.TabIndex = 1;
             this.FontPage.Text = "FontPage";
             this.FontPage.UseVisualStyleBackColor = true;
@@ -329,25 +493,9 @@ namespace WarspiteGame.AuthoringTools.Forms
             this.fontViewer.Dock = System.Windows.Forms.DockStyle.Fill;
             this.fontViewer.Location = new System.Drawing.Point(3, 3);
             this.fontViewer.Name = "fontViewer";
-            this.fontViewer.Size = new System.Drawing.Size(786, 394);
+            this.fontViewer.Size = new System.Drawing.Size(786, 369);
             this.fontViewer.TabIndex = 0;
             this.fontViewer.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.PropGrids_PropertyValueChanged);
-            // 
-            // treeViewControlsScroll
-            // 
-            this.treeViewControlsScroll.Location = new System.Drawing.Point(0, 0);
-            this.treeViewControlsScroll.Name = "treeViewControlsScroll";
-            this.treeViewControlsScroll.Size = new System.Drawing.Size(80, 17);
-            this.treeViewControlsScroll.TabIndex = 0;
-            // 
-            // stateView
-            // 
-            this.stateView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.stateView.Location = new System.Drawing.Point(0, 35);
-            this.stateView.Name = "stateView";
-            this.stateView.Size = new System.Drawing.Size(180, 359);
-            this.stateView.TabIndex = 10;
-            this.stateView.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.stateView_NodeMouseClick);
             // 
             // MainWindow
             // 
@@ -355,6 +503,7 @@ namespace WarspiteGame.AuthoringTools.Forms
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.MainControl);
+            this.Controls.Add(this.toolBar);
             this.Controls.Add(this.mainMenuStrip);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -364,8 +513,11 @@ namespace WarspiteGame.AuthoringTools.Forms
             this.Text = "Warspite Authoring Tools";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainWindow_FormClosing);
             this.Load += new System.EventHandler(this.MainWindow_Load);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MainWindow_KeyDown);
             this.mainMenuStrip.ResumeLayout(false);
             this.mainMenuStrip.PerformLayout();
+            this.toolBar.ResumeLayout(false);
+            this.toolBar.PerformLayout();
             this.MainControl.ResumeLayout(false);
             this.StartPage.ResumeLayout(false);
             this.StartPageControlPanel.ResumeLayout(false);
@@ -383,9 +535,6 @@ namespace WarspiteGame.AuthoringTools.Forms
         private System.Windows.Forms.MenuStrip mainMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
-        private System.Windows.Forms.TabControl MainControl;
-        private System.Windows.Forms.TabPage StatePage;
-        private System.Windows.Forms.TabPage FontPage;
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem newToolStripMenuItem;
@@ -393,22 +542,38 @@ namespace WarspiteGame.AuthoringTools.Forms
         private System.Windows.Forms.ToolStripMenuItem saveAsToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
-        private System.Windows.Forms.PropertyGrid fontViewer;
+        private System.Windows.Forms.HScrollBar treeViewControlsScroll;
+        private System.Windows.Forms.ToolStrip toolBar;
+        private System.Windows.Forms.ToolStripButton NewtoolButton;
+        private System.Windows.Forms.ToolStripButton OpentoolButton;
+        private System.Windows.Forms.ToolStripButton SavetoolButton;
+        private System.Windows.Forms.ToolStripButton SaveAstoolButton;
+        private System.Windows.Forms.TabControl MainControl;
         private System.Windows.Forms.TabPage StartPage;
-        private System.Windows.Forms.Panel StartPageControlPanel;
+        private System.Windows.Forms.Label startPageVersionDesc;
         private System.Windows.Forms.Label startPageLabel;
         private System.Windows.Forms.Panel StartPagePaddingPanel;
+        private System.Windows.Forms.Panel StartPageControlPanel;
         private System.Windows.Forms.Button startPageOpenBtn;
         private System.Windows.Forms.Button startPageNewBtn;
-        private System.Windows.Forms.Label startPageVersionDesc;
+        private System.Windows.Forms.TabPage StatePage;
         private System.Windows.Forms.PropertyGrid stateViewer;
         private System.Windows.Forms.Splitter splitter1;
         private System.Windows.Forms.Panel treeViewPanel;
+        private System.Windows.Forms.TreeView stateView;
         private System.Windows.Forms.Panel treeViewControls;
-        private System.Windows.Forms.HScrollBar treeViewControlsScroll;
         private System.Windows.Forms.Button deleteStateBtn;
         private System.Windows.Forms.Button newStateBtn;
-        private System.Windows.Forms.TreeView stateView;
+        private System.Windows.Forms.TabPage FontPage;
+        private System.Windows.Forms.PropertyGrid fontViewer;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+        private System.Windows.Forms.ToolStripMenuItem toolsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem setAssetsFolderToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
+        private System.Windows.Forms.ToolStripMenuItem launchEngineToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
+        private System.Windows.Forms.ToolStripButton launchEngineToolBtn;
     }
 }
 

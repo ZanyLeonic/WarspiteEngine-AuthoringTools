@@ -30,10 +30,10 @@ namespace WarspiteGame.AuthoringTools.Forms
         private MainWindowState _state = MainWindowState.StateNone;
 
         private string _workingFilePath = "";
-        private string _baseTitle = String.Format("Warspite Authoring Tools ({0}/{1})", ToolMetadata.BuildNumber,
-            ToolMetadata.HeadDesc);
+        private string _baseTitle = String.Format("Warspite Authoring Tools ({0}/{1}/{2})", ToolMetadata.BuildNumber,
+            ToolMetadata.HeadDesc, AssemblyAccessors.AssemblyVersion);
 
-        private const string _baseNewState = "newState{0}";
+        private const string _baseNewState = "New State {0}";
 
         private bool newFile = false;
 
@@ -64,9 +64,115 @@ namespace WarspiteGame.AuthoringTools.Forms
             _sd.Filter = "JSON Files|*.json|All Files |*.*";
         }
 
+        public void CheckLaunchParams()
+        {
+            string[] arguments = Environment.GetCommandLineArgs();
+
+            // If we just have the exe, ignore.
+            if (arguments.Length <= 1) return;
+
+            // We are being called by the setup!
+            if (arguments[1] == "/setup")
+            {
+                // assume this
+                string exe = arguments[2];
+                string assets = arguments[3];
+
+                if (!File.Exists(exe))
+                {
+                    File.WriteAllText(@"C:\Users\Kurisu\Desktop\exe doesnt exist.txt", exe + Environment.NewLine + assets);
+                    Environment.Exit(-1);
+                }
+                if (!Directory.Exists(assets))
+                {
+                    File.WriteAllText(@"C:\Users\Kurisu\Desktop\assets doesnt exist.txt", exe + Environment.NewLine + assets);
+                    Environment.Exit(-1);
+                }
+
+                // Save these and exit.
+                Properties.Settings.Default.GameExecutable = exe;
+                Properties.Settings.Default.AssetsPath = assets;
+                Properties.Settings.Default.Save();
+
+                Environment.Exit(0);
+            }
+
+            string fileName = arguments[1];
+
+            // Check if the path given exists
+            if (!File.Exists(fileName))
+            {
+                // If not, display an error.
+                MessageBox.Show("The specified file does not exist.", AssemblyAccessors.AssemblyTitle,
+                            MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            string sText = File.ReadAllText(fileName);
+            JObject t = JsonConvert.DeserializeObject<JObject>(sText);
+
+            // Can't determine the type - give up.
+            if (!t.ContainsKey("type"))
+            {
+                MessageBox.Show("The selected file is not a valid Warspite Engine JSON", AssemblyAccessors.AssemblyTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            // Show the correct page determining on what we are viewing
+            try
+            {
+                switch (t["type"].ToString())
+                {
+                    case "StateFile":
+                        _workingFilePath = fileName;
+                        StateFormSetup(sText);
+                        break;
+                    case "FontFile":
+                        _workingFilePath = fileName;
+                        FontFormSetup(sText);
+                        break;
+                    default:
+                        MessageBox.Show("Warspite Engine JSON not supported by this version", AssemblyAccessors.AssemblyTitle,
+                            MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        break;
+                }
+            }
+            catch (NullReferenceException e)
+            {
+                MessageBox.Show(string.Format("Something went wrong while loading the JSON - please verify the validity of the JSON.{0}Error:{0}{1}", Environment.NewLine, e.Message), AssemblyAccessors.AssemblyTitle,
+                MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            UpdateButtons();
+        }
+
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
             OpenEngineJson();
+        }
+
+        private void ChangeTitle()
+        {
+            bool bChanged = CheckForChanges();
+            Text = bChanged ? string.Format("[*{0}] - {1}", Path.GetFileName(_workingFilePath), _baseTitle)
+                : string.Format("[{0}] - {1}", Path.GetFileName(_workingFilePath), _baseTitle);
+        }
+
+        private void UpdateButtons()
+        {
+            if (_state == MainWindowState.StateStartPage || _state == MainWindowState.StateNone)
+            {
+                saveToolStripMenuItem.Enabled = false;
+                saveAsToolStripMenuItem.Enabled = false;
+                SavetoolButton.Enabled = false;
+                SaveAstoolButton.Enabled = false;
+            }
+            else
+            {
+                saveToolStripMenuItem.Enabled = true;
+                saveAsToolStripMenuItem.Enabled = true;
+                SavetoolButton.Enabled = true;
+                SaveAstoolButton.Enabled = true;
+            }
         }
 
         private void NewEngineJson()
@@ -100,6 +206,9 @@ namespace WarspiteGame.AuthoringTools.Forms
                     _Ows = new WarspiteStateFile();
                     _ws = new WarspiteStateFile();
                     _state = MainWindowState.StateStatePage;
+                    stateViewer.SelectedObject = null;
+                    deleteStateBtn.Enabled = false;
+
                     RefreshStateTree();
                     break;
                 case EngineJsonType.Font:
@@ -107,6 +216,7 @@ namespace WarspiteGame.AuthoringTools.Forms
                     _ff = new FontFile();
                     _state = MainWindowState.StateFontPage;
                     fontViewer.SelectedObject = _ff;
+
                     break;
             }
 
@@ -116,6 +226,7 @@ namespace WarspiteGame.AuthoringTools.Forms
                 _workingFilePath = Path.Combine(ToolUtil.GetWorkingDirectory(), "untitled.json").ToString();
                 SetupEditForm();
             }
+            UpdateButtons();
         }
 
         private void OpenEngineJson()
@@ -179,19 +290,25 @@ namespace WarspiteGame.AuthoringTools.Forms
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
+            UpdateButtons();
         }
 
         private void SaveEngineJson(string savePath)
         {
             try
             {
+                string json = "";
                 switch (_state)
                 {
                     case MainWindowState.StateStatePage:
-                        File.WriteAllText(savePath, JsonConvert.SerializeObject(_ws, Formatting.Indented));
+                        json = JsonConvert.SerializeObject(_ws, Formatting.Indented);
+                        File.WriteAllText(savePath, json);
+                        _Ows = JsonConvert.DeserializeObject<WarspiteStateFile>(json);
                         break;
                     case MainWindowState.StateFontPage:
-                        File.WriteAllText(savePath, JsonConvert.SerializeObject(_ff, Formatting.Indented));
+                        json = JsonConvert.SerializeObject(_ff, Formatting.Indented); 
+                        File.WriteAllText(savePath, json);
+                        _Off = JsonConvert.DeserializeObject<FontFile>(json);
                         break;
                     default:
                         MessageBox.Show(string.Format("No supported save method for type \"{0}\"", _state.ToString()), 
@@ -199,6 +316,8 @@ namespace WarspiteGame.AuthoringTools.Forms
                         MessageBoxButtons.OK, MessageBoxIcon.Error);
                         break;
                 }
+
+                ChangeTitle();
             }
             catch (Exception e)
             {
@@ -206,6 +325,8 @@ namespace WarspiteGame.AuthoringTools.Forms
                     AssemblyAccessors.AssemblyTitle,
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+            CheckForChanges();
+            UpdateButtons();
         }
 
         private void SaveCommand()
@@ -235,6 +356,8 @@ namespace WarspiteGame.AuthoringTools.Forms
 
         private void StateFormSetup(string json)
         {
+            stateViewer.SelectedObject = null;
+
             _Ows = JsonConvert.DeserializeObject<WarspiteStateFile>(json);
             _ws = JsonConvert.DeserializeObject<WarspiteStateFile>(json);
 
@@ -266,6 +389,32 @@ namespace WarspiteGame.AuthoringTools.Forms
             MaximizeBox = true;
         }
 
+        private void LaunchEngine()
+        {
+            string _debugger = Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), "WarspiteGame.AuthoringTools.Debugger.exe");
+
+            if (File.Exists(_debugger) && File.Exists(Properties.Settings.Default.GameExecutable))
+            {
+                System.Diagnostics.Process p = new System.Diagnostics.Process();
+                
+                p.StartInfo.WorkingDirectory = Path.GetFullPath(_debugger).Replace(
+                    Path.GetFileName(_debugger), "");
+                p.StartInfo.FileName = _debugger;
+                p.StartInfo.Arguments = Properties.Settings.Default.GameExecutable;
+
+                p.Start();
+            }
+            else if (System.IO.File.Exists(Properties.Settings.Default.GameExecutable))
+            {
+                System.Diagnostics.Process p = new System.Diagnostics.Process();
+                p.StartInfo.WorkingDirectory = Path.GetFullPath(Properties.Settings.Default.GameExecutable).Replace(
+                    Path.GetFileName(Properties.Settings.Default.GameExecutable), "");
+                p.StartInfo.FileName = Properties.Settings.Default.GameExecutable;
+
+                p.Start();
+            }
+        }
+
         private bool CheckForChanges()
         {
             bool bChanged = false;
@@ -292,6 +441,7 @@ namespace WarspiteGame.AuthoringTools.Forms
             }
             else
             {
+                stateViewer.SelectedObject = null;
                 deleteStateBtn.Enabled = false;
             }
 
@@ -312,9 +462,29 @@ namespace WarspiteGame.AuthoringTools.Forms
             _state = MainWindowState.StateStartPage;
             startPageLabel.Text = AssemblyAccessors.AssemblyTitle;
 
-            startPageVersionDesc.Text = String.Format("Version: {4}{2}Build: ({0}/{1}){2}Tree: {3}", 
+            startPageVersionDesc.Text = string.Format("Version: {4}{2}Build: ({0}/{1}){2}Tree: {3}", 
                 ToolMetadata.BuildNumber, ToolMetadata.HeadDesc, Environment.NewLine, 
                 ToolMetadata.HeadShaShort, AssemblyAccessors.AssemblyVersion);
+            
+            UpdateButtons();
+            CheckLaunchParams();
+
+            if (Properties.Settings.Default.AssetsPath == string.Empty
+                || Properties.Settings.Default.GameExecutable == string.Empty)
+            {
+                MessageBox.Show("One or more paths are not set.\nPlease check your paths.", AssemblyAccessors.AssemblyTitle, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                
+                ConfigWindow cw = new ConfigWindow();
+                cw.ShowDialog();
+            }    
+            else if (!System.IO.Directory.Exists(Properties.Settings.Default.AssetsPath) 
+                || !System.IO.File.Exists(Properties.Settings.Default.GameExecutable))
+            {
+                MessageBox.Show("One or more paths are invalid.\nPlease check your paths.", AssemblyAccessors.AssemblyTitle, MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                ConfigWindow cw = new ConfigWindow();
+                cw.ShowDialog();
+            }
         }
 
         private void startPageOpenBtn_Click(object sender, EventArgs e)
@@ -324,16 +494,7 @@ namespace WarspiteGame.AuthoringTools.Forms
 
         private void fileToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (_state == MainWindowState.StateStartPage || _state == MainWindowState.StateNone)
-            {
-                saveToolStripMenuItem.Enabled = false;
-                saveAsToolStripMenuItem.Enabled = false;
-            }
-            else
-            {
-                saveToolStripMenuItem.Enabled = true;
-                saveAsToolStripMenuItem.Enabled = true;
-            }
+            UpdateButtons();
         }
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
@@ -348,9 +509,7 @@ namespace WarspiteGame.AuthoringTools.Forms
 
         private void PropGrids_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
         {
-            bool bChanged = CheckForChanges();
-            Text = bChanged ? string.Format("[*{0}] - {1}", Path.GetFileName(_workingFilePath), _baseTitle) 
-                : string.Format("[{0}] - {1}", Path.GetFileName(_workingFilePath), _baseTitle);
+            ChangeTitle();
 
             if ((PropertyGrid) s == stateViewer)
             {
@@ -407,6 +566,8 @@ namespace WarspiteGame.AuthoringTools.Forms
 
             _ws.states.Add(ws);
             RefreshStateTree();
+
+            ChangeTitle();
         }
 
         // Old code I dug up
@@ -425,7 +586,7 @@ namespace WarspiteGame.AuthoringTools.Forms
                     if (i.id == newState.id)
                     {
                         // If we have found a duplicate, increment our name by one.
-                        newState.id = String.Format(_baseNewState, iter + 1);
+                        newState.id = String.Format(_baseNewState, string.Format("({0})", iter + 1));
 
                         // increment our counter remove the item checked from the list.
                         iter++;
@@ -456,13 +617,15 @@ namespace WarspiteGame.AuthoringTools.Forms
 
                 deleteStateBtn.Enabled = false;
                 RefreshStateTree();
+
+                ChangeTitle();
             }
         }
 
         private void RefreshStateTree()
         {
             stateView.Nodes.Clear();
-            _root = stateView.Nodes.Add("States");
+            _root = stateView.Nodes.Add(string.Format("States ({0})", _ws.states.Count));
 
             for (int i = 0; i < _ws.states.Count; i++)
             {
@@ -470,6 +633,89 @@ namespace WarspiteGame.AuthoringTools.Forms
             }
 
             _root.Expand();
+        }
+
+        private void MainWindow_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.N && e.Modifiers == Keys.Control)
+            {
+                NewEngineJson();
+            }
+
+            if (e.KeyCode == Keys.O && e.Modifiers == Keys.Control)
+            {
+                OpenEngineJson();
+            }
+
+            if (_state != MainWindowState.StateStartPage || _state != MainWindowState.StateNone)
+            {
+                if (e.KeyCode == Keys.S && e.Modifiers == Keys.Control)
+                {
+                    SaveCommand();
+                }
+
+                if (e.KeyCode == Keys.S && e.Modifiers == Keys.Control &&
+                    e.Modifiers == Keys.Shift)
+                {
+                    SaveAsCommand();
+                }
+            }
+
+            if (e.KeyCode == Keys.A && e.Modifiers == Keys.Alt)
+            {
+                AboutBox ab = new AboutBox();
+
+                ab.ShowDialog();
+            }
+
+            if(e.KeyCode == Keys.F5)
+            {
+                LaunchEngine();
+            }
+
+            if (e.Modifiers == Keys.Alt && e.KeyCode == Keys.O)
+            {
+                ConfigWindow cw = new ConfigWindow();
+                cw.ShowDialog();
+            }
+        }
+
+        private void NewtoolButton_Click(object sender, EventArgs e)
+        {
+            NewEngineJson();
+        }
+
+        private void OpentoolButton_Click(object sender, EventArgs e)
+        {
+            OpenEngineJson();
+        }
+
+        private void SavetoolButton_Click(object sender, EventArgs e)
+        {
+            SaveCommand();
+        }
+
+        private void SaveAstoolButton_Click(object sender, EventArgs e)
+        {
+            SaveAsCommand();
+        }
+
+        private void setAssetsFolderToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ConfigWindow cw = new ConfigWindow();
+
+            cw.loadedFromApp = true;
+            cw.ShowDialog();
+        }
+
+        private void launchEngineToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            LaunchEngine();
+        }
+
+        private void launchEngineToolBtn_Click(object sender, EventArgs e)
+        {
+            LaunchEngine();
         }
     }
 }
