@@ -40,6 +40,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.browseButton = new System.Windows.Forms.Button();
             this.pathBox = new System.Windows.Forms.TextBox();
+            this.quitBtn = new System.Windows.Forms.Button();
             this.buttonPanel.SuspendLayout();
             this.GroupPanel.SuspendLayout();
             this.executableBox.SuspendLayout();
@@ -48,6 +49,7 @@
             // 
             // buttonPanel
             // 
+            this.buttonPanel.Controls.Add(this.quitBtn);
             this.buttonPanel.Controls.Add(this.OkayButton);
             this.buttonPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.buttonPanel.Location = new System.Drawing.Point(0, 150);
@@ -157,6 +159,16 @@
             this.pathBox.Size = new System.Drawing.Size(364, 20);
             this.pathBox.TabIndex = 0;
             // 
+            // quitBtn
+            // 
+            this.quitBtn.Location = new System.Drawing.Point(330, 6);
+            this.quitBtn.Name = "quitBtn";
+            this.quitBtn.Size = new System.Drawing.Size(75, 23);
+            this.quitBtn.TabIndex = 1;
+            this.quitBtn.Text = "Quit";
+            this.quitBtn.UseVisualStyleBackColor = true;
+            this.quitBtn.Click += new System.EventHandler(this.quitBtn_Click);
+            // 
             // ConfigWindow
             // 
             this.AcceptButton = this.OkayButton;
@@ -197,5 +209,6 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button browseExecutable;
         private System.Windows.Forms.TextBox gameBox;
+        private System.Windows.Forms.Button quitBtn;
     }
 }

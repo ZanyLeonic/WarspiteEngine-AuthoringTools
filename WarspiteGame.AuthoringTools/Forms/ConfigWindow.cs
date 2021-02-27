@@ -12,6 +12,8 @@ namespace WarspiteGame.AuthoringTools.Forms
 {
     public partial class ConfigWindow : Form
     {
+        public bool loadedFromApp = false;
+
         public ConfigWindow()
         {
             InitializeComponent();
@@ -37,6 +39,8 @@ namespace WarspiteGame.AuthoringTools.Forms
 
         private void ConfigWindow_Load(object sender, EventArgs e)
         {
+            quitBtn.Visible = !loadedFromApp;
+
             pathBox.Text = Properties.Settings.Default.AssetsPath;
             gameBox.Text = Properties.Settings.Default.GameExecutable;
         }
@@ -74,6 +78,11 @@ namespace WarspiteGame.AuthoringTools.Forms
             {
                 gameBox.Text = ofd.FileName;
             }
+        }
+
+        private void quitBtn_Click(object sender, EventArgs e)
+        {
+            Environment.Exit(0);
         }
     }
 }

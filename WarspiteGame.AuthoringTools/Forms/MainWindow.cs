@@ -703,6 +703,8 @@ namespace WarspiteGame.AuthoringTools.Forms
         private void setAssetsFolderToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ConfigWindow cw = new ConfigWindow();
+
+            cw.loadedFromApp = true;
             cw.ShowDialog();
         }
 

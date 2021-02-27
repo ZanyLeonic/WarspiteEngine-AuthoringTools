@@ -145,12 +145,12 @@ namespace WarspiteGame.AuthoringTools.Formats
         [Category("Object Information")]
         [DisplayName("Texture ID")]
         [Description("The ID of the texture that this object will use. ID are loaded in the state.")]
-        public string textureid { get; set; } = "";
+        public string textureID { get; set; } = "";
 
         [Category("Object Information")]
         [DisplayName("Script")]
-        [Description("The ID of the script that this object will use. ID are loaded in the state.")]
-        public string script { get; set; } = "";
+        [Description("The ID of the runScript that this object will use. ID are loaded in the state.")]
+        public string runScript { get; set; } = "";
 
         [Category("Object Information")]
         [DisplayName("Sound Path")]
@@ -168,14 +168,14 @@ namespace WarspiteGame.AuthoringTools.Formats
         public int y { get; set; } = 0;
 
         [Category("Object Size")]
-        [DisplayName("Width")]
-        [Description("The width of the object.")]
-        public int width { get; set; } = 0;
+        [DisplayName("Texture Width")]
+        [Description("The textureWidth of the object.")]
+        public int textureWidth { get; set; } = 0;
 
         [Category("Object Size")]
-        [DisplayName("Height")]
-        [Description("The height of the object.")]
-        public int height { get; set; } = 0;
+        [DisplayName("Texture Height")]
+        [Description("The textureHeight of the object.")]
+        public int textureHeight { get; set; } = 0;
 
         [Category("Object Information")]
         [DisplayName("Number of frames")]
@@ -190,17 +190,17 @@ namespace WarspiteGame.AuthoringTools.Formats
         [Category("Object Callbacks")]
         [DisplayName("On Click Event")]
         [Description("The hardcoded event that will execute on click in the callback array in the state.")]
-        public int onClickId { get; set; } = 0;
+        public int onClickCallback { get; set; } = 0;
 
         [Category("Object Callbacks")]
         [DisplayName("On Enter Event")]
         [Description("The hardcoded event that will execute on mouse entry in the callback array in the state.")]
-        public int onEnterId { get; set; } = 0;
+        public int onEnterCallback { get; set; } = 0;
 
         [Category("Object Callbacks")]
         [DisplayName("On Leave Event")]
         [Description("The hardcoded event that will execute on mouse leave in the callback array in the state.")]
-        public int onLeaveId { get; set; } = 0;
+        public int onLeaveCallback { get; set; } = 0;
 
         public override bool Equals(object obj)
         {
@@ -210,9 +210,9 @@ namespace WarspiteGame.AuthoringTools.Formats
                 return false;
 
             // ew
-            if (name != o.name || type != o.type || textureid != o.textureid || script != o.script || x != o.x || y != o.y
-                || width != o.width || height != o.height || numFrames != o.numFrames || animSpeed != o.animSpeed
-                || onClickId != o.onClickId || onEnterId != o.onEnterId || onLeaveId != o.onLeaveId)
+            if (name != o.name || type != o.type || textureID != o.textureID || runScript != o.runScript || x != o.x || y != o.y
+                || textureWidth != o.textureWidth || textureHeight != o.textureHeight || numFrames != o.numFrames || animSpeed != o.animSpeed
+                || onClickCallback != o.onClickCallback || onEnterCallback != o.onEnterCallback || onLeaveCallback != o.onLeaveCallback)
                 return false;
 
             return true;
@@ -220,11 +220,11 @@ namespace WarspiteGame.AuthoringTools.Formats
 
         public override int GetHashCode()
         {
-            return name.GetHashCode() * type.GetHashCode() * textureid.GetHashCode() 
-                   * script.GetHashCode() * x.GetHashCode() * y.GetHashCode() *
-                   width.GetHashCode() * height.GetHashCode() * numFrames.GetHashCode() *
-                animSpeed.GetHashCode() * onClickId.GetHashCode() * onEnterId.GetHashCode() 
-                   * onLeaveId.GetHashCode() * 21;
+            return name.GetHashCode() * type.GetHashCode() * textureID.GetHashCode() 
+                   * runScript.GetHashCode() * x.GetHashCode() * y.GetHashCode() *
+                   textureWidth.GetHashCode() * textureHeight.GetHashCode() * numFrames.GetHashCode() *
+                animSpeed.GetHashCode() * onClickCallback.GetHashCode() * onEnterCallback.GetHashCode() 
+                   * onLeaveCallback.GetHashCode() * 21;
         }
     }
     #region Type Converters

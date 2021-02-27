@@ -49,7 +49,12 @@ namespace WarspiteGame.AuthoringTools.Forms
 
         #region Assembly Attribute Accessors
 
-        
+
         #endregion
+
+        private void AboutBox_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }
