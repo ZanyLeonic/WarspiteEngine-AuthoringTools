@@ -12,7 +12,7 @@ using WarspiteGame.AuthoringTools;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("ZanyLeonic")]
 [assembly: AssemblyProduct("WarspiteGame.AuthoringTools")]
-[assembly: AssemblyCopyright("Copyright © ZanyLeonic 2017-2020")]
+[assembly: AssemblyCopyright("Copyright © ZanyLeonic 2017-2021")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -33,7 +33,7 @@ using WarspiteGame.AuthoringTools;
 //
 // You can specify all the values or you can default the Build and Revision Numbers
 // by using the '*' as shown below:
-[assembly: AssemblyVersion("2.1.*")]
+[assembly: AssemblyVersion("3.0.*")]
 [assembly: AssemblyInformationalVersion("1.0.0.0-" + ToolMetadata.HeadDesc)]
-[assembly: AssemblyFileVersion("2.1.0.0")]
+[assembly: AssemblyFileVersion("3.0.0.0")]
 [assembly: NeutralResourcesLanguage("en-GB")]

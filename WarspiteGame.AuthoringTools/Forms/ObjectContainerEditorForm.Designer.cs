@@ -171,6 +171,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.CancelBtn;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ControlBox = false;
             this.Controls.Add(this.ObjectViewer);
             this.Controls.Add(this.splitter1);
             this.Controls.Add(this.panel3);

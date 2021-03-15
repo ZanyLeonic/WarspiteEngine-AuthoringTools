@@ -128,7 +128,7 @@ namespace WarspiteGame.AuthoringTools.Formats
         }
     }
 
-    [TypeConverter(typeof(ObjectContainerTypeConverter))]
+    [TypeConverter(typeof(ObjectPropertyTypeConverter))]
     [JsonConverter(typeof(NoTypeConverterJsonConverter<ObjectContainer>))]
     public class ObjectContainer
     {
@@ -142,21 +142,6 @@ namespace WarspiteGame.AuthoringTools.Formats
         [Description("The type of the object that will be created.")]
         public string type { get; set; } = "";
 
-        [Category("Object Information")]
-        [DisplayName("Texture ID")]
-        [Description("The ID of the texture that this object will use. ID are loaded in the state.")]
-        public string textureID { get; set; } = "";
-
-        [Category("Object Information")]
-        [DisplayName("Script")]
-        [Description("The ID of the runScript that this object will use. ID are loaded in the state.")]
-        public string runScript { get; set; } = "";
-
-        [Category("Object Information")]
-        [DisplayName("Sound Path")]
-        [Description("The path of the sound that would be used by the object.")]
-        public string soundPath { get; set; } = "";
-
         [Category("Object Position")]
         [DisplayName("X")]
         [Description("The X position of the object on the screen.")]
@@ -167,40 +152,12 @@ namespace WarspiteGame.AuthoringTools.Formats
         [Description("The Y position of the object on the screen.")]
         public int y { get; set; } = 0;
 
-        [Category("Object Size")]
-        [DisplayName("Texture Width")]
-        [Description("The textureWidth of the object.")]
-        public int textureWidth { get; set; } = 0;
-
-        [Category("Object Size")]
-        [DisplayName("Texture Height")]
-        [Description("The textureHeight of the object.")]
-        public int textureHeight { get; set; } = 0;
-
         [Category("Object Information")]
-        [DisplayName("Number of frames")]
-        [Description("The number of frames of animation that the object has on its texture sheet.")]
-        public int numFrames { get; set; } = 1;
-
-        [Category("Object Information")]
-        [DisplayName("Animation Speed")]
-        [Description("The speed that texture animation will playback.")]
-        public int animSpeed { get; set; } = 1;
-
-        [Category("Object Callbacks")]
-        [DisplayName("On Click Event")]
-        [Description("The hardcoded event that will execute on click in the callback array in the state.")]
-        public int onClickCallback { get; set; } = 0;
-
-        [Category("Object Callbacks")]
-        [DisplayName("On Enter Event")]
-        [Description("The hardcoded event that will execute on mouse entry in the callback array in the state.")]
-        public int onEnterCallback { get; set; } = 0;
-
-        [Category("Object Callbacks")]
-        [DisplayName("On Leave Event")]
-        [Description("The hardcoded event that will execute on mouse leave in the callback array in the state.")]
-        public int onLeaveCallback { get; set; } = 0;
+        [DisplayName("Custom Properties")]
+        [Description("Custom properties that define the behaviour of the object")]
+        [TypeConverter(typeof(ObjectPropertyArrayTypeConverter))]
+        [Editor(typeof(ObjectPropertyEditor), typeof(UITypeEditor))]
+        public ObjectProperty[] properties { get; set; }
 
         public override bool Equals(object obj)
         {
@@ -209,10 +166,7 @@ namespace WarspiteGame.AuthoringTools.Formats
             if (o == null)
                 return false;
 
-            // ew
-            if (name != o.name || type != o.type || textureID != o.textureID || runScript != o.runScript || x != o.x || y != o.y
-                || textureWidth != o.textureWidth || textureHeight != o.textureHeight || numFrames != o.numFrames || animSpeed != o.animSpeed
-                || onClickCallback != o.onClickCallback || onEnterCallback != o.onEnterCallback || onLeaveCallback != o.onLeaveCallback)
+            if (name != o.name || type != o.type || x != o.x || y != o.y)
                 return false;
 
             return true;
@@ -220,13 +174,32 @@ namespace WarspiteGame.AuthoringTools.Formats
 
         public override int GetHashCode()
         {
-            return name.GetHashCode() * type.GetHashCode() * textureID.GetHashCode() 
-                   * runScript.GetHashCode() * x.GetHashCode() * y.GetHashCode() *
-                   textureWidth.GetHashCode() * textureHeight.GetHashCode() * numFrames.GetHashCode() *
-                animSpeed.GetHashCode() * onClickCallback.GetHashCode() * onEnterCallback.GetHashCode() 
-                   * onLeaveCallback.GetHashCode() * 21;
+            return name.GetHashCode() * type.GetHashCode()
+                   * x.GetHashCode() * y.GetHashCode() *  21;
         }
     }
+
+    [TypeConverter(typeof(ObjectPropertyTypeConverter))]
+    [JsonConverter(typeof(NoTypeConverterJsonConverter<ObjectProperty>))]
+    public class ObjectProperty
+    {
+        [Category("Custom Properties")]
+        [DisplayName("Name")]
+        [Description("The name of the property")]
+        public string name { get; set; } = "";
+
+        [Category("Custom Properties")]
+        [DisplayName("Type")]
+        [Description("The type of the property")]
+        public string type { get; set; } = "";
+
+        [Category("Custom Properties")]
+        [DisplayName("Value")]
+        [Description("The value of the property")]
+        [Browsable(false)]
+        public object value { get; set; }
+    }
+
     #region Type Converters
     public class AssetContainerTypeConverter : TypeConverter
     {
@@ -275,13 +248,13 @@ namespace WarspiteGame.AuthoringTools.Formats
         }
     }
 
-    public class ObjectContainerTypeConverter : TypeConverter
+    public class ObjectPropertyTypeConverter : TypeConverter
     {
         public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType)
         {
-            if (value is ObjectContainer && destinationType == typeof(string))
+            if (value is ObjectProperty && destinationType == typeof(string))
             {
-                return string.Format("{0} ({1})", ((ObjectContainer)value).name, ((ObjectContainer)value).type);
+                return string.Format("{0} ({1})", ((ObjectProperty)value).name, ((ObjectProperty)value).type);
             }
             return base.ConvertTo(context, culture, value, destinationType);
         }
@@ -301,7 +274,7 @@ namespace WarspiteGame.AuthoringTools.Formats
             {
                 string s = value.ToString();
                 //s = s.Replace("\\", "");
-                ObjectContainer f = JsonConvert.DeserializeObject<ObjectContainer>(s);
+                ObjectProperty f = JsonConvert.DeserializeObject<ObjectProperty>(s);
                 return f;
             }
             return base.ConvertFrom(context, culture, value);
@@ -317,6 +290,20 @@ namespace WarspiteGame.AuthoringTools.Formats
                 ObjectContainer[] data = (ObjectContainer[])value;
 
                 return (data.Length <= 0) ? "No objects defined" : string.Format("Objects defined: {0}", ((ObjectContainer[])value).Length);
+            }
+            return base.ConvertTo(context, culture, value, destinationType);
+        }
+    }
+
+    public class ObjectPropertyArrayTypeConverter : TypeConverter
+    {
+        public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType)
+        {
+            if (value is ObjectProperty[] && destinationType == typeof(string))
+            {
+                ObjectProperty[] data = (ObjectProperty[])value;
+
+                return (data.Length <= 0) ? "No properties defined" : string.Format("Properties defined: {0}", ((ObjectProperty[])value).Length);
             }
             return base.ConvertTo(context, culture, value, destinationType);
         }

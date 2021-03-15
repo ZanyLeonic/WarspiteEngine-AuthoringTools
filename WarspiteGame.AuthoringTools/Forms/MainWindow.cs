@@ -358,8 +358,8 @@ namespace WarspiteGame.AuthoringTools.Forms
         {
             stateViewer.SelectedObject = null;
 
-            _Ows = JsonConvert.DeserializeObject<WarspiteStateFile>(json);
-            _ws = JsonConvert.DeserializeObject<WarspiteStateFile>(json);
+            _Ows = _deserialiseStateJSON(json);
+            _ws = _deserialiseStateJSON(json);
 
             RefreshStateTree();
 
@@ -716,6 +716,62 @@ namespace WarspiteGame.AuthoringTools.Forms
         private void launchEngineToolBtn_Click(object sender, EventArgs e)
         {
             LaunchEngine();
+        }
+
+        private WarspiteStateFile _deserialiseStateJSON(string sText)
+        {
+            WarspiteStateFile file = new WarspiteStateFile();
+
+            JObject wState = JObject.Parse(sText);
+            IList<JToken> results = wState["states"].Children().ToList();
+
+            IList<WarspiteState> states = new List<WarspiteState>();
+            foreach (JToken result in results)
+            {
+                WarspiteState wS = new WarspiteState();
+
+                wS.id = result["id"].ToString();
+                wS.textures = result["textures"].ToObject<AssetContainer[]>();
+                wS.scripts = result["scripts"].ToObject<AssetContainer[]>();
+
+                IList<JToken> objects = result["objects"].Children().ToList();
+
+                List<ObjectContainer> _obj = new List<ObjectContainer>();
+
+                foreach (JToken obj in objects)
+                {
+                    ObjectContainer cObj = new ObjectContainer();
+
+                    cObj.name = obj["name"].ToString();
+                    cObj.type = obj["type"].ToString();
+                    cObj.x = int.Parse(obj["x"].ToString());
+                    cObj.y = int.Parse(obj["y"].ToString());
+
+                    IList<JToken> properties = obj["properties"].Children().ToList();
+                    List<ObjectProperty> pr = new List<ObjectProperty>();
+
+                    foreach (JToken prop in properties)
+                    {
+                        ObjectProperty objProp = new ObjectProperty();
+
+                        objProp.name = prop["name"].ToString();
+                        objProp.type = prop["type"].ToString();
+                        objProp.value = prop["value"].ToObject<object>();
+
+                        pr.Add(objProp);
+                    }
+
+                    cObj.properties = pr.ToArray();
+                    _obj.Add(cObj);
+                }
+
+                wS.objects = _obj.ToArray();
+                states.Add(wS);
+            }
+
+            file.states = states.ToList();
+
+            return file;
         }
     }
 }
