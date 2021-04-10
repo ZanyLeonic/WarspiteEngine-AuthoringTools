@@ -19,10 +19,12 @@ namespace WarspiteGame.AuthoringTools.Forms
         // Original loaded from disk
         private WarspiteStateFile _Ows;
         private FontFile _Off;
+        private DialogueFile _Odf;
 
         // Modified values
         private WarspiteStateFile _ws;
         private FontFile _ff;
+        private DialogueFile _df;
 
         private readonly OpenFileDialog _op;
         private readonly SaveFileDialog _sd;
@@ -62,6 +64,22 @@ namespace WarspiteGame.AuthoringTools.Forms
             _sd.Title = "Save";
             _sd.FileName = "";
             _sd.Filter = "JSON Files|*.json|All Files |*.*";
+        }
+
+        private int GetEditorPage()
+        {
+            switch(_state)
+            {
+                case MainWindowState.StateStartPage:
+                    return 0;
+                case MainWindowState.StateStatePage:
+                    return 1;
+                case MainWindowState.StateFontPage:
+                case MainWindowState.StateDialoguePage:
+                    return 2;
+                default:
+                    return -1;
+            }
         }
 
         public void CheckLaunchParams()
@@ -215,7 +233,15 @@ namespace WarspiteGame.AuthoringTools.Forms
                     _Off = new FontFile();
                     _ff = new FontFile();
                     _state = MainWindowState.StateFontPage;
-                    fontViewer.SelectedObject = _ff;
+                    dataViewer.SelectedObject = _ff;
+                
+                    break;
+                case EngineJsonType.Dialogue:
+                    _Odf = new DialogueFile();
+                    _df = new DialogueFile();
+
+                    _state = MainWindowState.StateDialoguePage;
+                    dataViewer.SelectedObject = _df;
 
                     break;
             }
@@ -223,7 +249,12 @@ namespace WarspiteGame.AuthoringTools.Forms
             if (_state != MainWindowState.StateNone || _state != MainWindowState.StateStartPage)
             {
                 newFile = true;
-                _workingFilePath = Path.Combine(ToolUtil.GetWorkingDirectory(), "untitled.json").ToString();
+
+                if (_state == MainWindowState.StateDialoguePage)
+                    _workingFilePath = Path.Combine(ToolUtil.GetWorkingDirectory(), "untitled.diag").ToString();
+                else
+                    _workingFilePath = Path.Combine(ToolUtil.GetWorkingDirectory(), "untitled.json").ToString();
+
                 SetupEditForm();
             }
             UpdateButtons();
@@ -373,7 +404,7 @@ namespace WarspiteGame.AuthoringTools.Forms
             _Off = JsonConvert.DeserializeObject<FontFile>(json);
             _ff = JsonConvert.DeserializeObject<FontFile>(json);
 
-            fontViewer.SelectedObject = _ff;
+            dataViewer.SelectedObject = _ff;
 
             _state = MainWindowState.StateFontPage;
 
@@ -383,7 +414,7 @@ namespace WarspiteGame.AuthoringTools.Forms
         private void SetupEditForm()
         {
             Text = string.Format("[{0}] - {1}", Path.GetFileName(_workingFilePath), _baseTitle);
-            MainControl.SelectedTab = MainControl.TabPages[(int)_state];
+            MainControl.SelectedTab = MainControl.TabPages[GetEditorPage()];
 
             FormBorderStyle = FormBorderStyle.Sizable;
             MaximizeBox = true;
@@ -426,6 +457,9 @@ namespace WarspiteGame.AuthoringTools.Forms
                     break;
                 case MainWindowState.StateFontPage:
                     bChanged = !_ff.Equals(_Off);
+                    break;
+                case MainWindowState.StateDialoguePage:
+                    bChanged = !_df.Equals(_Odf);
                     break;
             }
 

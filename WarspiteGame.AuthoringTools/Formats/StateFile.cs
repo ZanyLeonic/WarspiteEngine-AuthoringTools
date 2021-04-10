@@ -14,9 +14,7 @@ namespace WarspiteGame.AuthoringTools.Formats
     public class WarspiteStateFile
     {
         public WarspiteStateFile()
-        {
-
-        }
+        {}
 
         public WarspiteStateFile(WarspiteStateFile wsf)
         {
@@ -197,7 +195,7 @@ namespace WarspiteGame.AuthoringTools.Formats
         [DisplayName("Value")]
         [Description("The value of the property")]
         [Browsable(false)]
-        public object value { get; set; }
+        public object value { get; set; } = "";
     }
 
     #region Type Converters
@@ -242,7 +240,7 @@ namespace WarspiteGame.AuthoringTools.Formats
             {
                 AssetContainer[] data = (AssetContainer[])value;
 
-                return (data.Length <= 0 ) ? "No assets defined" : string.Format("Assets defined: {0}", ((AssetContainer[])value).Length);
+                return (data.Length <= 0 ) ? "No assets defined" : string.Format("Assets defined ({0})", ((AssetContainer[])value).Length);
             }
             return base.ConvertTo(context, culture, value, destinationType);
         }
@@ -289,7 +287,7 @@ namespace WarspiteGame.AuthoringTools.Formats
             {
                 ObjectContainer[] data = (ObjectContainer[])value;
 
-                return (data.Length <= 0) ? "No objects defined" : string.Format("Objects defined: {0}", ((ObjectContainer[])value).Length);
+                return (data.Length <= 0) ? "No objects defined" : string.Format("Objects defined ({0})", ((ObjectContainer[])value).Length);
             }
             return base.ConvertTo(context, culture, value, destinationType);
         }
@@ -303,7 +301,7 @@ namespace WarspiteGame.AuthoringTools.Formats
             {
                 ObjectProperty[] data = (ObjectProperty[])value;
 
-                return (data.Length <= 0) ? "No properties defined" : string.Format("Properties defined: {0}", ((ObjectProperty[])value).Length);
+                return (data.Length <= 0) ? "No properties defined" : string.Format("Properties defined ({0})", ((ObjectProperty[])value).Length);
             }
             return base.ConvertTo(context, culture, value, destinationType);
         }

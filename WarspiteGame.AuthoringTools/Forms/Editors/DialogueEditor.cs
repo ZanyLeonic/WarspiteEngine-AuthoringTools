@@ -10,7 +10,7 @@ using WarspiteGame.AuthoringTools.Formats;
 
 namespace WarspiteGame.AuthoringTools.Forms.Editors
 {
-    public class ObjectContainerEditor : UITypeEditor
+    public class DialogueEditor : UITypeEditor
     {
         public override UITypeEditorEditStyle GetEditStyle(ITypeDescriptorContext context)
         {
@@ -19,16 +19,16 @@ namespace WarspiteGame.AuthoringTools.Forms.Editors
         public override object EditValue(ITypeDescriptorContext context, System.IServiceProvider provider, object value)
         {
             object objects = value;
-            ObjectContainerEditorForm ocef = new ObjectContainerEditorForm();
+            DialogueEditorForm def = new DialogueEditorForm();
             IWindowsFormsEditorService svc = provider.GetService(typeof(IWindowsFormsEditorService)) as IWindowsFormsEditorService;
 
-            ocef.CurrentObject = ((ObjectContainer[])objects).ToList();
+            def.CurrentNodes = ((SpeechNode[])objects).ToList();
 
             if (svc != null && objects != null)
             {
-                if (svc.ShowDialog(ocef) == DialogResult.OK)
+                if (svc.ShowDialog(def) == DialogResult.OK)
                 {
-                    return ocef.CurrentObject.ToArray();
+                    return def.CurrentNodes.ToArray();
                 }
             }
             return value; // can also replace the wrapper object here

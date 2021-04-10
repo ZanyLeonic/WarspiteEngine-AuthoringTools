@@ -55,5 +55,12 @@ namespace WarspiteGame.AuthoringTools.Forms
         {
             if (TypeSelector.SelectedIndex == -1) DialogResult = DialogResult.Cancel;
         }
+
+        private void TypeSelector_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            ChosenType = (EngineJsonType)TypeSelector.SelectedIndex + 1;
+            DialogResult = DialogResult.OK;
+            this.Close();
+        }
     }
 }

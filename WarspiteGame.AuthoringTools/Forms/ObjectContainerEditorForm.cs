@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using WarspiteGame.AuthoringTools.Formats;
@@ -9,9 +10,12 @@ namespace WarspiteGame.AuthoringTools.Forms.Editors
     public partial class ObjectContainerEditorForm : Form
     {
         public List<ObjectContainer> CurrentObject;
+        private List<ObjectContainer> OldObject;
 
         private TreeNode _root;
         private const string _baseNewObject = "New Object {0}";
+
+        private bool _CancelClose = false;
 
         public ObjectContainerEditorForm()
         {
@@ -76,18 +80,35 @@ namespace WarspiteGame.AuthoringTools.Forms.Editors
         {
             RefreshObjectTree();
             ChangeTitle();
+
+            string json = JsonConvert.SerializeObject(CurrentObject);
+            OldObject = JsonConvert.DeserializeObject<List<ObjectContainer>>(json);
         }
 
         private void OkBtn_Click(object sender, EventArgs e)
         {
             DialogResult = DialogResult.OK;
-            Close();
+
+            _CancelClose = false;
         }
 
         private void CancelBtn_Click(object sender, EventArgs e)
         {
-            DialogResult = DialogResult.Cancel;
-            Close();
+            if (!CurrentObject.SequenceEqual(OldObject))
+            {
+                DialogResult result = MessageBox.Show(string.Format("Changes have been made!{0}Do you want to discard?", Environment.NewLine), AssemblyAccessors.AssemblyTitle, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);
+
+                if (result == DialogResult.Yes)
+                {
+                    DialogResult = DialogResult.Cancel;
+
+                    _CancelClose = false;
+                }
+                else
+                {
+                    _CancelClose = true;
+                }
+            }
         }
 
         private void newObjectToolStripBtn_Click(object sender, EventArgs e)
@@ -171,6 +192,11 @@ namespace WarspiteGame.AuthoringTools.Forms.Editors
 
                 ChangeTitle();
             }
+        }
+
+        private void ObjectContainerEditorForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            e.Cancel = _CancelClose;
         }
     }
 }

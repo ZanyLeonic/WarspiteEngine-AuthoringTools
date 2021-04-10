@@ -14,12 +14,15 @@ namespace WarspiteGame.AuthoringTools.Forms
     public partial class ObjectPropertyEditorForm : Form
     {
         public List<ObjectProperty> CurrentProperties;
+        private List<ObjectProperty> OldProperties;
+
         ObjectProperty SelectedProperty;
 
         private TreeNode _root;
         private const string _baseNewObject = "newProperty{0}";
 
         private bool _inDropDown = false;
+        private bool _CancelClose = false;
 
         public ObjectPropertyEditorForm()
         {
@@ -84,13 +87,34 @@ namespace WarspiteGame.AuthoringTools.Forms
                 {
                     case PropertyType.Object:
                     case PropertyType.Int:
-                        SelectedProperty.value = int.Parse(valueBox.Text);
+                        try
+                        {
+                            SelectedProperty.value = int.Parse(valueBox.Text);
+                        }
+                        catch (Exception)
+                        {
+                            SelectedProperty.value = 0;
+                        }
                         break;
                     case PropertyType.Float:
-                        SelectedProperty.value = float.Parse(valueBox.Text);
+                        try
+                        {
+                            SelectedProperty.value = float.Parse(valueBox.Text);
+                        }
+                        catch (Exception)
+                        {
+                            SelectedProperty.value = 0.0;
+                        }
                         break;
                     case PropertyType.Bool:
-                        SelectedProperty.value = boolProp.Checked;
+                        try
+                        {
+                            SelectedProperty.value = boolProp.Checked;
+                        }
+                        catch (Exception)
+                        {
+                            SelectedProperty.value = false;
+                        }
                         break;
                     case PropertyType.String:
                     case PropertyType.File:
@@ -131,13 +155,16 @@ namespace WarspiteGame.AuthoringTools.Forms
 
             RefreshObjectTree();
             ChangeTitle();
+
+            string json = JsonConvert.SerializeObject(CurrentProperties);
+            OldProperties = JsonConvert.DeserializeObject<List<ObjectProperty>>(json);
         }
 
         private void OkBtn_Click(object sender, EventArgs e)
         {
             DialogResult = DialogResult.OK;
 
-            Close();
+            _CancelClose = false;
         }
 
         private void newObjectToolStripBtn_Click(object sender, EventArgs e)
@@ -226,9 +253,21 @@ namespace WarspiteGame.AuthoringTools.Forms
 
         private void CancelBtn_Click(object sender, EventArgs e)
         {
-            DialogResult = DialogResult.Cancel;
+            if (!CurrentProperties.SequenceEqual(OldProperties))
+            {
+                DialogResult result = MessageBox.Show(string.Format("Changes have been made!{0}Do you want to discard?", Environment.NewLine), AssemblyAccessors.AssemblyTitle, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);
 
-            Close();
+                if (result == DialogResult.Yes)
+                {
+                    DialogResult = DialogResult.Cancel;
+
+                    _CancelClose = false;
+                }
+                else
+                {
+                    _CancelClose = true;
+                }
+            }
         }
 
         private void nameBox_KeyDown(object sender, KeyEventArgs e)
@@ -268,6 +307,11 @@ namespace WarspiteGame.AuthoringTools.Forms
                 RefreshObjectTree();
                 UpdateFields();
             }
+        }
+
+        private void ObjectPropertyEditorForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            e.Cancel = _CancelClose;
         }
     }
 }

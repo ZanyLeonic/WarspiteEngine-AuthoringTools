@@ -28,7 +28,7 @@ namespace WarspiteGame.AuthoringTools.Forms.Editors
             {
                 if (svc.ShowDialog(opef) == DialogResult.OK)
                 {
-                    return opef.CurrentProperties;
+                    return opef.CurrentProperties.ToArray();
                 }
             }
             return value; // can also replace the wrapper object here

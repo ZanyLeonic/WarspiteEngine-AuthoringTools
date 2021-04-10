@@ -10,17 +10,33 @@ namespace WarspiteGame.AuthoringTools.Formats
 {
     public enum MainWindowState
     {
-        StateNone      = -1,
-        StateStartPage =  0,
-        StateStatePage =  1,
-        StateFontPage  =  2
+        StateNone          = -1,
+        StateStartPage     =  0,
+        StateStatePage     =  1,
+        StateFontPage      =  2,
+        StateDialoguePage  =  3
     }
 
     public enum EngineJsonType
     {
         None  = 0,
         State = 1,
-        Font  = 2
+        Font  = 2,
+        Dialogue = 3
+    }
+
+    public enum SpeechNodeType
+    {
+        None = 0,
+        Speech = 1,
+        End = 2
+    }
+
+    public enum EditorType
+    {
+        None = 0,
+        Objects = 1,
+        Nodes = 2
     }
 
     public enum PropertyType
@@ -86,6 +102,32 @@ namespace WarspiteGame.AuthoringTools.Formats
                     return "string";
             }
         }
+
+        public static SpeechNodeType GetNodeEnum(string value)
+        {
+            switch (value)
+            {
+                case "speech":
+                    return SpeechNodeType.Speech;
+                case "end":
+                    return SpeechNodeType.End;
+                default:
+                    return SpeechNodeType.None;
+            }
+        }
+
+        public static string GetEnumNode(SpeechNodeType value)
+        {
+            switch (value)
+            {
+                case SpeechNodeType.Speech:
+                    return "speech";
+                case SpeechNodeType.End:
+                    return "end";
+                default:
+                    return "none";
+            }
+        }
     }
 
     public static class ToolUtil
@@ -93,6 +135,29 @@ namespace WarspiteGame.AuthoringTools.Formats
         public static string GetWorkingDirectory()
         {
             return Path.GetDirectoryName(Assembly.GetExecutingAssembly().CodeBase);
+        }
+
+        public static T[] ShiftElement<T>(this T[] array, int oldIndex, int newIndex)
+        {
+            // TODO: Argument validation
+            if (oldIndex == newIndex)
+            {
+                return array; // No-op
+            }
+            T tmp = array[oldIndex];
+            if (newIndex < oldIndex)
+            {
+                // Need to move part of the array "up" to make room
+                Array.Copy(array, newIndex, array, newIndex + 1, oldIndex - newIndex);
+            }
+            else
+            {
+                // Need to move part of the array "down" to fill the gap
+                Array.Copy(array, oldIndex + 1, array, oldIndex, newIndex - oldIndex);
+            }
+            array[newIndex] = tmp;
+
+            return array;
         }
     }
 }

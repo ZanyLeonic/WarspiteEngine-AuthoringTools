@@ -75,11 +75,18 @@
   <ItemGroup>
     <Compile Include="AssemblyAccessors.cs" />
     <Compile Include="Converters\NoTypeConverterJsonConverter.cs" />
+    <Compile Include="Formats\DialogueFile.cs" />
     <Compile Include="Forms\ConfigWindow.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\ConfigWindow.Designer.cs">
       <DependentUpon>ConfigWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\DialogueEditorForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\DialogueEditorForm.Designer.cs">
+      <DependentUpon>DialogueEditorForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\Editors\AssetPathEditor.cs" />
     <Compile Include="Formats\FontFile.cs" />
@@ -90,6 +97,7 @@
     <Compile Include="Forms\AboutBox.Designer.cs">
       <DependentUpon>AboutBox.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\Editors\DialogueEditor.cs" />
     <Compile Include="Forms\Editors\ObjectContainerEditor.cs" />
     <Compile Include="Forms\Editors\ObjectPropertyEditor.cs" />
     <Compile Include="Forms\ObjectContainerEditorForm.cs">
@@ -125,6 +133,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\ConfigWindow.resx">
       <DependentUpon>ConfigWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\DialogueEditorForm.resx">
+      <DependentUpon>DialogueEditorForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\ObjectContainerEditorForm.resx">
       <DependentUpon>ObjectContainerEditorForm.cs</DependentUpon>

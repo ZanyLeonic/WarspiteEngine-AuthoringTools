@@ -58,16 +58,16 @@ namespace WarspiteGame.AuthoringTools.Forms
             this.panel1.Controls.Add(this.CancelBtn);
             this.panel1.Controls.Add(this.OkBtn);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel1.Location = new System.Drawing.Point(3, 144);
+            this.panel1.Location = new System.Drawing.Point(0, 147);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(530, 40);
+            this.panel1.Size = new System.Drawing.Size(378, 40);
             this.panel1.TabIndex = 15;
             // 
             // CancelBtn
             // 
             this.CancelBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.CancelBtn.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.CancelBtn.Location = new System.Drawing.Point(448, 11);
+            this.CancelBtn.Location = new System.Drawing.Point(296, 11);
             this.CancelBtn.Name = "CancelBtn";
             this.CancelBtn.Size = new System.Drawing.Size(75, 23);
             this.CancelBtn.TabIndex = 1;
@@ -78,7 +78,7 @@ namespace WarspiteGame.AuthoringTools.Forms
             // OkBtn
             // 
             this.OkBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.OkBtn.Location = new System.Drawing.Point(362, 11);
+            this.OkBtn.Location = new System.Drawing.Point(210, 11);
             this.OkBtn.Name = "OkBtn";
             this.OkBtn.Size = new System.Drawing.Size(75, 23);
             this.OkBtn.TabIndex = 0;
@@ -97,9 +97,9 @@ namespace WarspiteGame.AuthoringTools.Forms
             this.PropertyBox.Controls.Add(this.label1);
             this.PropertyBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.PropertyBox.Enabled = false;
-            this.PropertyBox.Location = new System.Drawing.Point(202, 28);
+            this.PropertyBox.Location = new System.Drawing.Point(172, 25);
             this.PropertyBox.Name = "PropertyBox";
-            this.PropertyBox.Size = new System.Drawing.Size(331, 116);
+            this.PropertyBox.Size = new System.Drawing.Size(206, 122);
             this.PropertyBox.TabIndex = 16;
             this.PropertyBox.TabStop = false;
             this.PropertyBox.Text = "Property";
@@ -117,27 +117,33 @@ namespace WarspiteGame.AuthoringTools.Forms
             // 
             // valueBox
             // 
+            this.valueBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.valueBox.Location = new System.Drawing.Point(51, 70);
             this.valueBox.Name = "valueBox";
-            this.valueBox.Size = new System.Drawing.Size(243, 20);
+            this.valueBox.Size = new System.Drawing.Size(144, 20);
             this.valueBox.TabIndex = 5;
             this.valueBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.nameBox_KeyDown);
             // 
             // nameBox
             // 
+            this.nameBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.nameBox.Location = new System.Drawing.Point(51, 17);
             this.nameBox.Name = "nameBox";
-            this.nameBox.Size = new System.Drawing.Size(243, 20);
+            this.nameBox.Size = new System.Drawing.Size(144, 20);
             this.nameBox.TabIndex = 4;
             this.nameBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.nameBox_KeyDown);
             // 
             // typeBox
             // 
+            this.typeBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.typeBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.typeBox.FormattingEnabled = true;
             this.typeBox.Location = new System.Drawing.Point(51, 43);
             this.typeBox.Name = "typeBox";
-            this.typeBox.Size = new System.Drawing.Size(243, 21);
+            this.typeBox.Size = new System.Drawing.Size(144, 21);
             this.typeBox.TabIndex = 3;
             this.typeBox.SelectedIndexChanged += new System.EventHandler(this.typeBox_SelectedIndexChanged_1);
             this.typeBox.MouseEnter += new System.EventHandler(this.typeBox_MouseEnter);
@@ -177,9 +183,9 @@ namespace WarspiteGame.AuthoringTools.Forms
             this.DeleteObjectToolStripBtn,
             this.toolStripSeparator1,
             this.dupObjectToolStripBtn});
-            this.ObjectToolStrip.Location = new System.Drawing.Point(3, 3);
+            this.ObjectToolStrip.Location = new System.Drawing.Point(0, 0);
             this.ObjectToolStrip.Name = "ObjectToolStrip";
-            this.ObjectToolStrip.Size = new System.Drawing.Size(530, 25);
+            this.ObjectToolStrip.Size = new System.Drawing.Size(378, 25);
             this.ObjectToolStrip.TabIndex = 18;
             this.ObjectToolStrip.Text = "toolStrip1";
             // 
@@ -220,17 +226,18 @@ namespace WarspiteGame.AuthoringTools.Forms
             // ObjectView
             // 
             this.ObjectView.Dock = System.Windows.Forms.DockStyle.Left;
-            this.ObjectView.Location = new System.Drawing.Point(3, 28);
+            this.ObjectView.Location = new System.Drawing.Point(0, 25);
             this.ObjectView.Name = "ObjectView";
-            this.ObjectView.Size = new System.Drawing.Size(199, 116);
+            this.ObjectView.Size = new System.Drawing.Size(169, 122);
             this.ObjectView.TabIndex = 17;
             this.ObjectView.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.stateView_NodeMouseClick);
             // 
             // splitter1
             // 
-            this.splitter1.Location = new System.Drawing.Point(202, 28);
+            this.splitter1.Location = new System.Drawing.Point(169, 25);
             this.splitter1.Name = "splitter1";
-            this.splitter1.Size = new System.Drawing.Size(3, 116);
+            this.splitter1.Padding = new System.Windows.Forms.Padding(0, 0, 5, 0);
+            this.splitter1.Size = new System.Drawing.Size(3, 122);
             this.splitter1.TabIndex = 19;
             this.splitter1.TabStop = false;
             // 
@@ -240,10 +247,10 @@ namespace WarspiteGame.AuthoringTools.Forms
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.CancelBtn;
-            this.ClientSize = new System.Drawing.Size(536, 187);
+            this.ClientSize = new System.Drawing.Size(378, 187);
             this.ControlBox = false;
-            this.Controls.Add(this.splitter1);
             this.Controls.Add(this.PropertyBox);
+            this.Controls.Add(this.splitter1);
             this.Controls.Add(this.ObjectView);
             this.Controls.Add(this.ObjectToolStrip);
             this.Controls.Add(this.panel1);
@@ -252,8 +259,8 @@ namespace WarspiteGame.AuthoringTools.Forms
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "ObjectPropertyEditorForm";
-            this.Padding = new System.Windows.Forms.Padding(3);
             this.Text = "Property Editor";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ObjectPropertyEditorForm_FormClosing);
             this.Load += new System.EventHandler(this.ObjectPropertyEditorForm_Load);
             this.panel1.ResumeLayout(false);
             this.PropertyBox.ResumeLayout(false);

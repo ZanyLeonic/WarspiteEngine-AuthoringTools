@@ -56,6 +56,7 @@
             this.TypeSelector.Name = "TypeSelector";
             this.TypeSelector.Size = new System.Drawing.Size(286, 82);
             this.TypeSelector.TabIndex = 1;
+            this.TypeSelector.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.TypeSelector_MouseDoubleClick);
             // 
             // DialogLabel
             // 

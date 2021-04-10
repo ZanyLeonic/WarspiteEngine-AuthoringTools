@@ -180,7 +180,9 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "ObjectContainerEditorForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Object Editor";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ObjectContainerEditorForm_FormClosing);
             this.Load += new System.EventHandler(this.ObjectContainerEditor_Load);
             this.ObjectToolStrip.ResumeLayout(false);
             this.ObjectToolStrip.PerformLayout();
