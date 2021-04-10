@@ -65,7 +65,7 @@ namespace WarspiteGame.AuthoringTools.Forms
 
                 nameBox.Text = _currentNode.text;
                 typeBox.SelectedIndex = (int)EnumTools.GetNodeEnum(_currentNode.type);
-                nextNodeBox.SelectedIndex = _currentNode.nextnode;
+                nextNodeBox.SelectedIndex = _currentNode.nextid;
 
             }
         }
@@ -76,7 +76,7 @@ namespace WarspiteGame.AuthoringTools.Forms
             {
                 _currentNode.text = nameBox.Text;
                 _currentNode.type = EnumTools.GetEnumNode((SpeechNodeType)typeBox.SelectedIndex);
-                _currentNode.nextnode = nextNodeBox.SelectedIndex;
+                _currentNode.nextid = nextNodeBox.SelectedIndex;
             }
         }
 
@@ -283,6 +283,16 @@ namespace WarspiteGame.AuthoringTools.Forms
             if (_inTypeDropDown)
             {
                 SaveFields();
+            }
+
+            if (typeBox.SelectedIndex == 2)
+            {
+                nextNodeBox.Enabled = false;
+                _currentNode.nextid = -1;
+            }
+            else
+            {
+                nextNodeBox.Enabled = true;
             }
         }
 

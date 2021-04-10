@@ -58,12 +58,12 @@ namespace WarspiteGame.AuthoringTools.Forms
             _op = new OpenFileDialog();
             _op.Title = "Open";
             _op.FileName = "";
-            _op.Filter = "JSON Files|*.json|All Files |*.*";
+            _op.Filter = AssemblyAccessors.AssemblyTitle + " Files|*.json;*.diag|All Files |*.*";
 
             _sd = new SaveFileDialog();
             _sd.Title = "Save";
             _sd.FileName = "";
-            _sd.Filter = "JSON Files|*.json|All Files |*.*";
+            _sd.Filter = AssemblyAccessors.AssemblyTitle + " Files | *.json;*.diag|All Files |*.*";
         }
 
         private int GetEditorPage()
@@ -309,6 +309,10 @@ namespace WarspiteGame.AuthoringTools.Forms
                             _workingFilePath = _op.FileName;
                             FontFormSetup(sText);
                             break;
+                        case "DialogueFile":
+                            _workingFilePath = _op.FileName;
+                            DialogueFormSetup(sText);
+                            break;
                         default:
                             MessageBox.Show("Warspite Engine JSON not supported by this version", AssemblyAccessors.AssemblyTitle,
                                 MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -340,6 +344,11 @@ namespace WarspiteGame.AuthoringTools.Forms
                         json = JsonConvert.SerializeObject(_ff, Formatting.Indented); 
                         File.WriteAllText(savePath, json);
                         _Off = JsonConvert.DeserializeObject<FontFile>(json);
+                        break;
+                    case MainWindowState.StateDialoguePage:
+                        json = JsonConvert.SerializeObject(_df, Formatting.Indented);
+                        File.WriteAllText(savePath, json);
+                        _Odf = JsonConvert.DeserializeObject<DialogueFile>(json);
                         break;
                     default:
                         MessageBox.Show(string.Format("No supported save method for type \"{0}\"", _state.ToString()), 
@@ -407,6 +416,18 @@ namespace WarspiteGame.AuthoringTools.Forms
             dataViewer.SelectedObject = _ff;
 
             _state = MainWindowState.StateFontPage;
+
+            SetupEditForm();
+        }
+
+        private void DialogueFormSetup(string json)
+        {
+            _Odf = JsonConvert.DeserializeObject<DialogueFile>(json);
+            _df = JsonConvert.DeserializeObject<DialogueFile>(json);
+
+            dataViewer.SelectedObject = _df;
+
+            _state = MainWindowState.StateDialoguePage;
 
             SetupEditForm();
         }

@@ -52,7 +52,7 @@ namespace WarspiteGame.AuthoringTools.Formats
         [Category("Dialogue Data")]
         [DisplayName("Next node")]
         [Description("The next node")]
-        public int nextnode { get; set; } = -1;
+        public int nextid { get; set; } = -1;
     }
 
     public class SpeechNodesArrayTypeConverter : TypeConverter

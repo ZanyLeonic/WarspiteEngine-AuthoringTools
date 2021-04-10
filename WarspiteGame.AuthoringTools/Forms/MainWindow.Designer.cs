@@ -331,9 +331,9 @@ namespace WarspiteGame.AuthoringTools.Forms
             // startPageVersionDesc
             // 
             this.startPageVersionDesc.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.startPageVersionDesc.Location = new System.Drawing.Point(3, 168);
+            this.startPageVersionDesc.Location = new System.Drawing.Point(3, 145);
             this.startPageVersionDesc.Name = "startPageVersionDesc";
-            this.startPageVersionDesc.Size = new System.Drawing.Size(786, 19);
+            this.startPageVersionDesc.Size = new System.Drawing.Size(786, 42);
             this.startPageVersionDesc.TabIndex = 3;
             this.startPageVersionDesc.Text = "[Version]";
             this.startPageVersionDesc.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -342,7 +342,7 @@ namespace WarspiteGame.AuthoringTools.Forms
             // 
             this.startPageLabel.Dock = System.Windows.Forms.DockStyle.Top;
             this.startPageLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.startPageLabel.Location = new System.Drawing.Point(3, 79);
+            this.startPageLabel.Location = new System.Drawing.Point(3, 56);
             this.startPageLabel.Name = "startPageLabel";
             this.startPageLabel.Padding = new System.Windows.Forms.Padding(0, 0, 0, 5);
             this.startPageLabel.Size = new System.Drawing.Size(786, 89);
@@ -355,7 +355,7 @@ namespace WarspiteGame.AuthoringTools.Forms
             this.StartPagePaddingPanel.Dock = System.Windows.Forms.DockStyle.Top;
             this.StartPagePaddingPanel.Location = new System.Drawing.Point(3, 3);
             this.StartPagePaddingPanel.Name = "StartPagePaddingPanel";
-            this.StartPagePaddingPanel.Size = new System.Drawing.Size(786, 76);
+            this.StartPagePaddingPanel.Size = new System.Drawing.Size(786, 53);
             this.StartPagePaddingPanel.TabIndex = 1;
             // 
             // StartPageControlPanel
@@ -484,7 +484,7 @@ namespace WarspiteGame.AuthoringTools.Forms
             this.GenericPage.Location = new System.Drawing.Point(4, 22);
             this.GenericPage.Name = "GenericPage";
             this.GenericPage.Padding = new System.Windows.Forms.Padding(3);
-            this.GenericPage.Size = new System.Drawing.Size(792, 375);
+            this.GenericPage.Size = new System.Drawing.Size(792, 353);
             this.GenericPage.TabIndex = 1;
             this.GenericPage.Text = "GenericPage";
             this.GenericPage.UseVisualStyleBackColor = true;
@@ -494,7 +494,7 @@ namespace WarspiteGame.AuthoringTools.Forms
             this.dataViewer.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataViewer.Location = new System.Drawing.Point(3, 3);
             this.dataViewer.Name = "dataViewer";
-            this.dataViewer.Size = new System.Drawing.Size(786, 369);
+            this.dataViewer.Size = new System.Drawing.Size(786, 347);
             this.dataViewer.TabIndex = 0;
             this.dataViewer.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.PropGrids_PropertyValueChanged);
             // 
