@@ -8,7 +8,9 @@ using Newtonsoft.Json;
 using System.Windows.Forms;
 using Newtonsoft.Json.Linq;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using WarspiteGame.AuthoringTools.Formats;
+using System.Threading;
 
 namespace WarspiteGame.AuthoringTools.Forms
 {
@@ -92,25 +94,48 @@ namespace WarspiteGame.AuthoringTools.Forms
             // We are being called by the setup!
             if (arguments[1] == "/setup")
             {
+                AllocConsole();
+
                 // assume this
                 string exe = arguments[2];
                 string assets = arguments[3];
 
+                Console.WriteLine("****************************************************");
+                Console.WriteLine(_baseTitle);
+                Console.WriteLine("Initial Setup mode");
+                Console.WriteLine(String.Format("Specified executable path (param[2]): {0}", exe));
+                Console.WriteLine(String.Format("Specified assets path (param[3]): {0}", assets));
+                Console.WriteLine("****************************************************");
+                Console.WriteLine("");
+
+
                 if (!File.Exists(exe))
                 {
-                    File.WriteAllText(@"C:\Users\Kurisu\Desktop\exe doesnt exist.txt", exe + Environment.NewLine + assets);
+                    Console.WriteLine("Error! Specified EXE path does not exist.");
+                    Console.WriteLine("This window will close automatically in 5 seconds.");
+                    Thread.Sleep(5000);
                     Environment.Exit(-1);
                 }
                 if (!Directory.Exists(assets))
                 {
-                    File.WriteAllText(@"C:\Users\Kurisu\Desktop\assets doesnt exist.txt", exe + Environment.NewLine + assets);
+                    AllocConsole();
+
+                    Console.WriteLine("Error! Specified assets folder path does not exist.");
+                    Console.WriteLine("This window will close automatically in 5 seconds.");
+                    Thread.Sleep(5000);
                     Environment.Exit(-1);
                 }
+
+                Console.WriteLine("Saving paths...");
 
                 // Save these and exit.
                 Properties.Settings.Default.GameExecutable = exe;
                 Properties.Settings.Default.AssetsPath = assets;
                 Properties.Settings.Default.Save();
+
+                Console.WriteLine(String.Format("{0} successfully setup!", _baseTitle));
+                Console.WriteLine("This window will close automatically in 5 seconds.");
+                Thread.Sleep(5000);
 
                 Environment.Exit(0);
             }
@@ -149,6 +174,10 @@ namespace WarspiteGame.AuthoringTools.Forms
                         _workingFilePath = fileName;
                         FontFormSetup(sText);
                         break;
+                    case "DialogueFile":
+                        _workingFilePath = fileName;
+                        DialogueFormSetup(sText);
+                        break;
                     default:
                         MessageBox.Show("Warspite Engine JSON not supported by this version", AssemblyAccessors.AssemblyTitle,
                             MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -162,6 +191,9 @@ namespace WarspiteGame.AuthoringTools.Forms
             }
             UpdateButtons();
         }
+        [DllImport("kernel32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        static extern bool AllocConsole();
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -239,7 +271,6 @@ namespace WarspiteGame.AuthoringTools.Forms
                 case EngineJsonType.Dialogue:
                     _Odf = new DialogueFile();
                     _df = new DialogueFile();
-
                     _state = MainWindowState.StateDialoguePage;
                     dataViewer.SelectedObject = _df;
 

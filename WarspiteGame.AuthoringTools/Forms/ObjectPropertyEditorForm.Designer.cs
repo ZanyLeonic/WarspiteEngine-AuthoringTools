@@ -259,6 +259,7 @@ namespace WarspiteGame.AuthoringTools.Forms
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "ObjectPropertyEditorForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Property Editor";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ObjectPropertyEditorForm_FormClosing);
             this.Load += new System.EventHandler(this.ObjectPropertyEditorForm_Load);

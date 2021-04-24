@@ -189,13 +189,32 @@ namespace WarspiteGame.AuthoringTools.Formats
         [Category("Custom Properties")]
         [DisplayName("Type")]
         [Description("The type of the property")]
-        public string type { get; set; } = "";
+        public string type { get; set; } = "string";
 
         [Category("Custom Properties")]
         [DisplayName("Value")]
         [Description("The value of the property")]
         [Browsable(false)]
         public object value { get; set; } = "";
+
+        public override bool Equals(object obj)
+        {
+            var o = obj as ObjectProperty;
+
+            if (o == null)
+                return false;
+
+            if (name != o.name || type != o.type || value != o.value)
+                return false;
+
+            return true;
+        }
+
+        public override int GetHashCode()
+        {
+            return name.GetHashCode() * type.GetHashCode()
+                   * value.GetHashCode() * 21;
+        }
     }
 
     #region Type Converters

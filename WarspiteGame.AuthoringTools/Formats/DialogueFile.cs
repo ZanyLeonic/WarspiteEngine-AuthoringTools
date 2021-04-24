@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing.Design;
@@ -34,7 +35,25 @@ namespace WarspiteGame.AuthoringTools.Formats
         public ObjectProperty[] variables { get; set; } = new List<ObjectProperty>().ToArray();
 
         [Browsable(false)]
-        public string type { get; set; } = "Dialogue";
+        public string type { get; set; } = "DialogueFile";
+
+        public override bool Equals(object obj)
+        {
+            var o = obj as DialogueFile;
+
+            if (o == null)
+                return false;
+
+            if (id != o.id || startnode != o.startnode || !nodes.SequenceEqual(o.nodes) || !variables.SequenceEqual(o.variables))
+                return false;
+
+            return true;
+        }
+
+        public override int GetHashCode()
+        {
+            return id.GetHashCode() * startnode.GetHashCode() * type.GetHashCode() * 21;
+        }
     }
 
     public class SpeechNode
@@ -53,6 +72,24 @@ namespace WarspiteGame.AuthoringTools.Formats
         [DisplayName("Next node")]
         [Description("The next node")]
         public int nextid { get; set; } = -1;
+
+        public override bool Equals(object obj)
+        {
+            var o = obj as SpeechNode;
+
+            if (o == null)
+                return false;
+
+            if (text != o.text || type != o.type || nextid != o.nextid)
+                return false;
+
+            return true;
+        }
+
+        public override int GetHashCode()
+        {
+            return text.GetHashCode() * type.GetHashCode() * nextid.GetHashCode() * 21;
+        }
     }
 
     public class SpeechNodesArrayTypeConverter : TypeConverter

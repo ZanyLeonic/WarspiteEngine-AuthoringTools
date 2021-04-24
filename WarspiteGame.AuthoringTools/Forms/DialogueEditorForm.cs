@@ -156,6 +156,14 @@ namespace WarspiteGame.AuthoringTools.Forms
         {
             CurrentNodes = ToolUtil.ShiftElement(CurrentNodes.ToArray(), _currentNodeIndex, _currentNodeIndex - 1).ToList();
             
+            for (int i = 0; i < CurrentNodes.Count; i++)
+            {
+                if (CurrentNodes[i].nextid == _currentNodeIndex)
+                {
+                    CurrentNodes[i].nextid = _currentNodeIndex - 1;
+                }
+            }
+
             SaveFields();
             RefreshObjectTree();
             UpdateFields();
@@ -172,13 +180,21 @@ namespace WarspiteGame.AuthoringTools.Forms
         {
             CurrentNodes = ToolUtil.ShiftElement(CurrentNodes.ToArray(), _currentNodeIndex, _currentNodeIndex + 1).ToList();
 
+            for (int i = 0; i < CurrentNodes.Count; i++)
+            {
+                if (CurrentNodes[i].nextid == _currentNodeIndex)
+                {
+                    CurrentNodes[i].nextid = _currentNodeIndex + 1;
+                }
+            }
+
             SaveFields();
             RefreshObjectTree();
             UpdateFields();
             UpdateToolbarButtons();
             ChangeTitle();
 
-                        if (_currentNodeIndex == -1) 
+            if (_currentNodeIndex == -1) 
                 NodeView.SelectedNode = _root;
             else
                 NodeView.SelectedNode = _root.Nodes[_currentNodeIndex];
@@ -324,6 +340,10 @@ namespace WarspiteGame.AuthoringTools.Forms
                 {
                     _CancelClose = true;
                 }
+            }
+            else
+            {
+                _CancelClose = false;
             }
         }
 

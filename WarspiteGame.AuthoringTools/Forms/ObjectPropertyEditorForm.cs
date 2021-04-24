@@ -268,6 +268,10 @@ namespace WarspiteGame.AuthoringTools.Forms
                     _CancelClose = true;
                 }
             }
+            else
+            {
+                _CancelClose = false;
+            }
         }
 
         private void nameBox_KeyDown(object sender, KeyEventArgs e)

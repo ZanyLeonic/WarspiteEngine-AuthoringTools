@@ -109,6 +109,10 @@ namespace WarspiteGame.AuthoringTools.Forms.Editors
                     _CancelClose = true;
                 }
             }
+            else
+            {
+                _CancelClose = false;
+            }
         }
 
         private void newObjectToolStripBtn_Click(object sender, EventArgs e)

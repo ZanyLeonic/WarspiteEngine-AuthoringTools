@@ -30,6 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ConfigWindow));
             this.buttonPanel = new System.Windows.Forms.Panel();
+            this.quitBtn = new System.Windows.Forms.Button();
             this.OkayButton = new System.Windows.Forms.Button();
             this.GroupPanel = new System.Windows.Forms.Panel();
             this.executableBox = new System.Windows.Forms.GroupBox();
@@ -40,7 +41,6 @@
             this.label1 = new System.Windows.Forms.Label();
             this.browseButton = new System.Windows.Forms.Button();
             this.pathBox = new System.Windows.Forms.TextBox();
-            this.quitBtn = new System.Windows.Forms.Button();
             this.buttonPanel.SuspendLayout();
             this.GroupPanel.SuspendLayout();
             this.executableBox.SuspendLayout();
@@ -56,6 +56,16 @@
             this.buttonPanel.Name = "buttonPanel";
             this.buttonPanel.Size = new System.Drawing.Size(414, 35);
             this.buttonPanel.TabIndex = 0;
+            // 
+            // quitBtn
+            // 
+            this.quitBtn.Location = new System.Drawing.Point(330, 6);
+            this.quitBtn.Name = "quitBtn";
+            this.quitBtn.Size = new System.Drawing.Size(75, 23);
+            this.quitBtn.TabIndex = 1;
+            this.quitBtn.Text = "Quit";
+            this.quitBtn.UseVisualStyleBackColor = true;
+            this.quitBtn.Click += new System.EventHandler(this.quitBtn_Click);
             // 
             // OkayButton
             // 
@@ -159,16 +169,6 @@
             this.pathBox.Size = new System.Drawing.Size(364, 20);
             this.pathBox.TabIndex = 0;
             // 
-            // quitBtn
-            // 
-            this.quitBtn.Location = new System.Drawing.Point(330, 6);
-            this.quitBtn.Name = "quitBtn";
-            this.quitBtn.Size = new System.Drawing.Size(75, 23);
-            this.quitBtn.TabIndex = 1;
-            this.quitBtn.Text = "Quit";
-            this.quitBtn.UseVisualStyleBackColor = true;
-            this.quitBtn.Click += new System.EventHandler(this.quitBtn_Click);
-            // 
             // ConfigWindow
             // 
             this.AcceptButton = this.OkayButton;
@@ -183,7 +183,7 @@
             this.MinimizeBox = false;
             this.Name = "ConfigWindow";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Authoring Tools Config";
+            this.Text = "Authoring Tools Configuration";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ConfigWindow_FormClosing);
             this.Load += new System.EventHandler(this.ConfigWindow_Load);
             this.buttonPanel.ResumeLayout(false);
