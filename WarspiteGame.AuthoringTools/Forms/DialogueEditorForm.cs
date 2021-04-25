@@ -7,6 +7,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.Text.RegularExpressions;
 using WarspiteGame.AuthoringTools.Formats;
 
 namespace WarspiteGame.AuthoringTools.Forms
@@ -63,7 +64,7 @@ namespace WarspiteGame.AuthoringTools.Forms
                     }
                 }
 
-                nameBox.Text = _currentNode.text;
+                nameBox.Text = Regex.Replace(_currentNode.text, @"\n", "\r\n");
                 typeBox.SelectedIndex = (int)EnumTools.GetNodeEnum(_currentNode.type);
                 nextNodeBox.SelectedIndex = _currentNode.nextid;
 
@@ -74,7 +75,7 @@ namespace WarspiteGame.AuthoringTools.Forms
         {
             if (_currentNode != null)
             {
-                _currentNode.text = nameBox.Text;
+                _currentNode.text = Regex.Replace(nameBox.Text, @"\r\n", "\n");
                 _currentNode.type = EnumTools.GetEnumNode((SpeechNodeType)typeBox.SelectedIndex);
                 _currentNode.nextid = nextNodeBox.SelectedIndex;
             }
